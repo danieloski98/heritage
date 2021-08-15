@@ -1,6 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Pusher from './src/utils/Pusher'
+
+
+var channel = Pusher.subscribe('my-channel');
+channel.bind('my-event', function(data: any) {
+  alert(data['message']);
+});
 
 export default function App() {
   return (

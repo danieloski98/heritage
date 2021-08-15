@@ -22,11 +22,11 @@ export default class UserauthsController {
         await user.save()
 
         // send confirmation email
-        await Mail.sendLater((Message) => {
-          Message.from('deborahodinga@gmail.com')
+        await Mail.send((Message) => {
+          Message.from('noreply@heritagexchange.com')
             .to('danielemmanuel257@gmail.com')
             .subject('Account Creation')
-            .htmlView('emails/welcome', { email: user.email })
+            .htmlView('emails/welcome', { email: user.email, first_name: user.first_name })
         })
 
         ctx.response.ok(

@@ -4,9 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>TheHeritagExchange - Welcome</title>
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-  <p>You are welcome {{ email }}</p>
+  <div class="w-screen h-screen flex justify-center items-center bg-green-300">
+    <div class="w-73 h-72 shadow rounded-md bg-white flex flex-col items-center justify-center " style="text-align:center">
+      <h2>TheHeritagExchange</h2>
+      <p>you are welcome {{ first_name }} to The heritage exchange, we are glad to have you on board.</p>
+      <p>We have sent this message to verify that the email {{ email }} belongs to you, Click on the button below to verify your email address.</p>
+      <a href="https://google.com" style=" border-radius: 10px; background-color: lightgreen; color: white; padding: 10px; margin-top: 20px">Verify Email</a>
+      <p>If That doesn't work copy the link below an paste in your web browser</p>
+      <a href="https//google.com">https://google.com</a>
+    </div>
+  </div>
 </body>
 </html>

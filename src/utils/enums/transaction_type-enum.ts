@@ -1,0 +1,4 @@
+export enum TRANSACTIONTYPE {
+  BUYING = 1,
+  SELLING,
+}

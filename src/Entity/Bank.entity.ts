@@ -52,12 +52,6 @@ export class Bank {
   @Column()
   public updatedAt: string;
 
-  @ApiProperty({
-    type: String,
-  })
-  @Column()
-  referral_code: string;
-
   // relationship
   @ManyToOne(() => User, (user) => user.banks, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })

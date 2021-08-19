@@ -11,8 +11,8 @@ async function bootstrap() {
   app.enableCors();
   app.use(morgan('combined'));
   const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('Heritage Exchange API')
+    .setDescription('The Heritage Exchange API description')
     .setVersion('1.0')
     .addTag('cats')
     .build();

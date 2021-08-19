@@ -10,6 +10,7 @@ import { BankModule } from './routes/bank/bank.module';
 import { TransactionModule } from './routes/transaction/transaction.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { ChatModule } from './routes/chat/chat.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
@@ -58,6 +59,7 @@ console.log(process.env.MYSQL_DATABASE);
     WalletModule,
     BankModule,
     TransactionModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

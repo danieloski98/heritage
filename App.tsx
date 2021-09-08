@@ -1,28 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Pusher from './src/utils/Pusher'
+import { QueryClientProvider, QueryClient} from 'react-query'
+import { RecoilRoot } from 'recoil'
+import Navigation from './src/Navigation'
 
-
-var channel = Pusher.subscribe('my-channel');
-channel.bind('my-event', function(data: any) {
-  alert(data['message']);
-});
+export const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <Navigation />
+      </QueryClientProvider>
+    </RecoilRoot>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

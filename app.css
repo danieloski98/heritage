@@ -1,5 +1,8 @@
 body {
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex
+    align-items: flex;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20;
+    border-top-right-radius: 20;
 }

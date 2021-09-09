@@ -9,4 +9,5 @@ export const theme = {
     screenWidth: Dimensions.get('screen').width,
     screenHeight: Dimensions.get('screen').height,
     textInputBgColor: '#32797C1E',
+    color: '#1527AE70',
 }

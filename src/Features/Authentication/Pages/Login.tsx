@@ -39,9 +39,14 @@ export default function Login(props) {
                 </Container>
 
                 <Container width="100%" height="10%" justifyContent="flex-start" marginTop="20px">
+                   <Pressable
+                   style={{ width: '100%'}}
+                   onPress={() => props.navigation.navigate('index')}
+                   >
                     <Button>
-                        <Text>Sign in</Text>
-                    </Button>
+                            <Text>Sign in</Text>
+                        </Button>
+                   </Pressable>
                 </Container>
 
                 <Container width="100%" height="5%" alignItems="center">

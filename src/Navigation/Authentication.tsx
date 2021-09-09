@@ -9,6 +9,7 @@ import Signup from '../Features/Authentication/Pages/Signup';
 import Verifyemail from '../Features/Authentication/Pages/Verifyemail';
 import ResetPassword from '../Features/Authentication/Pages/ResetPassword';
 import Home from '../Features/Authentication/Pages/Home';
+import Dashboard from './Dashboard';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export default function Authentication() {
             <Stack.Screen name="signup" component={Signup} />
             <Stack.Screen name="verifyemail" component={Verifyemail} />
             <Stack.Screen name="resetpassword" component={ResetPassword} />
+            <Stack.Screen name="index" component={Dashboard} />
         </Stack.Navigator>
     )
 }

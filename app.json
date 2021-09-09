@@ -32,6 +32,8 @@
       "expo-document-picker",
       "expo-notifications",
       "expo-updates"
-    ]
+    ],
+    "description": "The mobile application for heritage exchange",
+    "githubUrl": "https://github.com/danieloski98/heritage"
   }
 }

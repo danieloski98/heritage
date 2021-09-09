@@ -4,7 +4,7 @@ import { theme } from '../utils/theme';
 const Container = styled.View`
     width: ${ props => props.width ? props.width: '0%' };
     height: ${ props => props.height ? props.height : '0%' };
-    background-color: ${ props => props.bgColor ? props.bgColor: 'white'};
+    background-color: ${ props => props.bgColor ? props.bgColor: 'whitesmoke'};
     flex-direction: ${ props => props.flexDirection ? props.flexDirection : 'column'};
     justify-content: ${ props => props.justifyContent ? props.justifyContent : 'flex-end'};
     align-items: ${ props => props.alignItems ? props.alignItems : 'flex-end'};
@@ -18,6 +18,7 @@ const Container = styled.View`
     margin-right: ${ props => props.marginRight ? props.marginRight : '0px'};
     margin-bottom: ${ props => props.marginBottom ? props.marginBottom : '0px'};
     border-radius: ${ props => props.borderRadius ? props.borderRadius : '0px' };
+   
 `;
 
 export default Container;

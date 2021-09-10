@@ -63,6 +63,7 @@ export default function Signup(props: any) {
             justifyContent="center"
             alignItems="flex-start"
             marginTop="30px"
+            bgColor="white"
           >
             <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">
               Firstname
@@ -89,6 +90,7 @@ export default function Signup(props: any) {
             justifyContent="center"
             alignItems="flex-start"
             marginTop="30px"
+            bgColor="white"
           >
             <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">
               Lastname
@@ -115,6 +117,7 @@ export default function Signup(props: any) {
             justifyContent="center"
             alignItems="flex-start"
             marginTop="30px"
+            bgColor="white"
           >
             <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">
               Phone
@@ -141,6 +144,7 @@ export default function Signup(props: any) {
             justifyContent="center"
             alignItems="flex-start"
             marginTop="30px"
+            bgColor="white"
           >
             <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">
               Email
@@ -167,6 +171,7 @@ export default function Signup(props: any) {
             justifyContent="center"
             alignItems="flex-start"
             marginTop="30px"
+            bgColor="white"
           >
             <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">
               Password
@@ -197,13 +202,14 @@ export default function Signup(props: any) {
             height="100px"
             justifyContent="flex-start"
             marginTop="50px"
+            bgColor="white"
           >
            <Pressable
            onPress={() => props.navigation.navigate('verifyemail')}
            style={{ width: '100%'}}
            >
             <Button>
-                <Text>Create Account</Text>
+                <Text color="white">Create Account</Text>
                 </Button>
            </Pressable>
           </Container>
@@ -215,6 +221,7 @@ export default function Signup(props: any) {
             alignItems="flex-end"
             flexDirection="row"
             paddingBottom="10px"
+            bgColor="white"
           >
             <Pressable
               onPress={() => props.navigation.navigate("resetpassword")}

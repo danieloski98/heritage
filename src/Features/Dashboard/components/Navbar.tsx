@@ -1,11 +1,15 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Image } from 'react-native'
 import Container from '../../../globalcomponents/Container'
 import Text from '../../../globalcomponents/Text'
 import { Feather } from '@expo/vector-icons'
 import { theme } from '../../../utils/theme'
+import { useNavigation } from '@react-navigation/native'
 
 export default function Navbar() {
+
+    const navigation = useNavigation<any>()
+
     return (
         <Container width="100%" height="150px" bgColor={theme.primaryBackgroundColor} flexDirection="row" justifyContent="space-between" paddingBottom="25px" alignItems="flex-end" paddingRight="20px" paddingLeft="20px">
 
@@ -16,7 +20,9 @@ export default function Navbar() {
             </Container>
 
             <Container width="50%" height="50px" bgColor="transparent" flexDirection="row" alignItems="center">
-                <Container width="50px" height="50px" borderRadius="50px" bgColor="lightgrey"></Container>
+                <Container width="50px" height="50px" borderRadius="50px" bgColor="#FFFFFF3B" justifyContent="center" alignItems="center">
+                    <Feather name="user" size={30} color="white" onPress={() => navigation.navigate('profile')} />
+                </Container>
                 <Container width="50px" height="50px" borderRadius="50px" bgColor="#FFFFFF3B" justifyContent="center" alignItems="center" marginLeft="10px">
                     <Feather size={30} color="white" name="bell" />
                 </Container>

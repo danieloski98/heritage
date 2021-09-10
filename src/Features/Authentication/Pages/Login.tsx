@@ -19,14 +19,14 @@ export default function Login(props) {
 
             <Container height="70%" width="100%" justifyContent="flex-start" bgColor="white" paddingLeft="20px" paddingRight="20px" marginTop="20px">
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start">
+                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" bgColor="white">
                     <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Email</Text>
                     <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="50px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
                         <TextInput style={{ flex: 1 }} />
                     </Container>
                 </Container>
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="10px">
+                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="10px" bgColor="white">
                     <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Password</Text>
                     <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="50px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
                         <TextInput style={{ flex: 1 }} secureTextEntry={showing} />
@@ -38,18 +38,18 @@ export default function Login(props) {
                     </Container>
                 </Container>
 
-                <Container width="100%" height="10%" justifyContent="flex-start" marginTop="20px">
+                <Container width="100%" height="10%" justifyContent="flex-start" marginTop="20px" bgColor="white">
                    <Pressable
                    style={{ width: '100%'}}
                    onPress={() => props.navigation.navigate('index')}
                    >
                     <Button>
-                            <Text>Sign in</Text>
+                            <Text color="white">Sign in</Text>
                         </Button>
                    </Pressable>
                 </Container>
 
-                <Container width="100%" height="5%" alignItems="center">
+                <Container width="100%" height="5%" alignItems="center" bgColor="white">
                     <Pressable
                         onPress={() => props.navigation.navigate('resetpassword')}
                     >
@@ -57,7 +57,7 @@ export default function Login(props) {
                     </Pressable>
                 </Container>
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-end" flexDirection="row">
+                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-end" flexDirection="row" bgColor="white">
                     <Pressable
                         onPress={() => props.navigation.navigate('resetpassword')}
                     >

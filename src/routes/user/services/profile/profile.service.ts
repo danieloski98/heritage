@@ -1,26 +1,40 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/Entity/User.entity';
+import { User, UserDocument } from 'src/Schemas/User';
 import { Return, ReturnTypeInterfcae } from 'src/utils/types/returnType';
-import { Repository } from 'typeorm';
 import { object, string } from 'joi';
+import { InjectModel } from '@nestjs/mongoose';
+import { Bank, BankDocument } from 'src/Schemas/Bank';
+import { Model } from 'mongoose';
+import { WalletDocument, Wallet } from 'src/Schemas/Wallet';
+import { TransactionDocument, Transaction } from 'src/Schemas/Transaction';
 
 @Injectable()
 export class ProfileService {
   logger = new Logger();
-  constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Bank.name) private bankModel: Model<BankDocument>,
+    @InjectModel(Wallet.name) private walletModel: Model<WalletDocument>,
+    @InjectModel(Transaction.name)
+    private transactionModel: Model<TransactionDocument>,
+  ) {}
 
   public async getUserDetails(id: string): Promise<ReturnTypeInterfcae> {
     try {
-      const user = await this.userRepo.findOne({
-        where: { id },
-        relations: ['banks', 'wallets', 'transactions'],
-      });
+      const user = await this.userModel.findById(id);
+      const wallets = await this.walletModel.find({ user_id: id });
+      const banks = await this.bankModel.find({ user_id: id });
+      const transactions = await this.transactionModel.find({ user_id: id });
       return Return({
         error: false,
         statusCode: 200,
         successMessage: 'User found',
-        data: user,
+        data: {
+          user,
+          wallets,
+          banks,
+          transactions,
+        },
       });
     } catch (error) {
       this.logger.log(error);
@@ -56,7 +70,7 @@ export class ProfileService {
       }
 
       // updated
-      const updated = await this.userRepo.update({ id }, names);
+      const updated = await this.userModel.updateOne({ _id: id }, names);
       this.logger.log(updated);
       return Return({
         error: false,

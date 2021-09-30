@@ -11,13 +11,21 @@ import { TransactionModule } from './routes/transaction/transaction.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ChatModule } from './routes/chat/chat.module';
+import { MongooseModule } from '@nestjs/mongoose';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
-console.log(process.env.MYSQL_DATABASE);
-
+console.log();
+const url =
+  process.env.NODE_ENV === 'development'
+    ? process.env.LOCAL_MONGODB
+    : process.env.LIVE_MONGODB;
 @Module({
   imports: [
+    MongooseModule.forRoot(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),

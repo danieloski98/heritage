@@ -1,12 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './services/auth/auth.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/Entity/User.entity';
-import { Referral } from 'src/Entity/Referral.entity';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User as MongoUser, UserSchema } from 'src/Schemas/User';
+import { Referral as Ref, ReferralSchema } from 'src/Schemas/Referral';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Referral])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: MongoUser.name, schema: UserSchema },
+      { name: Ref.name, schema: ReferralSchema },
+    ]),
+  ],
   controllers: [AuthController],
   providers: [AuthService],
 })

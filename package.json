@@ -27,6 +27,7 @@
     "@nestjs/config": "^1.0.1",
     "@nestjs/core": "^7.6.13",
     "@nestjs/event-emitter": "^1.0.0",
+    "@nestjs/mongoose": "^8.0.1",
     "@nestjs/platform-express": "^7.6.13",
     "@nestjs/platform-socket.io": "^8.0.6",
     "@nestjs/schedule": "^1.0.1",
@@ -47,6 +48,7 @@
     "helmet": "^4.6.0",
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.6",
     "morgan": "^1.10.0",
     "mysql2": "^2.3.0",
     "nodemailer": "^6.6.3",
@@ -102,5 +104,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "engines": {
+    "node": "14.17.3"
   }
 }

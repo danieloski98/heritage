@@ -1,12 +1,17 @@
-import { Transaction } from './../../Entity/Transactions.entity';
+import { Transaction, TransactionSchema } from 'src/Schemas/Transaction';
 import { Module } from '@nestjs/common';
 import { TransactionController } from './transaction.controller';
 import { CrudService } from './sevrices/crud/crud.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/Entity/User.entity';
+import { User, UserSchema } from 'src/Schemas/User';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Transaction])],
+  imports: [
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Transaction.name, schema: TransactionSchema },
+    ]),
+  ],
   controllers: [TransactionController],
   providers: [CrudService],
 })

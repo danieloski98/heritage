@@ -1,12 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Referral } from 'src/Entity/Referral.entity';
-import { User } from 'src/Entity/User.entity';
-import { Repository } from 'typeorm';
 import { hash, genSalt, compare } from 'bcrypt';
 import { Return, ReturnTypeInterfcae } from 'src/utils/types/returnType';
 import { MailerService } from '@nestjs-modules/mailer';
 import { sign } from 'jsonwebtoken';
+import { User as MongoUser, UserDocument } from 'src/Schemas/User';
+import { Referral as Ref, ReferralDocument } from 'src/Schemas/Referral';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
@@ -14,24 +14,24 @@ require('dotenv').config();
 export class AuthService {
   private logger = new Logger();
   constructor(
-    @InjectRepository(User) private userRepo: Repository<User>,
-    @InjectRepository(Referral) private referralRepo: Repository<Referral>,
+    @InjectModel(MongoUser.name) private userModel: Model<UserDocument>,
+    @InjectModel(Ref.name) private referralModel: Model<ReferralDocument>,
     private readonly mailerService: MailerService,
   ) {}
 
-  public async signup(user: Partial<User>): Promise<ReturnTypeInterfcae> {
+  public async signup(
+    user: Partial<UserDocument>,
+  ): Promise<ReturnTypeInterfcae> {
     try {
       this.logger.debug(user);
       // check for exisiting account with email
-      const exisiting = await this.userRepo.find({
-        where: { email: user.email },
-      });
+      const exisiting = await this.userModel.find({ email: user.email });
       if (exisiting.length < 1) {
         // hash password
         const pass = await this.hashPassword(user.password);
         user.password = pass;
         // create the account
-        const newuser = await this.userRepo.save({
+        const newuser = await this.userModel.create({
           ...user,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
@@ -42,96 +42,46 @@ export class AuthService {
           from: 'noreply@heritagexchange.com', // sender address
           subject: 'Testing Nest MailerModule ✔', // Subject line
           text: 'welcome', // plaintext body
-          html: '<b>welcome</b>',
+          html: '<b>welcome to heritage exchange we are glad to have you on board</b>',
         });
         this.logger.debug(emailRes);
         // referral
-        this.logger.error(user.referral_code);
 
         if (user.referral_code !== null || user.referral_code !== undefined) {
-          const ruser = await this.userRepo.findOne({
-            where: { id: user.referral_code },
+          const ruser = await this.referralModel.create({
+            referral_id: user.referral_code,
+            user_id: newuser._id,
           });
-
-          if (ruser === null) {
-            // set the user as his own referral
-            const updatedUser = await this.userRepo.findOne({
-              where: { email: user.email },
-            });
-            // set the user as his own referral
-            const update = await this.userRepo
-              .createQueryBuilder()
-              .update()
-              .set({ referral_code: updatedUser.id })
-              .where({ email: updatedUser.email })
-              .execute();
-
-            const account = await this.userRepo.findOne({
-              where: { id: newuser.id },
-            });
-            delete account.password;
-
-            return Return({
-              error: false,
-              statusCode: 200,
-              successMessage: 'Account created successfully',
-              data: account,
-            });
-          } else {
-            const updatedUser = await this.userRepo.findOne({
-              where: { email: user.email },
-            });
-            // set the user as his own referral
-            const update = await this.userRepo
-              .createQueryBuilder()
-              .update()
-              .set({ referral_code: updatedUser.id })
-              .where({ email: newuser.email })
-              .execute();
-
-            const account = await this.userRepo.findOne({
-              where: { id: newuser.id },
-            });
-            delete account.password;
-
-            return Return({
-              error: false,
-              statusCode: 200,
-              successMessage: 'Account created successfully',
-              data: account,
-            });
-          }
         }
+
         if (user.referral_code === null || user.referral_code === undefined) {
-          const updatedUser = await this.userRepo.findOne({
-            where: { email: user.email },
+          const ref = await this.referralModel.create({
+            referral_id: newuser._id,
+            user_id: newuser._id,
           });
-          // set the user as his own referral
-          const update = await this.userRepo
-            .createQueryBuilder()
-            .update()
-            .set({ referral_code: newuser.id })
-            .where({ email: newuser.email })
-            .execute();
-          this.logger.error(update);
-          const newref = await this.referralRepo.insert({
-            referral_id: updatedUser.id,
-            user_id: updatedUser.id,
-          });
-          this.logger.debug(newref);
 
-          const account = await this.userRepo.findOne({
-            where: { id: newuser.id },
-          });
-          delete account.password;
-
-          return Return({
-            error: false,
-            statusCode: 200,
-            successMessage: 'Account created successfully',
-            data: account,
-          });
+          console.log(ref);
         }
+
+        // generate token
+        // generate token
+        const token = sign(
+          { email: newuser.email, password: newuser.password },
+          process.env.JWTSECRET,
+          {
+            expiresIn: '3h',
+          },
+        );
+
+        return Return({
+          error: false,
+          statusCode: 200,
+          successMessage: 'Account created successfully',
+          data: {
+            user: newuser,
+            token,
+          },
+        });
       } else {
         return Return({
           error: true,
@@ -150,16 +100,13 @@ export class AuthService {
     }
   }
 
-  public async login(user: Partial<User>): Promise<ReturnTypeInterfcae> {
+  public async login(user: Partial<MongoUser>): Promise<ReturnTypeInterfcae> {
     try {
       // check account
-      const account = await this.userRepo.findOne({
-        where: { email: user.email },
-        relations: ['banks', 'wallets', 'transactions', 'referrals'],
-      });
+      const account = await this.userModel.findOne({ email: user.email });
       this.logger.debug(account);
 
-      if (account === undefined) {
+      if (account === undefined || account === null) {
         return Return({
           error: true,
           statusCode: 400,
@@ -183,7 +130,7 @@ export class AuthService {
         { email: account.email, password: account.password },
         process.env.JWTSECRET,
         {
-          expiresIn: '2h',
+          expiresIn: '3h',
         },
       );
 
@@ -212,9 +159,9 @@ export class AuthService {
     passwords: { oldpassword: string; newpassword: string },
   ): Promise<ReturnTypeInterfcae> {
     try {
-      const user = await this.userRepo.findOne({ where: { id } });
+      const user = await this.userModel.findOne({ _id: id });
       console.log(user);
-      if (user === undefined) {
+      if (user === null) {
         return Return({
           error: true,
           errorMessage: 'User not found',
@@ -248,7 +195,10 @@ export class AuthService {
       }
 
       const newpass = await this.hashPassword(passwords.newpassword);
-      const updated = await this.userRepo.update({ id }, { password: newpass });
+      const updated = await this.userModel.updateOne(
+        { _id: id },
+        { password: newpass },
+      );
       this.logger.log(updated);
 
       return Return({
@@ -269,8 +219,8 @@ export class AuthService {
 
   public async verifyAccount(id: string): Promise<ReturnTypeInterfcae> {
     try {
-      const user = await this.userRepo.findOne({ where: { id } });
-      if (user === undefined) {
+      const user = await this.userModel.findOne({ _id: id });
+      if (user === null) {
         return Return({
           error: true,
           statusCode: 400,
@@ -284,7 +234,10 @@ export class AuthService {
             successMessage: 'Account already activated',
           });
         }
-        const updated = await this.userRepo.update({ id }, { verified: true });
+        const updated = await this.userModel.updateOne(
+          { _id: id },
+          { verified: true },
+        );
         this.logger.debug(updated);
         return Return({
           error: false,

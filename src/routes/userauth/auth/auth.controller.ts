@@ -10,7 +10,7 @@ export class AuthController {
 
   @ApiTags('USERAUTH')
   @ApiParam({ name: 'user_id', type: String })
-  @Get('verify/email/:user_id')
+  @Get('verify/:user_id')
   async verifyemail(
     @Res() res: Response,
     @Body() body: { oldpassword: string; newpassword: string },

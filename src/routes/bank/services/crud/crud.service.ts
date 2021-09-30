@@ -1,17 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Bank } from 'src/Entity/Bank.entity';
+import { Model } from 'mongoose';
+import { Bank, BankDocument } from 'src/Schemas/Bank';
 import { Return, ReturnTypeInterfcae } from 'src/utils/types/returnType';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class CrudService {
   private logger = new Logger();
-  constructor(@InjectRepository(Bank) private bankRepo: Repository<Bank>) {}
+  constructor(@InjectModel(Bank.name) private bankModel: Model<BankDocument>) {}
 
   public async addBank(bank: Bank): Promise<ReturnTypeInterfcae> {
     try {
-      const newbank = await this.bankRepo.save(bank);
+      const newbank = await this.bankModel.create(bank);
       this.logger.log(newbank);
       return Return({
         error: false,
@@ -33,7 +35,7 @@ export class CrudService {
   public async editBank(id: string, bank: Bank): Promise<ReturnTypeInterfcae> {
     try {
       // check if there is a bank with that id
-      const bankExist = await this.bankRepo.findOne({ where: { id } });
+      const bankExist = await this.bankModel.findOne({ _id: id });
       if (bankExist === undefined) {
         return Return({
           error: true,
@@ -43,7 +45,7 @@ export class CrudService {
       }
       // edit the bank
 
-      const newbank = await this.bankRepo.update({ id }, bank);
+      const newbank = await this.bankModel.updateOne({ _id: id }, bank);
       this.logger.log(newbank);
       return Return({
         error: false,
@@ -63,7 +65,7 @@ export class CrudService {
 
   public async deleteBank(id: string): Promise<ReturnTypeInterfcae> {
     try {
-      const newbank = await this.bankRepo.delete(id);
+      const newbank = await this.bankModel.deleteOne({ _id: id });
       this.logger.log(newbank);
       return Return({
         error: false,

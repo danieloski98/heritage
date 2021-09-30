@@ -1,22 +1,22 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/Entity/User.entity';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { UserDocument, User } from 'src/Schemas/User';
 import { ReturnTypeInterfcae, Return } from 'src/utils/types/returnType';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class AddressService {
   logger = new Logger();
 
-  constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   public async addBTC(
     id: string,
     wallet: string,
   ): Promise<ReturnTypeInterfcae> {
     try {
-      const updated = await this.userRepo.update(
-        { id },
+      const updated = await this.userModel.updateOne(
+        { _id: id },
         { bitcoin_wallet: wallet },
       );
       this.logger.log(updated);
@@ -41,8 +41,8 @@ export class AddressService {
     wallet: string,
   ): Promise<ReturnTypeInterfcae> {
     try {
-      const updated = await this.userRepo.update(
-        { id },
+      const updated = await this.userModel.update(
+        { _id: id },
         { ethereum_wallet: wallet },
       );
       this.logger.log(updated);
@@ -67,8 +67,8 @@ export class AddressService {
     wallet: string,
   ): Promise<ReturnTypeInterfcae> {
     try {
-      const updated = await this.userRepo.update(
-        { id },
+      const updated = await this.userModel.update(
+        { _id: id },
         { usdt_wallet: wallet },
       );
       this.logger.log(updated);

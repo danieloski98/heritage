@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { Bank } from 'src/Entity/Bank.entity';
+import { Bank } from 'src/Schemas/Bank';
 import { CrudService } from '../services/crud/crud.service';
 
 @Controller('bank')

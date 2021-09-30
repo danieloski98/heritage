@@ -116,5 +116,5 @@ export class User {
   @OneToMany(() => Referral, (referral) => referral.user, {
     cascade: ['update', 'insert', 'remove'],
   })
-  referrals: Transaction[];
+  referrals: Referral[];
 }

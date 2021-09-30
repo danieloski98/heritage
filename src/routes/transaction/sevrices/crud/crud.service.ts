@@ -1,22 +1,22 @@
-import { Transaction } from './../../../../Entity/Transactions.entity';
+import { Transaction, TransactionDocument } from 'src/Schemas/Transaction';
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { Return, ReturnTypeInterfcae } from 'src/utils/types/returnType';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class CrudService {
   private logger = new Logger();
   constructor(
-    @InjectRepository(Transaction)
-    private transactionRepo: Repository<Transaction>,
+    @InjectModel(Transaction.name)
+    private transactionModel: Model<TransactionDocument>,
   ) {}
 
   public async getUserTransactions(
     user_id: string,
   ): Promise<ReturnTypeInterfcae> {
     try {
-      const trans = await this.transactionRepo.find({ where: { user_id } });
+      const trans = await this.transactionModel.find({ user_id });
       if (trans.length < 1) {
         return Return({
           error: true,
@@ -44,8 +44,8 @@ export class CrudService {
 
   public async getSingleTransactions(id: string): Promise<ReturnTypeInterfcae> {
     try {
-      const trans = await this.transactionRepo.findOne({ where: { id } });
-      if (trans === undefined) {
+      const trans = await this.transactionModel.findOne({ _id: id });
+      if (trans === null) {
         return Return({
           error: true,
           statusCode: 400,

@@ -11,6 +11,7 @@ import ResetPassword from '../Features/Authentication/Pages/ResetPassword';
 import Home from '../Features/Authentication/Pages/Home';
 import Dashboard from './Dashboard';
 import Profile from '../Features/Dashboard/Pages/Profile';
+import Notifications from '../Features/Dashboard/Pages/Notifications';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ export default function Authentication() {
             <Stack.Screen name="resetpassword" component={ResetPassword} />
             <Stack.Screen name="index" component={Dashboard} />
             <Stack.Screen name="profile" component={Profile} />
+            <Stack.Screen name="notifications" component={Notifications} />
         </Stack.Navigator>
     )
 }

@@ -5,6 +5,7 @@ import Container from "../../../globalcomponents/Container";
 import Text from "../../../globalcomponents/Text";
 import { theme } from "../../../utils/theme";
 import { ScrollView} from 'react-native-gesture-handler'
+import { Ionicons } from '@expo/vector-icons'
 
 export default function Signup(props: any) {
   const [showing, setShowing] = React.useState(false);
@@ -80,6 +81,7 @@ export default function Signup(props: any) {
               paddingLeft="10px"
               paddingRight="10px"
             >
+              <Ionicons name="person" size={30} color={theme.color} />
               <TextInput style={{ flex: 1 }} />
             </Container>
           </Container>
@@ -107,6 +109,7 @@ export default function Signup(props: any) {
               paddingLeft="10px"
               paddingRight="10px"
             >
+              <Ionicons name="person" size={30} color={theme.color} />
               <TextInput style={{ flex: 1 }} />
             </Container>
           </Container>
@@ -134,6 +137,7 @@ export default function Signup(props: any) {
               paddingLeft="10px"
               paddingRight="10px"
             >
+              <Ionicons name="call" size={30} color={theme.color} />
               <TextInput style={{ flex: 1 }} />
             </Container>
           </Container>
@@ -161,6 +165,7 @@ export default function Signup(props: any) {
               paddingLeft="10px"
               paddingRight="10px"
             >
+              <Ionicons name="mail" size={30} color={theme.color} />
               <TextInput style={{ flex: 1 }} />
             </Container>
           </Container>
@@ -188,6 +193,7 @@ export default function Signup(props: any) {
               paddingLeft="10px"
               paddingRight="10px"
             >
+              <Ionicons name="lock-closed" size={30} color={theme.color} />
               <TextInput style={{ flex: 1 }} secureTextEntry={showing} />
               <Pressable onPress={() => setShowing((prev) => !prev)}>
                 <Text fontSize="18px" color="grey" fontWeight="bold">

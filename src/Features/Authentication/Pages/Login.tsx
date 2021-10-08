@@ -4,6 +4,7 @@ import Button from '../../../globalcomponents/Button'
 import Container from '../../../globalcomponents/Container'
 import Text from '../../../globalcomponents/Text'
 import { theme } from '../../../utils/theme'
+import { Ionicons } from '@expo/vector-icons'
 
 export default function Login(props) {
     const [showing, setShowing] = React.useState(false)
@@ -19,16 +20,18 @@ export default function Login(props) {
 
             <Container height="70%" width="100%" justifyContent="flex-start" bgColor="white" paddingLeft="20px" paddingRight="20px" marginTop="20px">
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" bgColor="white">
-                    <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Email</Text>
-                    <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="50px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
-                        <TextInput style={{ flex: 1 }} />
-                    </Container>
+            <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="20px" bgColor="white">
+                <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Email</Text>
+                <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="55px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
+                    <Ionicons name="mail" size={25} color={theme.color} />
+                    <TextInput style={{ flex: 1 }} secureTextEntry={showing} />
                 </Container>
+            </Container>
 
                 <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="10px" bgColor="white">
                     <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Password</Text>
                     <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="50px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
+                        <Ionicons name="lock-closed" size={25} color={theme.color} />
                         <TextInput style={{ flex: 1 }} secureTextEntry={showing} />
                         <Pressable onPress={() => setShowing(prev => !prev)}>
                             <Text fontSize="18px" color="grey" fontWeight="bold">

@@ -1,12 +1,14 @@
 import React from 'react'
-import { View, ImageBackground, Platform, Pressable, Image, LayoutAnimation, UIManager,  RefreshControl, } from 'react-native'
+import { View, ImageBackground, Platform, Pressable, Image, LayoutAnimation, UIManager,  RefreshControl, ScrollView } from 'react-native'
 import Navbar from '../components/Navbar'
-import { ScrollView } from 'react-native-gesture-handler'
+// import { ScrollView } from 'react-native-gesture-handler'
 import Container from '../../../globalcomponents/Container'
 import Text from '../../../globalcomponents/Text'
 import { Feather } from '@expo/vector-icons'
 import { theme } from '../../../utils/theme'
 import PersonalInfoForm from '../components/PersonalInfoForm'
+import { useNavigation } from '@react-navigation/native'
+import WalletsBanks from '../components/WalletsBanks'
 
 const os = Platform.OS
 
@@ -17,6 +19,7 @@ if (os === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
 export default function Profile() {
     const [index, setIndex] = React.useState(1);
     const [refreshing, setRefreshing] = React.useState(false)
+    const navigation = useNavigation()
 
     const changeindex = (num: number) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
@@ -44,10 +47,17 @@ export default function Profile() {
                     {/* banner */}
 
                     <ImageBackground source={{ uri: 'https://cdn.pixabay.com/photo/2018/01/18/07/31/bitcoin-3089728__480.jpg'}} style={{ width: '100%', height: 200 }} blurRadius={os === 'android' ? 2:6}>
-                        <Container width="100%" height="100%" bgColor="#070707A1" paddingLeft="20px" paddingRight="20px" flexDirection="row">
+                        <Container width="100%" height="100%" bgColor="#070707A1" paddingLeft="20px" paddingRight="20px" flexDirection="row" alignItems="flex-start">
+                            {
+                                os === 'ios' && (
+                                    <Container width="10%" height="30px" alignItems="flex-end" bgColor="transparent" justifyContent="flex-start" marginTop="10px">
+                                        <Feather name="arrow-left" size={30} color="white" onPress={() => navigation.goBack()} />
+                                    </Container>
+                                )
+                            }
 
-                            <Container width="30%" height="100%" bgColor="transparent" justifyContent="center" alignItems="flex-start" >
-                                <Container width="80px" height="80px" borderRadius="50px" bgColor="lightgrey" justifyContent="flex-start" alignItems="flex-start">
+                            <Container width="20%" height="100%" bgColor="transparent" justifyContent="center" alignItems="flex-start" marginRight="20px">
+                                <Container width="70px" height="70px" borderRadius="50px" bgColor="lightgrey" justifyContent="flex-start" alignItems="flex-start">
                                     <Image source={require('../../../../assets/images/avatar.png')} resizeMode="contain"  style={{ width: '100%', height: '100%'}} />
                                 </Container>
                             </Container>
@@ -70,11 +80,11 @@ export default function Profile() {
                     
                     <View style={{ width: '100%', height: 70, backgroundColor: 'whitesmoke', borderBottomWidth: 2, borderBottomColor: 'lightgrey', flexDirection: 'row', paddingHorizontal: 20}}>
 
-                        <Pressable onPress={() => changeindex(1)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: 4, borderBottomColor: index === 1? theme.primaryBackgroundColor:'lightgrey' }}>
+                        <Pressable onPress={() => changeindex(1)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: index === 1 ? 4:0, borderBottomColor: index === 1? theme.primaryBackgroundColor:'lightgrey' }}>
                             <Text color="black" fontSize="16px">Personal Information</Text>
                         </Pressable>
 
-                        <Pressable onPress={() => changeindex(2)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: 4, borderBottomColor: index === 2? theme.primaryBackgroundColor:'lightgrey'}}>
+                        <Pressable onPress={() => changeindex(2)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: index === 2 ? 4:0, borderBottomColor: index === 2? theme.primaryBackgroundColor:'lightgrey'}}>
                             <Text color="black" fontSize="16px">Wallet & Bank</Text>
                         </Pressable>
 
@@ -85,6 +95,8 @@ export default function Profile() {
                     {
                         index === 1 && <PersonalInfoForm />
                     }
+
+                    { index === 2 && <WalletsBanks /> }
                     
                 </ScrollView>
             </View>

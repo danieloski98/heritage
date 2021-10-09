@@ -78,7 +78,7 @@ export default function Profile() {
                     
                     {/* tab */}
                     
-                    <View style={{ width: '100%', height: 70, backgroundColor: 'whitesmoke', borderBottomWidth: 2, borderBottomColor: 'lightgrey', flexDirection: 'row', paddingHorizontal: 20}}>
+                    <View style={{ width: '100%', height: 70, backgroundColor: 'whitesmoke', flexDirection: 'row', paddingHorizontal: 20}}>
 
                         <Pressable onPress={() => changeindex(1)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: index === 1 ? 4:0, borderBottomColor: index === 1? theme.primaryBackgroundColor:'lightgrey' }}>
                             <Text color="black" fontSize="16px">Personal Information</Text>

@@ -10,4 +10,5 @@ export const theme = {
     screenHeight: Dimensions.get('screen').height,
     textInputBgColor: '#32797C1E',
     color: '#1527AE70',
+    light: '#EFF7FF',
 }

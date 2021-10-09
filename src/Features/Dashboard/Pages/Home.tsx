@@ -45,7 +45,7 @@ export default function Home() {
 
                     <Container width='100%' height="50px" alignItems="flex-start" marginTop="20px" paddingLeft="20px" paddingRight="20px">
                         <Text color="black" fontWeight="bold" fontSize="20px" >Dashboard</Text>
-                        <Text marginTop="16px">Hi Michael, Welcome Back</Text>
+                        <Text marginTop="16px" fontSize="16px" color="grey">Hi Michael, Welcome Back</Text>
                     </Container>
                     
                     {/* scrollview cards */}

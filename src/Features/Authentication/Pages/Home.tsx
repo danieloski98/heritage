@@ -40,7 +40,7 @@ export default function Home(props: any) {
                                 <Image source={require('../../../../assets/images/phone.png')} resizeMode="contain" style={{ width: '50%', height: '100%' }} />
                             </Container>
                             <Text textAlign="center" color="black" fontSize="22px" fontWeight="bold">Save Your Funds in Cryptocurrency</Text>
-                            <Text textAlign="center" fontSize="16" marginTop="5">Secure your funds, save in cryptocurrency today</Text>
+                            <Text textAlign="center" fontSize="16px" marginTop="5">Secure your funds, save in cryptocurrency today</Text>
                         </Container>
                     </PagerView>
                 </Container>
@@ -49,7 +49,7 @@ export default function Home(props: any) {
                 <Container width="100%" height={theme.buttonHeight} paddingLeft="20px" paddingRight="20px" marginTop="20px"  bgColor="white">
                     <Pressable onPress={() => props.navigation.navigate('login')} style={{ width: '100%' }}>
                         <Button>
-                            <Text fontSize="16" fontWeight="600" color="white">Get Started</Text>
+                            <Text fontSize="16px" fontWeight="600" color="white">Get Started</Text>
                         </Button>
                     </Pressable>
                 </Container>

@@ -8,7 +8,7 @@ export default function Transactions() {
     const [tab, setTab] = React.useState(2);
     const os = Platform.OS;
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: theme.light }}>
             <View style={{ padding: 20 }}>
 
                 <View style={{ width: '100%', height: '100%', borderRadius: 10, backgroundColor: 'white' }}>

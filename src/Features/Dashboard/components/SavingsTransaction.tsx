@@ -4,7 +4,7 @@ import { theme } from '../../../utils/theme'
 
 const os = Platform.OS;
 
-export default function TransactionCard() {
+export default function SavingsTransactionCard() {
     return (
         <View style={style.parent}>
 
@@ -29,10 +29,10 @@ export default function TransactionCard() {
 
 const style = StyleSheet.create({
     parent: {
-        width: '90%',
+        width: '100%',
         height: 120,
         flexDirection: 'row',
-        backgroundColor: theme.light,
+        backgroundColor: 'white',
         paddingHorizontal: 20,
         marginHorizontal: 20,
         marginBottom: 10,

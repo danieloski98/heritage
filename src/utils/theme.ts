@@ -11,4 +11,7 @@ export const theme = {
     textInputBgColor: '#32797C1E',
     color: '#1527AE70',
     light: '#EFF7FF',
+    pending: '#C97C16',
+    completed: '#148B3E',
+    failed: '#D52C60',
 }

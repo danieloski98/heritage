@@ -10,10 +10,10 @@ import { ScrollView } from 'react-native-gesture-handler'
 export default function Settings() {
     const [showing, setShowing] = React.useState(false)
     return (
-        <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 30 }}>
+        <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 30, backgroundColor: theme.light }}>
             <Text color="black" fontSize="23px" fontWeight="bold">Change Password</Text>
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="30px" >
+                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="30px" bgColor={theme.light} >
                     <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Old Password</Text>
                     <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="50px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
                         <Ionicons name="lock-closed" size={25} color={theme.color} />
@@ -26,7 +26,7 @@ export default function Settings() {
                     </Container>
                 </Container>
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="30px" >
+                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="30px" bgColor={theme.light} >
                     <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">New Password</Text>
                     <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="50px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
                         <Ionicons name="lock-closed" size={25} color={theme.color} />
@@ -39,7 +39,7 @@ export default function Settings() {
                     </Container>
                 </Container>
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="30px" >
+                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="30px" bgColor={theme.light} >
                     <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Confirm Password</Text>
                     <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="50px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
                         <Ionicons name="lock-closed" size={25} color={theme.color} />

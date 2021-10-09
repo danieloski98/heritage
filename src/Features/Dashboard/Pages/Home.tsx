@@ -33,7 +33,7 @@ export default function Home() {
       }
 
     return (
-        <View style={{ backgroundColor: 'whitesmoke', height: theme.screenHeight }}>
+        <View style={{ backgroundColor: theme.light, height: theme.screenHeight }}>
             <StatusBar backgroundColor="transparent" barStyle="light-content" translucent />
 
             {/* modals */}
@@ -43,14 +43,14 @@ export default function Home() {
 
                     {/* header text */}
 
-                    <Container width='100%' height="50px" alignItems="flex-start" marginTop="20px" paddingLeft="20px" paddingRight="20px">
+                    <Container width='100%' height="50px" alignItems="flex-start" marginTop="20px" paddingLeft="20px" paddingRight="20px" bgColor={theme.light}>
                         <Text color="black" fontWeight="bold" fontSize="20px" >Dashboard</Text>
                         <Text marginTop="16px" fontSize="16px" color="grey">Hi Michael, Welcome Back</Text>
                     </Container>
                     
                     {/* scrollview cards */}
 
-                    <Container width="100%" height="200px" bgColor="transparent" alignItems="flex-start" paddingLeft="20px" marginTop="20px">
+                    <Container width="100%" height="200px" alignItems="flex-start" paddingLeft="20px" marginTop="20px" bgColor={theme.light}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ alignItems: 'center' }}>
                             <Card text1="Today's Rate" prize="N500/$" text2="Rates are updated daily" />
                             <Card text1="BTC Value" prize="$34,000" text2="NGN: N12,000,000.00" />
@@ -60,7 +60,7 @@ export default function Home() {
 
                     {/* tab */}
 
-                    <Container width="100%" height="60px" marginTop="20px" paddingLeft="20px" paddingRight="20px">
+                    <Container width="100%" height="60px" marginTop="20px" paddingLeft="20px" paddingRight="20px" bgColor={theme.light}>
                         <Container width="100%" height="100%" flexDirection="row" bgColor="white" paddingLeft="1px" paddingRight="1px" paddingTop="1px" paddingBottom="1px" justifyContent="flex-start" borderRadius="10px" >
 
                             <Container width="50%" height="100%"  bgColor="white">
@@ -84,7 +84,7 @@ export default function Home() {
 
                     {/* crypto List */}
 
-                    { tab === 1 && <Container width="100%" height="700px" paddingLeft="20px" paddingRight="20px" alignItems="flex-start" justifyContent="flex-start" marginTop="50px">
+                    { tab === 1 && <Container width="100%" height="700px" paddingLeft="20px" paddingRight="20px" alignItems="flex-start" justifyContent="flex-start" marginTop="50px" bgColor={theme.light}>
                         <BuySellCard type={1} action={1} onPress={() => openLinkModal()} />
                         <BuySellCard type={2} action={1} onPress={() => openLinkModal()} />
                         <BuySellCard type={3} action={1} onPress={() => openLinkModal()} />
@@ -93,7 +93,7 @@ export default function Home() {
 
                     {
                         tab === 2 && 
-                        <Container width="100%" height="800px" paddingLeft="20px" paddingRight="20px" alignItems="flex-start" justifyContent="flex-start" marginTop="50px">
+                        <Container width="100%" height="800px" paddingLeft="20px" paddingRight="20px" alignItems="flex-start" justifyContent="flex-start" marginTop="50px" bgColor={theme.light}>
                             <BuySellCard type={1} action={2} onPress={() => openLinkModal()} />
                             <BuySellCard type={2} action={2} onPress={() => openLinkModal()} />
                             <BuySellCard type={3} action={2} onPress={() => openLinkModal()} />

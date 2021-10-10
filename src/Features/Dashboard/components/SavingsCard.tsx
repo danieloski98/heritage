@@ -27,7 +27,7 @@ export default function SavingsCard(props: IProps) {
             </Container>
 
              <Text fontSize="18px" color="white" fontWeight="600">{props.text1}</Text>
-             <Text fontSize="30px" color="white" fontWeight="bold" marginTop="20px" marginLeft="20px">{props.prize}</Text>
+             <Text fontSize="25px" color="white" fontWeight="bold" marginTop="20px" marginLeft="20px">{props.prize}</Text>
              <Text fontSize="18px" color="white" fontWeight="600" marginTop="20px">{props.text2}</Text>
 
         </Container>

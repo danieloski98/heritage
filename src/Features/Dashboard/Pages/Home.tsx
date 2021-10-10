@@ -8,11 +8,17 @@ import Card from '../components/Card'
 import Button from '../../../globalcomponents/Button'
 import BuySellCard from '../components/Buy&SellCard'
 import AddDetails from '../../../globalcomponents/Modals/AddDetails'
+import BuyModal from '../../../globalcomponents/Modals/BuyModal'
 
 export default function Home() {
     const [tab, setTab] = React.useState(1)
     const [showLinkModal, setShowLinkModal] = React.useState(false);
-    const [refreshing, setRefreshing] = React.useState(false)
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [coinType, setCoinType] = React.useState(0);
+    const [buy, setBuy] = React.useState(false);
+
+    // details
+    const [amount, setAmount] = React.useState(0);
 
     const wait = (timeout) => {
         return new Promise(resolve => setTimeout(resolve, timeout));
@@ -32,12 +38,21 @@ export default function Home() {
           setShowLinkModal(true);
       }
 
+      const openBuy = () => {
+          setBuy(true);
+      }
+
+      const closeBuy = () => {
+          setBuy(false);
+      }
+
     return (
         <View style={{ backgroundColor: theme.light, height: theme.screenHeight }}>
             <StatusBar backgroundColor="transparent" barStyle="light-content" translucent />
 
             {/* modals */}
             <AddDetails visible={showLinkModal} close={closeLinkModal} />
+            <BuyModal visible={buy} close={closeBuy} coinType={coinType} />
 
             <ScrollView horizontal={false} showsVerticalScrollIndicator={false} scrollEnabled refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} />}>
 
@@ -85,9 +100,9 @@ export default function Home() {
                     {/* crypto List */}
 
                     { tab === 1 && <Container width="100%" height="700px" paddingLeft="20px" paddingRight="20px" alignItems="flex-start" justifyContent="flex-start" marginTop="50px" bgColor={theme.light}>
-                        <BuySellCard type={1} action={1} onPress={() => openLinkModal()} />
-                        <BuySellCard type={2} action={1} onPress={() => openLinkModal()} />
-                        <BuySellCard type={3} action={1} onPress={() => openLinkModal()} />
+                        <BuySellCard type={1} action={1} onPress={() => openBuy()} />
+                        <BuySellCard type={2} action={1} onPress={() => openBuy()} />
+                        <BuySellCard type={3} action={1} onPress={() => openBuy()} />
                     </Container>
                     }
 

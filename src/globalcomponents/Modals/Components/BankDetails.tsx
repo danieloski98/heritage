@@ -2,19 +2,47 @@ import React from 'react'
 import { View, Text, Image, Pressable } from 'react-native'
 import Container from '../../Container';
 import Button from '../../Button';
+import { theme } from '../../../utils/theme';
 
 // image links
 const BTC = require('../../../../assets/icons/btc.png');
 const ETH = require('../../../../assets/icons/eth.png');
 const USDT = require('../../../../assets/icons/tether.png')
 
-export default function BankDetails() {
+interface IProps {
+    value: number, 
+    amount: string, 
+    nextStep: Function;
+}
+
+export default function BankDetails({value, amount, nextStep}: IProps) {
+
+    const switchLogo = (): any => {
+        if (value === 1) {
+            return BTC;
+        }else if (value === 2) {
+            return ETH;
+        }else {
+            return USDT;
+        }
+    }
+
+    const switchText = (): any => {
+        if (value === 1) {
+            return 'BTC';
+        }else if (value === 2) {
+            return 'ETH';
+        }else {
+            return 'USDT';
+        }
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 20, alignItems: 'center', height: 70 }}>
-                <Image source={ETH} resizeMode="contain" style={{ width: 60, height: 60 }} />
+                <Image source={switchLogo()} resizeMode="contain" style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10}}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 24 }}>1.0 ETH</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{amount} {switchText()}</Text>
                     <Text style={{ fontSize: 18}}>NGN: 13,002,382</Text>
                 </View>
             </View>
@@ -38,9 +66,9 @@ export default function BankDetails() {
 
             <Container width="100%" height="55px" alignItems="flex-start" marginTop="20px">
                     <Button>
-                        <Pressable onPress={() => alert('pressed')}>
-                            <Text style={{ color: 'white'}}>Upload Payment Proof</Text>
-                        </Pressable>
+                    <Pressable style={{ flex: 1, justifyContent: 'center', backgroundColor: theme.primaryBackgroundColor, width: '100%', borderRadius: 10, alignItems: 'center' }} onPress={() => nextStep(3)}>
+                        <Text style={{ color: 'white'}}>Upload Payment Proof</Text>
+                    </Pressable>
                     </Button>
                 </Container>
         </View>

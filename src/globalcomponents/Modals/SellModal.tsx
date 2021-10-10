@@ -45,10 +45,10 @@ const swicthCoin = (value: number) => {
     }
 }
 
-export default function BuyModal({ visible, close, coinType}: IProps) {
+export default function SellModal({ visible, close, coinType}: IProps) {
     
     const [value, setValue] = React.useState(coinType);
-    const [title, setTitle] = React.useState(`Buy ${swicthCoin(value)}`);
+    const [title, setTitle] = React.useState(`Sell ${swicthCoin(value)}`);
     const [amount, setAmount] = React.useState('0');
     const [step, setStep] = React.useState(1);
     const [images, setImages] = React.useState([] as Array<IMageType>);
@@ -57,7 +57,7 @@ export default function BuyModal({ visible, close, coinType}: IProps) {
     const navigation = useNavigation<any>();
 
     React.useEffect(() => {
-        setTitle(`Buy ${swicthCoin(value)}`)
+        setTitle(`Sell ${swicthCoin(value)}`)
     }, [value]);
 
     React.useEffect(() => {
@@ -70,7 +70,7 @@ export default function BuyModal({ visible, close, coinType}: IProps) {
                 return <SetAmount value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} />
             }
             case 2: {
-                return <BankDetails value={value} amount={amount} nextStep={changeStep} />
+                return <QRcode nextStep={changeStep} />
             }
             case 3: {
                 return <UploadFiles nextStep={changeStep} image={images} setImage={setImages} />

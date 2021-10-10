@@ -9,6 +9,8 @@ import Button from '../../../globalcomponents/Button'
 import BuySellCard from '../components/Buy&SellCard'
 import AddDetails from '../../../globalcomponents/Modals/AddDetails'
 import BuyModal from '../../../globalcomponents/Modals/BuyModal'
+import SellModal from '../../../globalcomponents/Modals/SellModal'
+import { STAT_URL } from '../../../utils/statsApi'
 
 export default function Home() {
     const [tab, setTab] = React.useState(1)
@@ -16,6 +18,17 @@ export default function Home() {
     const [refreshing, setRefreshing] = React.useState(false);
     const [coinType, setCoinType] = React.useState(0);
     const [buy, setBuy] = React.useState(false);
+    const [sell, setSell] = React.useState(false);
+    const [data, setData] = React.useState([] as Array<any>);
+
+    React.useEffect(() => {
+        (async function() {
+            const request = await fetch(`${STAT_URL}`);
+            const json = await request.json();
+            setData(json);
+            
+        })()
+    })
 
     // details
     const [amount, setAmount] = React.useState(0);
@@ -38,12 +51,26 @@ export default function Home() {
           setShowLinkModal(true);
       }
 
-      const openBuy = () => {
+      const openBuy = (type: number) => {
+          setCoinType(type);
           setBuy(true);
       }
 
       const closeBuy = () => {
           setBuy(false);
+      }
+
+      const openSell = (type: number) => {
+          setCoinType(type);
+          setSell(true);
+      }
+
+      const closeSell = () => {
+          setSell(false);
+      }
+
+      const getCoin = (id: string) => {
+          return data.filter((item) => item.id === id )[0];
       }
 
     return (
@@ -53,6 +80,7 @@ export default function Home() {
             {/* modals */}
             <AddDetails visible={showLinkModal} close={closeLinkModal} />
             <BuyModal visible={buy} close={closeBuy} coinType={coinType} />
+            <SellModal visible={sell} close={closeSell} coinType={coinType} />
 
             <ScrollView horizontal={false} showsVerticalScrollIndicator={false} scrollEnabled refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} />}>
 
@@ -100,18 +128,18 @@ export default function Home() {
                     {/* crypto List */}
 
                     { tab === 1 && <Container width="100%" height="700px" paddingLeft="20px" paddingRight="20px" alignItems="flex-start" justifyContent="flex-start" marginTop="50px" bgColor={theme.light}>
-                        <BuySellCard type={1} action={1} onPress={() => openBuy()} />
-                        <BuySellCard type={2} action={1} onPress={() => openBuy()} />
-                        <BuySellCard type={3} action={1} onPress={() => openBuy()} />
+                        <BuySellCard type={1} action={1} onPress={() => openBuy(1)} coinStat={getCoin('bitcoin')} />
+                        <BuySellCard type={2} action={1} onPress={() => openBuy(2)} coinStat={getCoin('ethereum')}/>
+                        <BuySellCard type={3} action={1} onPress={() => openBuy(3)} coinStat={getCoin('tether')}/>
                     </Container>
                     }
 
                     {
                         tab === 2 && 
                         <Container width="100%" height="800px" paddingLeft="20px" paddingRight="20px" alignItems="flex-start" justifyContent="flex-start" marginTop="50px" bgColor={theme.light}>
-                            <BuySellCard type={1} action={2} onPress={() => openLinkModal()} />
-                            <BuySellCard type={2} action={2} onPress={() => openLinkModal()} />
-                            <BuySellCard type={3} action={2} onPress={() => openLinkModal()} />
+                            <BuySellCard type={1} action={2} onPress={() => openSell(1)} coinStat={getCoin('bitcoin')}/>
+                            <BuySellCard type={2} action={2} onPress={() => openSell(2)} coinStat={getCoin('ethereum')}/>
+                            <BuySellCard type={3} action={2} onPress={() => openSell(3)} coinStat={getCoin('tether')}/>
                         </Container>
                     }
 

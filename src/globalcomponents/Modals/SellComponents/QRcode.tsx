@@ -10,9 +10,16 @@ import { View as MotiView } from 'moti'
 // image links
 const BTC = require('../../../../assets/icons/btc.png');
 const ETH = require('../../../../assets/icons/eth.png');
-const USDT = require('../../../../assets/icons/tether.png')
+const USDT = require('../../../../assets/icons/tether.png');
 
-export default function QRcode() {
+
+interface IProps {
+    value?: number, 
+    amount?: string, 
+    nextStep: Function;
+}
+
+export default function QRcode({ nextStep }: IProps) {
     return (
         <MotiView 
         from={{ opacity: 0 }}
@@ -46,7 +53,7 @@ export default function QRcode() {
 
             <Container width="100%" height="55px" alignItems="flex-start" marginTop="20px">
                     <Button>
-                        <Pressable onPress={() => alert('pressed')}>
+                        <Pressable onPress={() => nextStep(3)}>
                             <Text style={{ color: 'white' }}>Upload Payment Proof</Text>
                         </Pressable>
                     </Button>

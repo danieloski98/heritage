@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Pressable, RefreshControl, StatusBar } from 'react-native'
+import { View, Pressable, RefreshControl, StatusBar, ScrollView } from 'react-native'
 import { theme } from '../../../utils/theme'
-import { ScrollView } from 'react-native-gesture-handler'
+// import { ScrollView } from 'react-native-gesture-handler'
 import Text from '../../../globalcomponents/Text'
 import Container from '../../../globalcomponents/Container'
 import Card from '../components/Card'
@@ -23,12 +23,16 @@ export default function Home() {
 
     React.useEffect(() => {
         (async function() {
-            const request = await fetch(`${STAT_URL}`);
-            const json = await request.json();
-            setData(json);
-            
+            try {
+                const request = await fetch(`${STAT_URL}`);
+                const json = await request.json() as Array<any>;
+                setData(json.slice(0,5));
+            } catch (error) {
+                console.log(error);
+                alert(JSON.stringify(error));
+            }
         })()
-    })
+    }, []);
 
     // details
     const [amount, setAmount] = React.useState(0);
@@ -39,8 +43,12 @@ export default function Home() {
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-
-        wait(2000).then(() => setRefreshing(false));
+        (async function() {
+            const request = await fetch(`${STAT_URL}`);
+            const json = await request.json() as Array<any>;
+            setData(json.slice(0,5));
+        })()
+        setRefreshing(false);
       }, []);
 
       const closeLinkModal = () => {
@@ -96,8 +104,9 @@ export default function Home() {
                     <Container width="100%" height="200px" alignItems="flex-start" paddingLeft="20px" marginTop="20px" bgColor={theme.light}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ alignItems: 'center' }}>
                             <Card text1="Today's Rate" prize="N500/$" text2="Rates are updated daily" />
-                            <Card text1="BTC Value" prize="$34,000" text2="NGN: N12,000,000.00" />
-                            <Card text1="Ethereum Value" prize="$139,000" text2="NGN: N12,000,000.00" />
+                            <Card text1="BTC Value" prize={`$${getCoin('bitcoin') !== undefined ? getCoin('bitcoin').current_price:'0'}`} text2={`NGN: ${getCoin('bitcoin') !== undefined ? getCoin('bitcoin').current_price/550:'0'} `} />
+                            <Card text1="Ethereum Value" prize={`$${getCoin('ethereum') !== undefined ? getCoin('ethereum').current_price:'0'}`} text2={`NGN: ${getCoin('ethereum') !== undefined ? getCoin('ethereum').current_price/550:'0'} `} />
+                            <Card text1="USDT Value" prize={`$${getCoin('tether') !== undefined ? getCoin('tether').current_price:'0'}`} text2={`NGN: ${getCoin('tether') !== undefined ? getCoin('tether').current_price/550:'0'} `} />
                         </ScrollView>
                     </Container>
 

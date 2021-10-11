@@ -81,7 +81,7 @@ export default function BuySellCard(props: IProps) {
                 <View style={{ marginLeft: 20, }}>
                     <Text fontSize="18px" color="black" fontWeight="600">{getcoin()}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Ionicons name="pricetag" color={theme.color} size={20} />
+                        <Ionicons name="arrow-up" color="green" size={20} />
                         <Text fontSize="12px" color="grey" fontWeight="400" marginTop="0px" marginLeft="5px">${props.coinStat !== undefined ? props.coinStat.current_price: '0'}</Text>
                     </View>
                 </View>

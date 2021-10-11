@@ -24,10 +24,7 @@ export default function UploadFiles({ nextStep, image, setImage }: IProps) {
        // pick file
        const data = await ImagePicker.launchImageLibraryAsync({
            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-           allowsEditing: false,
-           quality: 4,
-           aspect: [4, 3],
-           base64: false
+           allowsEditing: true,
        });
 
        if (data.cancelled) {

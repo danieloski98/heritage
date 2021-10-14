@@ -27,23 +27,33 @@ export class User {
   password: string;
 
   @ApiProperty()
-  @Prop()
+  @Prop({
+    default: '',
+  })
   mobile_id: string;
 
   @ApiProperty()
-  @Prop()
+  @Prop({
+    default: '',
+  })
   web_id: string;
 
   @ApiProperty()
-  @Prop()
+  @Prop({
+    default: '',
+  })
   bitcoin_wallet: string;
 
   @ApiProperty()
-  @Prop()
+  @Prop({
+    default: '',
+  })
   ethereum_wallet: string;
 
   @ApiProperty()
-  @Prop()
+  @Prop({
+    default: '',
+  })
   usdt_wallet: string;
 
   @ApiProperty()
@@ -58,15 +68,21 @@ export class User {
   updateAt: string;
 
   @ApiProperty()
-  @Prop()
+  @Prop({
+    default: false,
+  })
   isLoggedIn: boolean;
 
   @ApiProperty()
-  @Prop()
+  @Prop({
+    default: false,
+  })
   verified: boolean;
 
   @ApiProperty()
-  @Prop()
+  @Prop({
+    default: false,
+  })
   suspended: boolean;
 }
 export const UserSchema = SchemaFactory.createForClass(User);

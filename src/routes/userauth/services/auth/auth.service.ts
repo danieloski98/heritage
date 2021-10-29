@@ -7,8 +7,11 @@ import { User as MongoUser, UserDocument } from 'src/Schemas/User';
 import { Referral as Ref, ReferralDocument } from 'src/Schemas/Referral';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Code, CodeDocument } from 'src/Schemas/Code.Schema';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const randomNumber = require('random-number');
 
 @Injectable()
 export class AuthService {
@@ -16,6 +19,7 @@ export class AuthService {
   constructor(
     @InjectModel(MongoUser.name) private userModel: Model<UserDocument>,
     @InjectModel(Ref.name) private referralModel: Model<ReferralDocument>,
+    @InjectModel(Code.name) private codeModel: Model<CodeDocument>,
     private readonly mailerService: MailerService,
   ) {}
 
@@ -23,6 +27,8 @@ export class AuthService {
     user: Partial<UserDocument>,
   ): Promise<ReturnTypeInterfcae> {
     try {
+      const email = user.email.toLowerCase();
+      user.email = email;
       this.logger.debug(user);
       // check for exisiting account with email
       const exisiting = await this.userModel.find({ email: user.email });
@@ -37,12 +43,25 @@ export class AuthService {
           updatedAt: new Date().toISOString(),
         });
         // send email
+        // generate code
+        const options = {
+          min: 1000,
+          max: 1999,
+          integer: true,
+        };
+        const code = randomNumber(options);
+        const newCode = await this.codeModel.create({
+          user_id: newuser._id,
+          code,
+        });
+
+        console.log(newCode);
         const emailRes = await this.mailerService.sendMail({
           to: user.email, // list of receivers
           from: 'noreply@heritagexchange.com', // sender address
-          subject: 'Testing Nest MailerModule ✔', // Subject line
+          subject: 'Welcome to HeritageXchange', // Subject line
           text: 'welcome', // plaintext body
-          html: '<b>welcome to heritage exchange we are glad to have you on board</b>',
+          html: `<p>welcome to heritage exchange we are glad to have you on board. Here is your Otp code for verification <b>${code}</b> </p>`,
         });
         this.logger.debug(emailRes);
         // referral
@@ -217,9 +236,19 @@ export class AuthService {
     }
   }
 
-  public async verifyAccount(id: string): Promise<ReturnTypeInterfcae> {
+  public async verifyAccount(code: number): Promise<ReturnTypeInterfcae> {
     try {
-      const user = await this.userModel.findOne({ _id: id });
+      const ecode = await this.codeModel.findOne({ code });
+
+      if (ecode === null || ecode == undefined) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'Invalid code',
+        });
+      }
+
+      const user = await this.userModel.findOne({ _id: ecode.user_id });
       if (user === null) {
         return Return({
           error: true,
@@ -235,9 +264,12 @@ export class AuthService {
           });
         }
         const updated = await this.userModel.updateOne(
-          { _id: id },
+          { _id: ecode.user_id },
           { verified: true },
         );
+
+        // delte the code
+        await this.codeModel.deleteOne({ _id: ecode._id });
         this.logger.debug(updated);
         return Return({
           error: false,

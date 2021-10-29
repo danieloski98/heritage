@@ -49,13 +49,66 @@ export class ProfileService {
 
   public async editName(
     id: string,
-    names: { first_name: string; last_name: string },
+    names: { first_name: string; last_name: string; phone: string },
   ): Promise<ReturnTypeInterfcae> {
     try {
       // validation object
       const obj = object({
-        first_name: string().trim(),
-        last_name: string().trim(),
+        first_name: string().trim().optional(),
+        last_name: string().trim().optional(),
+        phone: string().optional().trim(),
+      });
+
+      const validationResult = await obj.validate(names);
+
+      if (validationResult.error) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: validationResult.error.message,
+          trace: validationResult.error,
+        });
+      }
+
+      // updated
+      const updated = await this.userModel.updateOne({ _id: id }, names);
+      this.logger.log(updated);
+      return Return({
+        error: false,
+        statusCode: 200,
+        successMessage: 'Names updated',
+      });
+    } catch (error) {
+      this.logger.log(error);
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
+
+  public async editFinancials(
+    id: string,
+    names: {
+      bitcoin_wallet: string;
+      ethereum_wallet: string;
+      usdt_wallet: string;
+      bank_name: string;
+      account_name: string;
+      account_number: string;
+    },
+  ): Promise<ReturnTypeInterfcae> {
+    try {
+      // validation object
+      const obj = object({
+        bitcoin_wallet: string().trim().optional(),
+        ethereum_wallet: string().trim().optional(),
+        usdt_wallet: string().optional().trim(),
+        account_name: string().optional().trim(),
+        account_number: string().optional().trim(),
+        bank_name: string().optional().trim(),
       });
 
       const validationResult = await obj.validate(names);

@@ -1,8 +1,8 @@
-import { Body, Controller, Param, Put, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, Res } from '@nestjs/common';
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { AddingWallet } from 'src/utils/types/Adressadding';
-import { EditingNames } from 'src/utils/types/editingnames';
+import { EditingDetails, EditingNames } from 'src/utils/types/editingnames';
 import { AddressService } from '../services/address/address.service';
 import { ProfileService } from '../services/profile/profile.service';
 
@@ -15,14 +15,46 @@ export class UserController {
 
   @ApiTags('USER')
   @ApiParam({ name: 'user_id' })
+  @Get(':user_id')
+  async getUser(@Res() res: Response, @Param() param: any) {
+    const result = await this.profileService.getUserDetails(param['user_id']);
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('USER')
+  @ApiParam({ name: 'user_id' })
   @ApiBody({ type: EditingNames })
   @Put('edit/names/:user_id')
   async updatenames(
     @Res() res: Response,
-    @Body() body: { first_name: string; last_name: string },
+    @Body() body: { first_name: string; last_name: string; phone: string },
     @Param() param: any,
   ) {
     const result = await this.profileService.editName(param['user_id'], body);
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('USER')
+  @ApiParam({ name: 'user_id' })
+  @ApiBody({ type: EditingDetails })
+  @Put('edit/details/:user_id')
+  async updatefin(
+    @Res() res: Response,
+    @Body()
+    body: {
+      bitcoin_wallet: string;
+      ethereum_wallet: string;
+      usdt_wallet: string;
+      bank_name: string;
+      account_name: string;
+      account_number: string;
+    },
+    @Param() param: any,
+  ) {
+    const result = await this.profileService.editFinancials(
+      param['user_id'],
+      body,
+    );
     res.status(result.statusCode).send(result);
   }
 

@@ -12,6 +12,10 @@ export class User {
 
   @ApiProperty()
   @Prop()
+  phone: string;
+
+  @ApiProperty()
+  @Prop()
   first_name: string;
 
   @ApiProperty()
@@ -25,6 +29,18 @@ export class User {
   @ApiProperty()
   @Prop()
   password: string;
+
+  @ApiProperty()
+  @Prop()
+  bank_name: string;
+
+  @ApiProperty()
+  @Prop()
+  account_name: string;
+
+  @ApiProperty()
+  @Prop()
+  account_number: string;
 
   @ApiProperty()
   @Prop({

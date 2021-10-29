@@ -3,7 +3,7 @@ import { Image, Pressable, View } from 'react-native'
 import Container from '../../../globalcomponents/Container'
 import BTC from '../../../globalcomponents/icons/BTC'
 import Text from '../../../globalcomponents/Text'
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons, Feather } from '@expo/vector-icons'
 import { theme } from '../../../utils/theme'
 
 function getname() {}
@@ -16,7 +16,7 @@ interface IProps {
 }
 
 export default function BuySellCard(props: IProps) {
-    console.log(props.coinStat);
+    // console.log(props.coinStat);
     const getimage = () => {
         if (props.type === 1) {
             return require('../../../../assets/icons/btc.png')
@@ -79,10 +79,14 @@ export default function BuySellCard(props: IProps) {
                 </Container>
 
                 <View style={{ marginLeft: 20, }}>
-                    <Text fontSize="18px" color="black" fontWeight="600">{getcoin()}</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Ionicons name="arrow-up" color="green" size={20} />
-                        <Text fontSize="12px" color="grey" fontWeight="400" marginTop="0px" marginLeft="5px">${props.coinStat !== undefined ? props.coinStat.current_price: '0'}</Text>
+                    <Text fontSize="18px" color="black" fontWeight="bold">{getcoin()}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+                        <Feather name="dollar-sign" color="green" size={20} />
+                        <Text fontSize="12px" color="black" fontWeight="400" marginTop="0px" marginLeft="5px">${props.coinStat !== undefined ? props.coinStat.current_price: '0'}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center',  marginTop: 10 }}>
+                        <Text color="black">NGN</Text>
+                        <Text fontSize="12px" color="black" fontWeight="600" marginTop="0px" marginLeft="5px">{props.coinStat !== undefined ? Math.round(props.coinStat.current_price * 550): '0'}</Text>
                     </View>
                 </View>
 

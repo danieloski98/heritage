@@ -6,15 +6,21 @@ import Savings from '../Features/Dashboard/Pages/Savings'
 import Settings from '../Features/Dashboard/Pages/Settings'
 import Navbar from '../Features/Dashboard/components/Navbar'
 import { Feather, FontAwesome5 } from '@expo/vector-icons'
-import { theme } from '../utils/theme'
-import { Platform } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming, } from 'react-native-reanimated'
+import { theme } from '../utils/theme';
 
 const os = Platform.OS;
 
 const Tab = createBottomTabNavigator()
 
 export default function Dashboard() {
+  
     return (
+        <>
+
+        {/* tabs */}
+
         <Tab.Navigator screenOptions={{ header: () => <Navbar />, tabBarStyle: { height: os === 'ios' ? 80:65, paddingBottom: os === 'ios' ? 20:10 }, tabBarLabelStyle: { fontWeight: '600', includeFontPadding: true, fontSize: 12} }}  >
 
             <Tab.Screen name="dashboard" component={Home} options={{ title: 'Dashboard', tabBarIcon: ({ focused }) => <FontAwesome5 name="chart-pie" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } />}} />
@@ -26,5 +32,6 @@ export default function Dashboard() {
             <Tab.Screen name="settings" component={Settings} options={{ title: 'Settings', tabBarIcon: ({ focused }) => <FontAwesome5 name="cog" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } />}} />
 
         </Tab.Navigator>
+    </>
     )
 }

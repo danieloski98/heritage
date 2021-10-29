@@ -9,6 +9,27 @@ import { theme } from '../../../utils/theme'
 import PersonalInfoForm from '../components/PersonalInfoForm'
 import { useNavigation } from '@react-navigation/native'
 import WalletsBanks from '../components/WalletsBanks'
+import { useQuery } from 'react-query'
+import { IReturnType } from '../../../Types/ReturnType'
+import url from '../../../utils/url'
+
+// redux
+import { RootState } from '../../../store'
+import { useSelector, useDispatch } from 'react-redux'
+import { updateUser } from '../../../States/UserDetails'
+
+
+//query Function
+const getDetails = async(id: string, token: string) => {
+    const request = await fetch(`${url}user/${id}`, {
+        headers: {
+            authorization: `Bearere ${token}`
+        }
+    })
+
+    const json = await request.json() as IReturnType;
+    return json;
+}
 
 const os = Platform.OS
 
@@ -21,27 +42,37 @@ export default function Profile() {
     const [refreshing, setRefreshing] = React.useState(false)
     const navigation = useNavigation()
 
+    // redux
+    const user = useSelector((state: RootState) => state.userdetail.user);
+    const token = useSelector((state: RootState) => state.userdetail.token);
+    const dispatch = useDispatch();
+
+    const { refetch } = useQuery(['getDetails', {id: user._id, token: token }], () => getDetails(user._id, token), {
+        onSuccess: (data) => {
+            dispatch(updateUser(data.data.user));
+            setRefreshing(false);
+        },
+        onError: (error) => {
+            alert('An error occured');
+        },
+    });
+
     const changeindex = (num: number) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
         setIndex(num);
     }
 
 
-    const wait = (timeout) => {
-        return new Promise(resolve => setTimeout(resolve, timeout));
-      }
-
-    const onRefresh = React.useCallback(() => {
+    const onRefresh = React.useCallback(async() => {
         setRefreshing(true);
-
-        wait(2000).then(() => setRefreshing(false));
+        await refetch()
       }, []);
 
     return (
         <View style={{ flex: 1 }}>
             <Navbar />
             <View style={{ flex: 1 }}>
-                <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} />}>
+                <View style={{ flex: 1 }} >
 
 
                     {/* banner */}
@@ -63,11 +94,11 @@ export default function Profile() {
                             </Container>
 
                             <Container width="70%" height="100%" justifyContent="center" alignItems="flex-start" bgColor="transparent">
-                                <Text color="white" fontSize="23px" fontWeight="bold">Kelechi Onye-Highway</Text>
-                                <Text color="white" fontSize="18px" fontWeight="300" marginTop="5px">kessi@heritage.xchange</Text>
+                                <Text color="white" fontSize="20px" fontWeight="bold">{user.first_name} {user.last_name}</Text>
+                                <Text color="white" fontSize="18px" fontWeight="300" marginTop="5px">{user.email}</Text>
                                 <Text color="white" fontSize="18px" fontWeight="300" marginTop="15px">Referral Code</Text>
                                 <Container width="100%" height="30px" flexDirection="row" justifyContent="flex-start" bgColor="transparent">
-                                    <Text color="white" fontSize="18px" fontWeight="bold">223399404</Text>
+                                    <Text color="white" fontSize="18px" fontWeight="bold">{user._id.slice(0, 10)}</Text>
                                     <Feather name="copy" size={25} color="white" style={{ marginLeft: 20 }} />
                                     <Text color="white" fontSize="18px" fontWeight="bold">Copy</Text>
                                 </Container>
@@ -76,9 +107,11 @@ export default function Profile() {
                         </Container>
                     </ImageBackground>
                     
-                    {/* tab */}
+                    <ScrollView horizontal={false} style={{ flex: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} progressViewOffset={50} />} >
+
+                        {/* tab */}
                     
-                    <View style={{ width: '100%', height: 70, backgroundColor: theme.light, flexDirection: 'row', paddingHorizontal: 20}}>
+                        <View style={{ width: '100%', height: 70, backgroundColor: theme.light, flexDirection: 'row', paddingHorizontal: 20}}>
 
                         <Pressable onPress={() => changeindex(1)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: index === 1 ? 4:0, borderBottomColor: index === 1? theme.primaryBackgroundColor:'lightgrey' }}>
                             <Text color="black" fontSize="16px">Personal Information</Text>
@@ -88,17 +121,19 @@ export default function Profile() {
                             <Text color="black" fontSize="16px">Wallet & Bank</Text>
                         </Pressable>
 
-                    </View>
+                        </View>
 
-                    {/* forms */}
+                        {/* forms */}
 
-                    {
+                        {
                         index === 1 && <PersonalInfoForm />
-                    }
+                        }
 
-                    { index === 2 && <WalletsBanks /> }
+                        { index === 2 && <WalletsBanks /> }
+
+                    </ScrollView>
                     
-                </ScrollView>
+                </View>
             </View>
         </View>
     )

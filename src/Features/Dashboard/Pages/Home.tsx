@@ -12,6 +12,10 @@ import BuyModal from '../../../globalcomponents/Modals/BuyModal'
 import SellModal from '../../../globalcomponents/Modals/SellModal'
 import { STAT_URL } from '../../../utils/statsApi'
 
+// redux things
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../../../store'
+
 export default function Home() {
     const [tab, setTab] = React.useState(1)
     const [showLinkModal, setShowLinkModal] = React.useState(false);
@@ -20,6 +24,10 @@ export default function Home() {
     const [buy, setBuy] = React.useState(false);
     const [sell, setSell] = React.useState(false);
     const [data, setData] = React.useState([] as Array<any>);
+
+    // redux state
+    const user = useSelector((state: RootState) => state.userdetail.user);
+    const dispatch = useDispatch();
 
     React.useEffect(() => {
         (async function() {
@@ -61,20 +69,79 @@ export default function Home() {
 
       const openBuy = (type: number) => {
           setCoinType(type);
-          setBuy(true);
+          switch(type) {
+              case 1: {
+                if(user.bitcoin_wallet === '' || user.account_number === '' || user.bitcoin_wallet === null || user.account_number === null) {
+                    setShowLinkModal(true);
+                    break;
+                }else {
+                    setBuy(true);
+                    break;
+                }
+              }
+              case 2: {
+                if(user.ethereum_wallet === '' || user.account_number === '' || user.ethereum_wallet === null || user.account_number === null) {
+                    setShowLinkModal(true);
+                    break;
+                }else {
+                    setBuy(true);
+                    break;
+                }
+              }
+              case 3: {
+                if(user.usdt_wallet === '' || user.account_number === '' || user.usdt_wallet === null || user.account_number === null) {
+                    setShowLinkModal(true);
+                    break;
+                }else {
+                    setBuy(true);
+                    break;
+                }
+              }
+          }
       }
 
       const closeBuy = () => {
           setBuy(false);
+          setCoinType(0);
       }
 
       const openSell = (type: number) => {
           setCoinType(type);
-          setSell(true);
+          setCoinType(type);
+          switch(type) {
+              case 1: {
+                if(user.bitcoin_wallet === '' || user.account_number === '' || user.bitcoin_wallet === null || user.account_number === null) {
+                    setShowLinkModal(true);
+                    break;
+                }else {
+                    setSell(true);
+                    break;
+                }
+              }
+              case 2: {
+                if(user.ethereum_wallet === '' || user.account_number === '' || user.ethereum_wallet === null || user.account_number === null) {
+                    setShowLinkModal(true);
+                    break;
+                }else {
+                    setSell(true);
+                    break;
+                }
+              }
+              case 3: {
+                if(user.usdt_wallet === '' || user.account_number === '' || user.usdt_wallet === null || user.account_number === null) {
+                    setShowLinkModal(true);
+                    break;
+                }else {
+                    setSell(true);
+                    break;
+                }
+              }
+          }
       }
 
       const closeSell = () => {
           setSell(false);
+          setCoinType(0);
       }
 
       const getCoin = (id: string) => {
@@ -96,17 +163,20 @@ export default function Home() {
 
                     <Container width='100%' height="50px" alignItems="flex-start" marginTop="20px" paddingLeft="20px" paddingRight="20px" bgColor={theme.light}>
                         <Text color="black" fontWeight="bold" fontSize="20px" >Dashboard</Text>
-                        <Text marginTop="16px" fontSize="16px" color="grey">Hi Michael, Welcome Back</Text>
+                        <Text marginTop="8px" fontSize="18px" color="grey">Hi {user.first_name}, Welcome Back</Text>
                     </Container>
                     
                     {/* scrollview cards */}
 
+                    
+                   
+
                     <Container width="100%" height="200px" alignItems="flex-start" paddingLeft="20px" marginTop="20px" bgColor={theme.light}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ alignItems: 'center' }}>
-                            <Card text1="Today's Rate" prize="N500/$" text2="Rates are updated daily" />
-                            <Card text1="BTC Value" prize={`$${getCoin('bitcoin') !== undefined ? getCoin('bitcoin').current_price:'0'}`} text2={`NGN: ${getCoin('bitcoin') !== undefined ? getCoin('bitcoin').current_price/550:'0'} `} />
-                            <Card text1="Ethereum Value" prize={`$${getCoin('ethereum') !== undefined ? getCoin('ethereum').current_price:'0'}`} text2={`NGN: ${getCoin('ethereum') !== undefined ? getCoin('ethereum').current_price/550:'0'} `} />
-                            <Card text1="USDT Value" prize={`$${getCoin('tether') !== undefined ? getCoin('tether').current_price:'0'}`} text2={`NGN: ${getCoin('tether') !== undefined ? getCoin('tether').current_price/550:'0'} `} />
+                            <Card text1="Today's Rate" prize="N550/$" text2="Rates are updated daily" />
+                            <Card text1="BTC Value" prize={`$${getCoin('bitcoin') !== undefined ? getCoin('bitcoin').current_price:'0'}`} text2={`NGN: ${getCoin('bitcoin') !== undefined ? Math.round(getCoin('bitcoin').current_price*550):'0'} `} />
+                            <Card text1="Ethereum Value" prize={`$${getCoin('ethereum') !== undefined ? getCoin('ethereum').current_price:'0'}`} text2={`NGN: ${getCoin('ethereum') !== undefined ? Math.round(getCoin('ethereum').current_price*550):'0'} `} />
+                            <Card text1="USDT Value" prize={`$${getCoin('tether') !== undefined ? getCoin('tether').current_price:'0'}`} text2={`NGN: ${getCoin('tether') !== undefined ? Math.round(getCoin('tether').current_price*550):'0'} `} />
                         </ScrollView>
                     </Container>
 
@@ -151,6 +221,8 @@ export default function Home() {
                             <BuySellCard type={3} action={2} onPress={() => openSell(3)} coinStat={getCoin('tether')}/>
                         </Container>
                     }
+
+                   
 
             </ScrollView>
 

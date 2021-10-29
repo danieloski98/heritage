@@ -40,9 +40,15 @@ export default function Summary({images, nextStep, setImage}: IProps) {
         const blob = await request.blob();
         // construct object 
         const newObj = {...data, name: blob['_data'].name, type: blob['_data'].type};
-       setImage([...images, newObj])
+       setImage(prev => [...prev, newObj]);
  
        nextStep(4);
+     }
+
+     const deleteImg = (index: number) => {
+         images.splice(index, 1);
+         const newImgs = images;
+         setImage(newImgs);
      }
 
     return (
@@ -55,10 +61,10 @@ export default function Summary({images, nextStep, setImage}: IProps) {
                     
                     {
                         images.map((item, index) => (
-                            <View style={{ width: '100%', height: 50, backgroundColor: theme.light, marginVertical: 5, borderRadius: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
+                            <View key={index.toString()} style={{ width: '100%', height: 50, backgroundColor: theme.light, marginVertical: 5, borderRadius: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
                                 <FontAwesome5 name="file-alt" size={30} color={theme.color} />
                                 <Text style={{ fontSize: Platform.OS === 'ios' ? 14:16, fontWeight: Platform.OS === 'ios' ? '500':'bold', width: '80%', textAlign: 'center' }}>{item.name}</Text>
-                                <Pressable style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'rgba(189, 99, 99, 0.226)', justifyContent: 'center', alignItems: 'center' }}>
+                                <Pressable style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'rgba(189, 99, 99, 0.226)', justifyContent: 'center', alignItems: 'center' }} onPress={() => deleteImg(index)}>
                                     <FontAwesome5 name="times" size={20} color="red" />
                                 </Pressable>
                             </View>

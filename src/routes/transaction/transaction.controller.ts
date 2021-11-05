@@ -1,7 +1,18 @@
-import { Controller, Get, Param, Res } from '@nestjs/common';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Res,
+  Body,
+  UploadedFiles,
+  UseInterceptors,
+} from '@nestjs/common';
+import { ApiParam, ApiTags, ApiBody } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CrudService } from './sevrices/crud/crud.service';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { Transaction } from 'src/Schemas/Transaction';
 
 @Controller('transaction')
 export class TransactionController {
@@ -25,5 +36,43 @@ export class TransactionController {
       param['id'],
     );
     res.status(result.statusCode).send(result);
+  }
+
+  // posts
+  @ApiTags('TRANSACTIONS')
+  @ApiParam({ name: 'id' })
+  @ApiBody({ type: Transaction })
+  @Post('create/:user_id')
+  async createTransaction(
+    @Res() res: Response,
+    @Param() param: any,
+    @Body() body: any,
+  ) {
+    const result = await this.transactioncrudService.createTransaction(
+      param['user_id'],
+      body,
+    );
+    res.status(result.statusCode).json(result);
+  }
+
+  @ApiTags('TRANSACTIONS')
+  @ApiParam({ name: 'transaction_id' })
+  @UseInterceptors(
+    AnyFilesInterceptor({
+      dest: `${process.cwd()}/transactionfiles`,
+    }),
+  )
+  @Post('uploadfiles/:transaction_id')
+  async uploadFiles(
+    @Res() res: Response,
+    @Param() param: any,
+    @Body() body: any,
+    @UploadedFiles() files: Array<any>,
+  ) {
+    const result = await this.transactioncrudService.uploadFiles(
+      param['transaction_id'],
+      files,
+    );
+    res.status(result.statusCode).json(result);
   }
 }

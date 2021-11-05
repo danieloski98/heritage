@@ -14,13 +14,14 @@ const USDT = require('../../../../assets/icons/tether.png')
 interface IProps {
     value: number, 
     setValue: any, 
-    amount: string, 
+    amount: any, 
     setAmount: Function;
     nextStep: Function;
+    getCoin: Function;
 }
 
 
-export default function SetAmount({value, setValue, amount, setAmount, nextStep}: IProps) {
+export default function SetAmount({value, setValue, amount, setAmount, nextStep, getCoin}: IProps) {
 
 
     const [open, setOpen] = useState(false);
@@ -51,6 +52,16 @@ export default function SetAmount({value, setValue, amount, setAmount, nextStep}
         }
     }
 
+    const switchID = (): any => {
+        if (value === 1) {
+            return 'bitcoin';
+        }else if (value === 2) {
+            return 'ethereum';
+        }else {
+            return 'tether';
+        }
+    }
+
  
     return (
         <View style={{ flex: 1 }}>
@@ -77,9 +88,9 @@ export default function SetAmount({value, setValue, amount, setAmount, nextStep}
                 </View>
             </View>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', height: 40, marginTop: 10 }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 16, color: 'black' }}>NGN: 32,293,349</Text>
-                <Text style={{ fontWeight: 'bold', fontSize: 16, color: 'black' }}>USD: 32,293</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginTop: 10, flexWrap: 'wrap', marginBottom: 20 }}>
+                <Text style={{ fontWeight: '600', fontSize: 18, color: 'black', flex: 0.6 }}>NGN: {amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550}</Text>
+                <Text style={{ fontWeight: '600', fontSize: 18, color: 'black', flex: 0.3,  }}>USD: {amount <= 0 ? 0 : Math.round(getCoin(switchID()).current_price) * amount}</Text>
             </View>
        
             <Container width="100%" height="55px" alignItems="flex-start" marginTop="10px">

@@ -11,11 +11,12 @@ const USDT = require('../../../../assets/icons/tether.png')
 
 interface IProps {
     value: number, 
-    amount: string, 
+    amount: any, 
     nextStep: Function;
+    getCoin: Function;
 }
 
-export default function BankDetails({value, amount, nextStep}: IProps) {
+export default function BankDetails({value, amount, nextStep, getCoin }: IProps) {
 
     const switchLogo = (): any => {
         if (value === 1) {
@@ -37,19 +38,29 @@ export default function BankDetails({value, amount, nextStep}: IProps) {
         }
     }
 
+    const switchID = (): any => {
+        if (value === 1) {
+            return 'bitcoin';
+        }else if (value === 2) {
+            return 'ethereum';
+        }else {
+            return 'tether';
+        }
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 20, alignItems: 'center', height: 70 }}>
                 <Image source={switchLogo()} resizeMode="contain" style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10}}>
                     <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{amount} {switchText()}</Text>
-                    <Text style={{ fontSize: 18}}>NGN: 13,002,382</Text>
+                    <Text style={{ fontSize: 18}}>NGN: {amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550}</Text>
                 </View>
             </View>
 
             <View style={{ marginTop: 30, height: 60 }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Payment Instructions</Text>
-                <Text style={{ fontWeight: '300', fontSize: 16, marginTop: 5 }}>Send money to the account below and use the transaction reference </Text>
+                <Text style={{ fontWeight: '300', fontSize: 16, marginTop: 5 }}>Send money to the account below. </Text>
             </View>
 
             <View style={{ marginTop: 30, height: 100, }}>

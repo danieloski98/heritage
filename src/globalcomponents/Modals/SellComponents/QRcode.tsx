@@ -15,11 +15,32 @@ const USDT = require('../../../../assets/icons/tether.png');
 
 interface IProps {
     value?: number, 
-    amount?: string, 
+    amount?: any, 
     nextStep: Function;
+    getCoin: Function;
 }
 
-export default function QRcode({ nextStep }: IProps) {
+export default function QRcode({ nextStep, amount, value, getCoin }: IProps) {
+    const switchID = (): any => {
+        if (value === 1) {
+            return 'bitcoin';
+        }else if (value === 2) {
+            return 'ethereum';
+        }else {
+            return 'tether';
+        }
+    }
+
+    const switchText = (): any => {
+        if (value === 1) {
+            return 'BTC';
+        }else if (value === 2) {
+            return 'ETH';
+        }else {
+            return 'USDT';
+        }
+    }
+    
     return (
         <MotiView 
         from={{ opacity: 0 }}
@@ -29,8 +50,8 @@ export default function QRcode({ nextStep }: IProps) {
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 20, alignItems: 'center', height: 70 }}>
                 <Image source={ETH} resizeMode="contain" style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10}}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 24 }}>1.0 ETH</Text>
-                    <Text style={{ fontSize: 18}}>NGN: 13,002,382</Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{amount} {switchText()}</Text>
+                    <Text style={{ fontSize: 18}}>NGN: {amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550}</Text>
                 </View>
             </View>
 

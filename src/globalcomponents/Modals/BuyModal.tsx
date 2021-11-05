@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Modal, Pressable, Platform, ScrollView } from 'react-native'
+import { View, Modal, Pressable, Platform, ScrollView, Alert } from 'react-native'
 import Container from '../Container'
 import { Feather } from '@expo/vector-icons'
 import Text from '../Text'
@@ -12,6 +12,12 @@ import UploadFiles from './Components/UploadFiles'
 import Summary from './Components/Summary'
 import Completed from './Components/Completed'
 import QRcode from './SellComponents/QRcode'
+import url from '../../utils/url'
+
+
+// redux things
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '../../store'
 
 const os = Platform.OS;
 
@@ -22,12 +28,15 @@ export interface IMageType {
     uri: string;
     width: number;
     name: string;
+    
 }
 
 interface IProps {
     visible: boolean;
     close: Function;
     coinType: number;
+    getCoin: Function;
+    action: number
     // amount?: number;
 }
 
@@ -45,16 +54,21 @@ const swicthCoin = (value: number) => {
     }
 }
 
-export default function BuyModal({ visible, close, coinType}: IProps) {
+export default function BuyModal({ visible, close, coinType, getCoin, action}: IProps) {
     
     const [value, setValue] = React.useState(coinType);
     const [title, setTitle] = React.useState(`Buy ${swicthCoin(value)}`);
-    const [amount, setAmount] = React.useState('0');
+    const [amount, setAmount] = React.useState(0);
     const [step, setStep] = React.useState(1);
     const [images, setImages] = React.useState([] as Array<IMageType>);
     const [NGN, setNGN] = React.useState(amount);
     const [USD, setUSD] = React.useState(500)
     const navigation = useNavigation<any>();
+
+    // redux state
+    const user = useSelector((state: RootState) => state.userdetail.user);
+    const token = useSelector((state: RootState) => state.userdetail.token);
+    const dispatch = useDispatch();
 
     React.useEffect(() => {
         setTitle(`Buy ${swicthCoin(value)}`)
@@ -67,16 +81,16 @@ export default function BuyModal({ visible, close, coinType}: IProps) {
     const switchStep = () => {
         switch(step) {
             case 1 :{
-                return <SetAmount value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} />
+                return <SetAmount value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} getCoin={getCoin} />
             }
             case 2: {
-                return <BankDetails value={value} amount={amount} nextStep={changeStep} />
+                return <BankDetails value={value} amount={amount} nextStep={changeStep} getCoin={getCoin} />
             }
             case 3: {
                 return <UploadFiles nextStep={changeStep} image={images} setImage={setImages} />
             }
             case 4: {
-                return <Summary nextStep={changeStep} images={images} setImage={setImages} />
+                return <Summary nextStep={changeStep} images={images} setImage={setImages} action={action} coinType={coinType} onpress={submit} />
             }
             case 5: {
                 return <Completed />
@@ -99,9 +113,72 @@ export default function BuyModal({ visible, close, coinType}: IProps) {
     const onclose = () => {
         close();
         setImages([]);
-        setAmount('0');
+        setAmount(0);
         setValue(1);
         setStep(1);
+    }
+
+    const switchID = (): any => {
+        if (value === 1) {
+            return 'bitcoin';
+        }else if (value === 2) {
+            return 'ethereum';
+        }else {
+            return 'tether';
+        }
+    }
+
+    const submit = async () => {
+        try {
+            const obj = {
+                type: action,
+                coin_amount: amount,
+                amount: amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550,
+                coin_type: coinType,
+            }
+
+            const request = await fetch(`${url}transaction/create/${user._id}`, {
+                method: 'post',
+                headers: {
+                    'content-type': 'application/json',
+                    authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(obj),
+            });
+
+            const json1 = await request.json();
+
+            if (json1.statusCode !== 200) {
+                Alert.alert('Message', json1.errorMessage);
+                return;
+            } else {
+                // upload images
+                const formData = new FormData();
+                images.map((item: any) => {
+                    formData.append(item.name, item);
+                });
+
+                const request = await fetch(`${url}transaction/uploadfiles/${json1.data._id}`, {
+                    method: 'post',
+                    headers: {
+                        'content-type': 'multipart/form-data',
+                        authorization: `Bearer ${token}`,
+                    },
+                    body: formData,
+                });
+
+                const json = await request.json();
+                if (json.statusCode !== 200) {
+                    Alert.alert('Message', json.errorMessage);
+                    return;
+                } else {
+                    setStep(5);
+                    
+                }
+            }
+        } catch (error) {
+            
+        }
     }
 
     return (

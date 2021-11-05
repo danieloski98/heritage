@@ -22,6 +22,7 @@ export default function Home() {
     const [refreshing, setRefreshing] = React.useState(false);
     const [coinType, setCoinType] = React.useState(0);
     const [buy, setBuy] = React.useState(false);
+    const [action, setAction] = React.useState(1);
     const [sell, setSell] = React.useState(false);
     const [data, setData] = React.useState([] as Array<any>);
 
@@ -45,9 +46,6 @@ export default function Home() {
     // details
     const [amount, setAmount] = React.useState(0);
 
-    const wait = (timeout) => {
-        return new Promise(resolve => setTimeout(resolve, timeout));
-      }
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
@@ -68,6 +66,7 @@ export default function Home() {
       }
 
       const openBuy = (type: number) => {
+          setAction(1);
           setCoinType(type);
           switch(type) {
               case 1: {
@@ -106,7 +105,7 @@ export default function Home() {
       }
 
       const openSell = (type: number) => {
-          setCoinType(type);
+          setAction(1);
           setCoinType(type);
           switch(type) {
               case 1: {
@@ -154,8 +153,8 @@ export default function Home() {
 
             {/* modals */}
             <AddDetails visible={showLinkModal} close={closeLinkModal} />
-            <BuyModal visible={buy} close={closeBuy} coinType={coinType} />
-            <SellModal visible={sell} close={closeSell} coinType={coinType} />
+            <BuyModal visible={buy} close={closeBuy} coinType={coinType} getCoin={getCoin} action={action} />
+            <SellModal visible={sell} close={closeSell} coinType={coinType} getCoin={getCoin} action={action} />
 
             <ScrollView horizontal={false} showsVerticalScrollIndicator={false} scrollEnabled refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} />}>
 

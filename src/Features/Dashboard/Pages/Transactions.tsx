@@ -3,9 +3,11 @@ import { View, Text, ScrollView, RefreshControl, Platform, Pressable } from 'rea
 import { theme } from '../../../utils/theme'
 import {Ionicons} from '@expo/vector-icons'
 import TransactionCard from '../components/TransactionCard';
+import { Datepicker } from '@ui-kitten/components'
 
 export default function Transactions() {
     const [tab, setTab] = React.useState(2);
+    const [date, setDate] = React.useState(new Date())
     const os = Platform.OS;
     return (
         <View style={{ flex: 1, backgroundColor: theme.light }}>
@@ -29,10 +31,16 @@ export default function Transactions() {
                     </View>
 
                     {/* date picker */}
-                    <View style={{ width: '90%', height: 60, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, backgroundColor:theme.light, marginHorizontal: 20, alignSelf: 'center', marginTop: 20, borderRadius: 10 }}>
+                    {/* <View style={{ width: '90%', height: 60, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, backgroundColor:theme.light, marginHorizontal: 20, alignSelf: 'center', marginTop: 20, borderRadius: 10 }}>
                         <Ionicons name="calendar" size={30} color={theme.color} />
                         <Text style={{ marginLeft: 20, fontSize: 16 }}>19/06/2021 - 21/06/2021</Text>
-                    </View>
+                    </View> */}
+                    <Datepicker 
+                        date={date}
+                        onSelect={nextDate => setDate(nextDate)}
+                        size="large"
+                        max={new Date()}
+                    />
 
                     <ScrollView style={{ marginVertical: 20 }}>
                         <TransactionCard />

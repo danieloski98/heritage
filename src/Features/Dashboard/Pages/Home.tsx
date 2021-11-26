@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Pressable, RefreshControl, StatusBar, ScrollView } from 'react-native'
+import { View, Pressable, RefreshControl, StatusBar, ScrollView, Image } from 'react-native'
 import { theme } from '../../../utils/theme'
 // import { ScrollView } from 'react-native-gesture-handler'
 import Text from '../../../globalcomponents/Text'
@@ -148,7 +148,7 @@ export default function Home() {
       }
 
     return (
-        <View style={{ backgroundColor: theme.light, height: theme.screenHeight }}>
+        <ScrollView style={{ backgroundColor: theme.light, height: '100%', paddingBottom: 100 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} />}> 
             <StatusBar backgroundColor="transparent" barStyle="light-content" translucent />
 
             {/* modals */}
@@ -156,32 +156,69 @@ export default function Home() {
             <BuyModal visible={buy} close={closeBuy} coinType={coinType} getCoin={getCoin} action={action} />
             <SellModal visible={sell} close={closeSell} coinType={coinType} getCoin={getCoin} action={action} />
 
-            <ScrollView horizontal={false} showsVerticalScrollIndicator={false} scrollEnabled refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} />}>
+
+            <View style={{ width: '100%', height: 200, backgroundColor: 'whitesmoke', overflow: 'visible', paddingLeft: 0, justifyContent: 'center', zIndex: 10 }}>
+                <View style={{ width: '100%', height: '60%', backgroundColor: theme.primaryBackgroundColor, position: 'absolute', top: 0 }}></View>
+                <View style={{ width: '100%', height: 200, backgroundColor: 'transparent', top: 0, overflow: 'hidden', justifyContent: 'flex-end', zIndex: 20 }}>
+                    <ScrollView horizontal style={{ height: '95%', marginTop: 20, paddingLeft: 20 }} showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingRight: 30 }}>
+                        <View style={{ width: 200, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, }}>
+                            <BuySellCard type={1} action={1} buy={() => openBuy(1)} sell={() => openSell(1)} coinStat={getCoin('bitcoin')} />
+                        </View>
+
+                        <View style={{ width: 200, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, }}>
+                            <BuySellCard type={2} action={1} buy={() => openBuy(2)} sell={() => openSell(2)} coinStat={getCoin('ethereum')}/>
+                        </View>
+
+                        <View style={{ width: 200, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, }}>
+                            <BuySellCard type={3} action={1} buy={() => openBuy(3)} sell={() => openSell(3)} coinStat={getCoin('tether')}/>
+                        </View>
+                    </ScrollView>
+                </View>
+            </View>
+
+            <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: 50, paddingHorizontal: 20, marginBottom: 100 }}>
+                <Card text1="Today's Rate" prize="N550/$" text2="Rates are updated daily" />
+
+                <View style={{ flexDirection: 'row', width: '100%', height: 150, backgroundColor: 'white', marginTop: 20, padding: 10 }}>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                        <Text color="#0071EC" fontSize="14px" fontWeight="bold">Coming Soon</Text>
+                        <Text color="grey" fontSize="16px" fontWeight="300" marginTop="5px">Refer Friends an earn Heritage Tokens. </Text>
+                    </View>
+
+                    <View style={{ flex: 0.4, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                        <Image source={require('../../../../assets/icons/colorful.png')} resizeMode="contain" style={{ height: 60, width: 60 }} />
+                    </View>
+
+                </View>
+            </View>
+
+
+            {/* <ScrollView horizontal={false} showsVerticalScrollIndicator={false} scrollEnabled refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} />}> */}
 
                     {/* header text */}
 
-                    <Container width='100%' height="50px" alignItems="flex-start" marginTop="20px" paddingLeft="20px" paddingRight="20px" bgColor={theme.light}>
+                    {/* <Container width='100%' height="50px" alignItems="flex-start" marginTop="20px" paddingLeft="20px" paddingRight="20px" bgColor={theme.light}>
                         <Text color="black" fontWeight="bold" fontSize="20px" >Dashboard</Text>
                         <Text marginTop="8px" fontSize="18px" color="grey">Hi {user.first_name}, Welcome Back</Text>
-                    </Container>
+                    </Container> */}
                     
                     {/* scrollview cards */}
 
                     
                    
 
-                    <Container width="100%" height="200px" alignItems="flex-start" paddingLeft="20px" marginTop="20px" bgColor={theme.light}>
+                    {/* <Container width="100%" height="200px" alignItems="flex-start" paddingLeft="20px" marginTop="20px" bgColor={theme.light}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ alignItems: 'center' }}>
                             <Card text1="Today's Rate" prize="N550/$" text2="Rates are updated daily" />
                             <Card text1="BTC Value" prize={`$${getCoin('bitcoin') !== undefined ? getCoin('bitcoin').current_price:'0'}`} text2={`NGN: ${getCoin('bitcoin') !== undefined ? Math.round(getCoin('bitcoin').current_price*550):'0'} `} />
                             <Card text1="Ethereum Value" prize={`$${getCoin('ethereum') !== undefined ? getCoin('ethereum').current_price:'0'}`} text2={`NGN: ${getCoin('ethereum') !== undefined ? Math.round(getCoin('ethereum').current_price*550):'0'} `} />
                             <Card text1="USDT Value" prize={`$${getCoin('tether') !== undefined ? getCoin('tether').current_price:'0'}`} text2={`NGN: ${getCoin('tether') !== undefined ? Math.round(getCoin('tether').current_price*550):'0'} `} />
                         </ScrollView>
-                    </Container>
+                    </Container> */}
 
                     {/* tab */}
 
-                    <Container width="100%" height="60px" marginTop="20px" paddingLeft="20px" paddingRight="20px" bgColor={theme.light}>
+                    {/* <Container width="100%" height="60px" marginTop="20px" paddingLeft="20px" paddingRight="20px" bgColor={theme.light}>
                         <Container width="100%" height="100%" flexDirection="row" bgColor="white" paddingLeft="1px" paddingRight="1px" paddingTop="1px" paddingBottom="1px" justifyContent="flex-start" borderRadius="10px" >
 
                             <Container width="50%" height="100%"  bgColor="white">
@@ -201,11 +238,11 @@ export default function Home() {
                             </Container>
 
                         </Container>
-                    </Container>
+                    </Container> */}
 
                     {/* crypto List */}
 
-                    { tab === 1 && <Container width="100%" height="700px" paddingLeft="20px" paddingRight="20px" alignItems="flex-start" justifyContent="flex-start" marginTop="50px" bgColor={theme.light}>
+                    {/* { tab === 1 && <Container width="100%" height="700px" paddingLeft="20px" paddingRight="20px" alignItems="flex-start" justifyContent="flex-start" marginTop="50px" bgColor={theme.light}>
                         <BuySellCard type={1} action={1} onPress={() => openBuy(1)} coinStat={getCoin('bitcoin')} />
                         <BuySellCard type={2} action={1} onPress={() => openBuy(2)} coinStat={getCoin('ethereum')}/>
                         <BuySellCard type={3} action={1} onPress={() => openBuy(3)} coinStat={getCoin('tether')}/>
@@ -219,13 +256,13 @@ export default function Home() {
                             <BuySellCard type={2} action={2} onPress={() => openSell(2)} coinStat={getCoin('ethereum')}/>
                             <BuySellCard type={3} action={2} onPress={() => openSell(3)} coinStat={getCoin('tether')}/>
                         </Container>
-                    }
+                    } */}
 
                    
 
-            </ScrollView>
+            {/* </ScrollView> */}
 
 
-        </View>
+        </ScrollView>
     )
 }

@@ -6,6 +6,9 @@ import { SafeAreaView, Platform, View, StyleSheet, Text } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming, } from 'react-native-reanimated'
 import { theme } from '../utils/theme';
 
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider } from '@ui-kitten/components'
+
 const Wrapper = (props) => {
     if (Platform.OS === 'ios') {
         return (
@@ -42,9 +45,11 @@ export default function Index() {
     }))
     return (
         <Wrapper>
-            <NavigationContainer>
-                <Authentication />
-            </NavigationContainer>
+            <ApplicationProvider {...eva} theme={eva.light}>
+                <NavigationContainer>
+                    <Authentication />
+                </NavigationContainer>
+            </ApplicationProvider>
         </Wrapper>
     )
 }

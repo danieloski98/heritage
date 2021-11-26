@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StatusBar } from 'react-native'
+import { Image, StatusBar, Pressable } from 'react-native'
 import Container from '../../../globalcomponents/Container'
 import Text from '../../../globalcomponents/Text'
 import { Feather, Ionicons } from '@expo/vector-icons'
@@ -8,6 +8,9 @@ import { useNavigation } from '@react-navigation/native'
 import { Platform, StyleSheet, View } from 'react-native'
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming, } from 'react-native-reanimated'
 import NetInfo from '@react-native-community/netinfo';
+
+// ui 
+import { Popover, Layout } from '@ui-kitten/components'
 
 // redux
 import { RootState, AppDispatch } from '../../../store'
@@ -24,6 +27,7 @@ export default function Navbar() {
     // normal states
     const [text, setText] = React.useState('');
     const [previous, setPrevious] = React.useState(false);
+    const [visible, setVisible] = React.useState(false);
 
     // redux states
     const connected = useSelector((state: RootState) => state.network.connected);
@@ -90,7 +94,20 @@ export default function Navbar() {
 
             <Container width="50%" height="50px" bgColor="transparent" flexDirection="row" alignItems="center">
                 <Container width="50px" height="50px" borderRadius="50px" bgColor="#FFFFFF3B" justifyContent="center" alignItems="center">
-                    <Ionicons name="person" size={30} color="white" onPress={() => navigation.navigate('profile')} />
+                    
+                    <Popover
+                        visible={visible}
+                        style={{ marginTop: 10 }}
+                        onBackdropPress={() => setVisible(false)}
+                        anchor={() => <Ionicons name="person" size={30} color="white" onPress={() => setVisible(true)} />}
+                    >
+                        <Layout style={{ width: 80, height: 60, padding: 5, justifyContent: 'space-between' }}>
+                            <Pressable onPress={() => navigation.navigate('profile')} style={{ width: '100%', height: '50%'}}>
+                                <Text>Profile</Text>
+                            </Pressable>
+                            <Text>Logout</Text>
+                        </Layout>
+                    </Popover>
                 </Container>
                 <Container width="50px" height="50px" borderRadius="50px" bgColor="#FFFFFF3B" justifyContent="center" alignItems="center" marginLeft="10px">
                     <Ionicons size={30} color="white" name="notifications" onPress={() => navigation.navigate('notifications')} />

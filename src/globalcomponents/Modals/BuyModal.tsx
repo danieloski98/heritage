@@ -81,7 +81,7 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
     const switchStep = () => {
         switch(step) {
             case 1 :{
-                return <SetAmount value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} getCoin={getCoin} />
+                return <SetAmount opener={1} value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} getCoin={getCoin} />
             }
             case 2: {
                 return <BankDetails value={value} amount={amount} nextStep={changeStep} getCoin={getCoin} />

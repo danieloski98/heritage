@@ -18,10 +18,11 @@ interface IProps {
     setAmount: Function;
     nextStep: Function;
     getCoin: Function;
+    opener: number
 }
 
 
-export default function SetAmount({value, setValue, amount, setAmount, nextStep, getCoin}: IProps) {
+export default function SetAmount({value, setValue, amount, setAmount, nextStep, getCoin, opener}: IProps) {
 
 
     const [open, setOpen] = useState(false);
@@ -96,7 +97,7 @@ export default function SetAmount({value, setValue, amount, setAmount, nextStep,
             <Container width="100%" height="55px" alignItems="flex-start" marginTop="10px">
                 <Button>
                     <Pressable style={{ flex: 1, justifyContent: 'center', backgroundColor: theme.primaryBackgroundColor, width: '100%', borderRadius: 10, alignItems: 'center' }} onPress={() => nextStep(2)}>
-                        <Text color="white">{`Buy ${amount} ${switchText()}`}</Text>
+                        <Text color="white">{`${opener === 1 ? 'Buy':'Sell'} ${amount} ${switchText()}`}</Text>
                     </Pressable>
                 </Button>
             </Container>

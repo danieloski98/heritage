@@ -4,9 +4,9 @@
     "slug": "theheritageexchange",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/h.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/h.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

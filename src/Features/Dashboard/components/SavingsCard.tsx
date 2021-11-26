@@ -12,7 +12,7 @@ interface IProps {
 
 export default function SavingsCard(props: IProps) {
     return (
-        <Container width="320px" height="170px" borderRadius="10px" bgColor={theme.primaryBackgroundColor} marginRight="20px" alignItems="flex-start" justifyContent="center">
+        <Container width="350px" height="170px" borderRadius="10px" bgColor={theme.primaryBackgroundColor} marginRight="20px" alignItems="flex-start" justifyContent="center">
 
         <Container width="100%" height="100%" bgColor="#08080863" borderRadius="10px" marginRight="20px" paddingTop="20px" paddingBottom="20px" paddingLeft="20px" paddingRight="20px" alignItems="flex-start" justifyContent="center">
 

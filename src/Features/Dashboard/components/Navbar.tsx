@@ -101,11 +101,14 @@ export default function Navbar() {
                         onBackdropPress={() => setVisible(false)}
                         anchor={() => <Ionicons name="person" size={30} color="white" onPress={() => setVisible(true)} />}
                     >
-                        <Layout style={{ width: 80, height: 60, padding: 5, justifyContent: 'space-between' }}>
-                            <Pressable onPress={() => navigation.navigate('profile')} style={{ width: '100%', height: '50%'}}>
-                                <Text>Profile</Text>
+                        <Layout style={{ width: 100, padding: 10, justifyContent: 'space-between' }}>
+                            <Pressable onPress={() => { navigation.navigate('profile'); setVisible(false)} } style={{ width: '100%', height: 20, marginBottom: 10 }}>
+                                <Text fontSize="16px" color="black">Profile</Text>
                             </Pressable>
-                            <Text>Logout</Text>
+                            <Pressable onPress={() => {alert('Building the support page....'); setVisible(false)}}  style={{ width: '100%', height: 20,  marginBottom: 10 }}>
+                                <Text fontSize="16px" color="black">Support</Text>
+                            </Pressable>
+                            <Text fontSize="16px" color="black">Logout</Text>
                         </Layout>
                     </Popover>
                 </Container>

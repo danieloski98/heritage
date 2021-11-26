@@ -20,8 +20,8 @@ export default function Savings() {
 
                     <Container width="100%" height="200px" alignItems="flex-start" paddingLeft="20px" marginTop="20px" bgColor={theme.light}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ alignItems: 'center' }}>
-                            <SavingsCard text1="BTC Value" prize="$34,000" text2="NGN: N12,000,000.00" />
-                            <SavingsCard text1="Ethereum Value" prize="$139,000" text2="NGN: N12,000,000.00" />
+                            {/* <SavingsCard text1="BTC Value" prize="$34,000" text2="NGN: N12,000,000.00" />
+                            <SavingsCard text1="Ethereum Value" prize="$139,000" text2="NGN: N12,000,000.00" /> */}
                             <SavingsCard text1="USDT Value" prize="$1" text2="NGN: N550" />
                         </ScrollView>
                     </Container>

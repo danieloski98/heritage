@@ -81,7 +81,7 @@ export default function Navbar() {
             <Text style={{ fontSize: 18, color: 'white', fontWeight: Platform.OS === 'ios' ? '600':'bold' }}>{text}</Text>
         </Animated.View>
 
-        <Container width="100%" height="150px" bgColor={theme.primaryBackgroundColor} flexDirection="row" justifyContent="space-between" paddingBottom="25px" alignItems="flex-end" paddingRight="20px" paddingLeft="20px">
+        <Container width="100%" height="150px" bgColor={theme.darkBlue} flexDirection="row" justifyContent="space-between" paddingBottom="25px" alignItems="flex-end" paddingRight="20px" paddingLeft="20px">
 
             {/* statusbar */}
             <StatusBar translucent barStyle="light-content" />

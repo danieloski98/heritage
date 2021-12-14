@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TextInput, Pressable, ScrollView, ActivityIndicator, Alert } from 'react-native'
+import { View, TextInput, Pressable, ScrollView, ActivityIndicator, Alert, Platform, Image } from 'react-native'
 import Button from '../../../globalcomponents/Button'
 import Container from '../../../globalcomponents/Container'
 import Text from '../../../globalcomponents/Text'
@@ -90,14 +90,27 @@ export default function Login(props) {
 
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: 'white', minHeight: theme.screenHeight }} contentContainerStyle={{ height: theme.screenHeight}}>
-            <Container width="100%" height="20%" bgColor="white" justifyContent="center" alignItems="flex-start" paddingLeft="20px" paddingRight="20px">
-                <Text fontWeight="bold" fontSize="30px" color="black">HX</Text>
-            </Container>
-            <Container width="100%" height="10%" bgColor="white" alignItems="flex-start" paddingLeft="20px" paddingRight="20px">
+       <View style={{ flex: 1, backgroundColor: theme.darkBlue }}>
+
+           <View style={{ flex: 0.2, backgroundColor: theme.darkBlue, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+               <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Text style={{ fontWeight: Platform.OS === 'ios' ? '600':'bold', fontSize: 25, color: 'white' }}>Heritage</Text>
+                    <Text style={{ fontWeight: '300', fontSize: 25, color: 'white', marginLeft: 5 }}>Exchange</Text>
+               </View>
+               <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Image source={require('../../../../assets/crypto/BTC.png')} resizeMode="contain" style={{ width: '30%', height: '100%', left: 90, bottom: -70, position: 'absolute' }} />
+                    <Image source={require('../../../../assets/crypto/ETC.png')} resizeMode="contain" style={{ width: '40%', height: '100%', left: 30, bottom: -70, position: 'absolute' }} />
+               </View>
+           </View>
+
+           <View style={{ flex: 0.8, borderTopLeftRadius: 30, overflow: 'hidden',  }}>
+
+           <ScrollView style={{ flex: 1, backgroundColor: 'white', minHeight: theme.screenHeight,  borderTopLeftRadius: 30, overflow: 'hidden' }} contentContainerStyle={{ height: theme.screenHeight, overflow: 'hidden', borderTopLeftRadius: 30 }}>
+           
+            <View style={{ paddingHorizontal: 20, justifyContent: 'center', height: '10%'  }}>
                 <Text color="black" fontSize="24px" fontWeight="bold">Glad  To See You Back</Text>
                 <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Sign In To Your Account To Continue</Text>
-            </Container>
+            </View>
 
             <Container height="70%" width="100%" justifyContent="flex-start" bgColor="white" paddingLeft="20px" paddingRight="20px" marginTop="20px">
 
@@ -118,9 +131,8 @@ export default function Login(props) {
                         <Ionicons name="lock-closed" size={25} color={theme.color} />
                         <TextInput style={{ flex: 1, paddingHorizontal: 10 }} secureTextEntry={showing} value={formik.values.password} onChangeText={formik.handleChange('password')} onBlur={formik.handleBlur('password')} onFocus={() => formik.setFieldTouched('password', true, true)} />
                         <Pressable onPress={() => setShowing(prev => !prev)}>
-                            <Text fontSize="18px" color="grey" fontWeight="bold">
-                                {showing ? 'SHOW':'HIDE'}
-                            </Text>
+                            {showing && <Ionicons name="eye" size={30} color={theme.color} />}
+                            {!showing && <Ionicons name="eye-off" size={30} color={theme.color} />}
                         </Pressable>
                     </Container>
                     {formik.touched.password && formik.errors.password && (
@@ -161,5 +173,9 @@ export default function Login(props) {
             </Container>
 
         </ScrollView>
+
+           </View>
+
+       </View>
     )
 }

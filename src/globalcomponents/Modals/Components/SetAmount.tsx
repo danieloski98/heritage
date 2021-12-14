@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
-import { View, Pressable, Image, TextInput } from 'react-native'
+import { View, Pressable, Image, TextInput, Platform } from 'react-native'
 import Container from '../../Container';
 import Button from '../../Button';
 import Text from '../../Text';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { theme } from '../../../utils/theme';
+import { currencyFormatterD, currencyFormatterNGN } from '../../../utils/currencyConverter'
 
 // image links
-const BTC = require('../../../../assets/icons/btc.png');
-const ETH = require('../../../../assets/icons/eth.png');
-const USDT = require('../../../../assets/icons/tether.png')
+const BTC = require('../../../../assets/crypto/BTC.png');
+const ETH = require('../../../../assets/crypto/ETC.png');
+const USDT = require('../../../../assets/crypto/USDC.png')
 
 interface IProps {
     value: number, 
@@ -74,8 +75,8 @@ export default function SetAmount({value, setValue, amount, setAmount, nextStep,
             <View style={{ width: '100%', marginTop: 20,  height: 100, zIndex: 2 }}>
                 <Text color="grey" fontSize="16px" fontWeight="bold">Amount</Text>
                 <View style={{ marginTop: 10, width: '100%', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TextInput keyboardType="number-pad" value={amount} onChangeText={(val) => setAmount(val)} style={{ width: '65%', height: 50, borderRadius: 10, borderWidth: 2, borderColor: 'lightgrey', paddingHorizontal: 20, backgroundColor: '#E4E9F2', }} />
-                    <DropDownPicker
+                    <TextInput keyboardType="number-pad" value={amount} onChangeText={(val) => setAmount(val)} style={{ width: '100%', height: 50, borderRadius: 10, borderWidth: 2, borderColor: 'lightgrey', paddingHorizontal: 20, backgroundColor: '#E4E9F2', }} />
+                    {/* <DropDownPicker
                         open={open}
                         value={value}
                         items={items}
@@ -85,13 +86,13 @@ export default function SetAmount({value, setValue, amount, setAmount, nextStep,
                         containerStyle={{ width: '30%', marginLeft: 5,  }}
                         style={{ borderWidth: 2, borderColor: 'lightgrey', backgroundColor: '#E4E9F2', zIndex: 2 }}
                         scrollViewProps={{ style: { borderWidth: 2, borderColor: 'lightgrey', }}}
-                    />
+                    /> */}
                 </View>
             </View>
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginTop: 10, flexWrap: 'wrap', marginBottom: 20 }}>
-                <Text style={{ fontWeight: '600', fontSize: 18, color: 'black', flex: 0.6 }}>NGN: {amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550}</Text>
-                <Text style={{ fontWeight: '600', fontSize: 18, color: 'black', flex: 0.3,  }}>USD: {amount <= 0 ? 0 : Math.round(getCoin(switchID()).current_price) * amount}</Text>
+                <Text style={{ fontWeight: Platform.OS === 'ios'? '600':'bold', fontSize: 18, color: 'black', flex: 0.6, }}>NGN: {amount <= 0 ? 0 : amount < 1 ? currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550) : currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550)}</Text>
+                <Text style={{ fontWeight: Platform.OS === 'ios'? '600':'bold', fontSize: 18, color: 'black', flex: 0.3,  }}>USD: {amount <= 0 ? 0 : currencyFormatterD(getCoin(switchID()).current_price * amount)}</Text>
             </View>
        
             <Container width="100%" height="55px" alignItems="flex-start" marginTop="10px">

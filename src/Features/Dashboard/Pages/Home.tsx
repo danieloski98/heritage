@@ -158,31 +158,34 @@ export default function Home() {
 
 
             <View style={{ width: '100%', height: 200, backgroundColor: theme.light, overflow: 'visible', paddingLeft: 0, justifyContent: 'center', zIndex: 10 }}>
-                <View style={{ width: '100%', height: '60%', backgroundColor: theme.primaryBackgroundColor, position: 'absolute', top: 0 }}></View>
+                <View style={{ width: '100%', height: '60%', backgroundColor: theme.darkBlue, position: 'absolute', top: 0 }}></View>
                 <View style={{ width: '100%', height: 200, backgroundColor: 'transparent', top: 0, overflow: 'hidden', justifyContent: 'flex-end', zIndex: 20 }}>
                     <ScrollView horizontal style={{ height: '95%', marginTop: 20, paddingLeft: 20 }} showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingRight: 30 }}>
-                        <View style={{ width: 200, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, }}>
+
+                        <View style={{ width: 230, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, borderWidth: 1, borderColor: 'lightgrey', }}>
                             <BuySellCard type={1} action={1} buy={() => openBuy(1)} sell={() => openSell(1)} coinStat={getCoin('bitcoin')} />
                         </View>
 
-                        <View style={{ width: 200, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, }}>
+                        <View style={{ width: 230, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, borderWidth: 1, borderColor: 'lightgrey', }}>
                             <BuySellCard type={2} action={1} buy={() => openBuy(2)} sell={() => openSell(2)} coinStat={getCoin('ethereum')}/>
                         </View>
 
-                        <View style={{ width: 200, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, }}>
+                        <View style={{ width: 230, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, borderWidth: 1, borderColor: 'lightgrey', }}>
                             <BuySellCard type={3} action={1} buy={() => openBuy(3)} sell={() => openSell(3)} coinStat={getCoin('tether')}/>
                         </View>
+
                     </ScrollView>
                 </View>
             </View>
 
             <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: 50, paddingHorizontal: 20, marginBottom: 100 }}>
+
                 <Card text1="Today's Rate" prize="N550/$" text2="Rates are updated daily" />
 
-                <View style={{ flexDirection: 'row', width: '100%', height: 150, backgroundColor: 'white', marginTop: 20, padding: 10 }}>
+                <View style={{ flexDirection: 'row', width: '100%', height: 150, backgroundColor: 'white', marginTop: 20, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: 'lightgrey' }}>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <Text color="#0071EC" fontSize="14px" fontWeight="bold">Coming Soon</Text>
-                        <Text color="grey" fontSize="16px" fontWeight="300" marginTop="5px">Refer Friends an earn Heritage Tokens. </Text>
+                        <Text color="grey" fontSize="16px" fontWeight="300" marginTop="5px">Refer Friends and earn. </Text>
                     </View>
 
                     <View style={{ flex: 0.4, height: '100%', justifyContent: 'center', alignItems: 'center' }}>

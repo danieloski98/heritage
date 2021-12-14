@@ -3,6 +3,6 @@ const liveURL = 'https://heritage-server.herokuapp.com/'
 const localiphone = 'http://172.20.10.12:4200/'
 const localhost = 'http://127.0.0.1:4200/'
 
-const url = localurl;
+const url = liveURL;
 
 export default url;

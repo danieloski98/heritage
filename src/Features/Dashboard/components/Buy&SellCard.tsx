@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Pressable, View, TouchableOpacity  } from 'react-native'
+import { Image, Pressable, View, TouchableOpacity, Platform  } from 'react-native'
 import Container from '../../../globalcomponents/Container'
 import BTC from '../../../globalcomponents/icons/BTC'
 import Text from '../../../globalcomponents/Text'
@@ -22,15 +22,15 @@ export default function BuySellCard(props: IProps) {
     // console.log(props.coinStat);
     const getimage = () => {
         if (props.type === 1) {
-            return require('../../../../assets/icons/btc.png')
+            return require('../../../../assets/crypto/BTC.png')
         }
 
         if (props.type === 2 ) {
-            return require('../../../../assets/icons/eth.png')
+            return require('../../../../assets/crypto/ETC.png')
         }
 
         if (props.type === 3) {
-            return require('../../../../assets/icons/tether.png')
+            return require('../../../../assets/crypto/USDC.png')
         }
     }
 
@@ -73,17 +73,17 @@ export default function BuySellCard(props: IProps) {
     }
 
     return (
-        <View style={{ width: '100%', height: '100%', backgroundColor: 'white',  zIndex: 20 }}>
+        <View style={{ width: '100%', height: '100%', backgroundColor: 'white',  zIndex: 20, overflow: 'hidden' }}>
 
             <View style={{ flexDirection: 'row', width: '100%', height: 65, alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'transparent', paddingHorizontal: 10 }}>
                 <View style={{ flexDirection: 'row', height: '100%', alignItems: 'center' }}>
                     <Image source={getimage()} resizeMode="contain" style={{ width: 50, height: 50}} />
-                    <Text fontSize="16px" color="black" fontWeight="600" marginLeft="10px">{getcoin()}</Text>
+                    <Text fontSize="16px" color="black" fontWeight={Platform.OS === 'ios' ? '600':'bold'} marginLeft="10px">{getcoin()}</Text>
                 </View>
 
                 <View style={{ flexDirection: 'row', height: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
                     <FontAwesome5 name="caret-up" color="green" size={15} />
-                    <Text fontSize="16px" color="black" fontWeight="600" marginLeft="10px">8.06%</Text>
+                    <Text fontSize="16px" color="black" fontWeight="600" marginLeft="3px">8.06%</Text>
                 </View>
             </View>
 
@@ -98,20 +98,20 @@ export default function BuySellCard(props: IProps) {
             </View>
 
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, justifyContent: 'space-between', marginTop: 10 }}>
-                <View style={{ width: '45%', height: '60%', borderRadius: 20, borderWidth: 2, borderColor: 'grey' }}>
+                <View style={{ width: '45%', height: '60%', borderRadius: 20, borderWidth: 1, borderColor: 'grey' }}>
                     <TouchableOpacity
                             onPress={() => props.buy()}
                             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
                         >
-                            <Text color="black">{gettext(1)}</Text>
+                            <Text color="black" fontWeight={Platform.OS === 'ios' ? '600':'bold'}  >{gettext(1)}</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ width: '45%', height: '60%', borderRadius: 20, borderWidth: 2, borderColor: 'grey' }}>
+                <View style={{ width: '45%', height: '60%', borderRadius: 20, borderWidth: 1, borderColor: 'grey' }}>
                     <TouchableOpacity
                             onPress={() => props.sell()}
                             style={{ flex: 1, justifyContent: 'center', alignItems: 'center', zIndex: 50 }}
                         >
-                            <Text color="black">{gettext(2)}</Text>
+                            <Text color="black" fontWeight={Platform.OS === 'ios' ? '600':'bold'}  >{gettext(2)}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

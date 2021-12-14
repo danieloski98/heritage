@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Pressable, TextInput, Alert, ActivityIndicator } from "react-native";
+import { View, Pressable, TextInput, Alert, ActivityIndicator, Image, Platform } from "react-native";
 import Button from "../../../globalcomponents/Button";
 import Container from "../../../globalcomponents/Container";
 import Text from "../../../globalcomponents/Text";
@@ -24,7 +24,7 @@ const validationSchema = yup.object({
   last_name: yup.string().required('This field is required'),
   email: yup.string().email().required('This field is required'),
   phone: yup.string().required('This field is required'),
-  referral_code: yup.string().required('This field is required'),
+  referral_code: yup.string(),
   password: yup.string().min(8, 'Minimium of 8 alpha-numeric characters').required('This field is required'),
 })
 
@@ -104,7 +104,21 @@ export default function Signup(props: any) {
   }
 
   return (
-    <View style={{ width: theme.screenWidth, backgroundColor: 'gold' }}>
+    <View style={{ flex: 1, backgroundColor: theme.darkBlue }}>
+
+        <View style={{ flex: 0.15, backgroundColor: theme.darkBlue, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+               <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Text style={{ fontWeight: Platform.OS === 'ios' ? '600':'bold', fontSize: 25, color: 'white' }}>Heritage</Text>
+                    <Text style={{ fontWeight: '300', fontSize: 25, color: 'white', marginLeft: 5 }}>Exchange</Text>
+               </View>
+               <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <Image source={require('../../../../assets/crypto/BTC.png')} resizeMode="contain" style={{ width: '30%', height: '100%', left: 90, bottom: -70, position: 'absolute' }} />
+                    <Image source={require('../../../../assets/crypto/ETC.png')} resizeMode="contain" style={{ width: '40%', height: '100%', left: 30, bottom: -70, position: 'absolute' }} />
+               </View>
+           </View>
+
+      <View style={{ flex: 0.85, borderTopLeftRadius: 30, overflow: 'hidden',  }}>
+
       <ScrollView
         alwaysBounceVertical
         style={{
@@ -117,22 +131,10 @@ export default function Signup(props: any) {
         horizontal={false}
         scrollEnabled
       >
+      
         <Container
           width="100%"
-          height="150px"
-          bgColor="white"
-          justifyContent="center"
-          alignItems="flex-start"
-          paddingLeft="20px"
-          paddingRight="20px"
-        >
-          <Text fontWeight="bold" fontSize="30px" color="black">
-            HX
-          </Text>
-        </Container>
-        <Container
-          width="100%"
-          height="50px"
+          height="80px"
           bgColor="white"
           alignItems="flex-start"
           paddingLeft="20px"
@@ -305,9 +307,8 @@ export default function Signup(props: any) {
               <Ionicons name="lock-closed" size={30} color={theme.color} />
               <TextInput style={{ flex: 1 }} secureTextEntry={showing} value={formik.values.password} onChangeText={formik.handleChange('password')} onBlur={formik.handleBlur('password')} onFocus={() => formik.setFieldTouched('password', true, true)} />
               <Pressable onPress={() => setShowing((prev) => !prev)}>
-                <Text fontSize="18px" color="grey" fontWeight="bold">
-                  {showing ? "SHOW" : "HIDE"}
-                </Text>
+                  {showing && <Ionicons name="eye" size={30} color={theme.color} />}
+                  {!showing && <Ionicons name="eye-off" size={30} color={theme.color} />}
               </Pressable>
             </Container>
             {formik.touched.password && formik.errors.password && (
@@ -399,6 +400,9 @@ export default function Signup(props: any) {
           </Container>
         </Container>
       </ScrollView>
+
+      </View>
+      
     </View>
   );
 }

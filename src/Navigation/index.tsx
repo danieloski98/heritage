@@ -1,10 +1,8 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import Authentication from './Authentication'
-import Dashboard from './Dashboard'
-import { SafeAreaView, Platform, View, StyleSheet, Text } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming, } from 'react-native-reanimated'
-import { theme } from '../utils/theme';
+import { Platform, View } from 'react-native';
+import { useSharedValue, useAnimatedStyle, withSpring, withTiming, } from 'react-native-reanimated'
 
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components'

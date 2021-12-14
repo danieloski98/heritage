@@ -14,4 +14,5 @@ export const theme = {
     pending: '#C97C16',
     completed: '#148B3E',
     failed: '#D52C60',
+    darkBlue: '#020B4D',
 }

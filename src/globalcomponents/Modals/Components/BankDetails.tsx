@@ -3,11 +3,12 @@ import { View, Text, Image, Pressable } from 'react-native'
 import Container from '../../Container';
 import Button from '../../Button';
 import { theme } from '../../../utils/theme';
+import { currencyFormatterD, currencyFormatterNGN } from '../../../utils/currencyConverter'
 
 // image links
-const BTC = require('../../../../assets/icons/btc.png');
-const ETH = require('../../../../assets/icons/eth.png');
-const USDT = require('../../../../assets/icons/tether.png')
+const BTC = require('../../../../assets/crypto/BTC.png');
+const ETH = require('../../../../assets/crypto/ETC.png');
+const USDT = require('../../../../assets/crypto/USDC.png')
 
 interface IProps {
     value: number, 
@@ -54,7 +55,7 @@ export default function BankDetails({value, amount, nextStep, getCoin }: IProps)
                 <Image source={switchLogo()} resizeMode="contain" style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10}}>
                     <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{amount} {switchText()}</Text>
-                    <Text style={{ fontSize: 18}}>NGN: {amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550}</Text>
+                    <Text style={{ fontSize: 18}}>NGN: {amount <= 0 ? 0 : amount < 1 ? currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550) : currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550)}</Text>
                 </View>
             </View>
 

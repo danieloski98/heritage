@@ -200,7 +200,7 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
                             <Pressable onPress={onclose}>
                                 <Feather name="x-circle" size={30} color="grey" />
                             </Pressable>
-                        </Container>
+                    </Container>
 
                     <View style={{ width: '100%', height: '100%' }}>
                       {switchStep()}

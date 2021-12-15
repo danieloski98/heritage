@@ -33,6 +33,7 @@ export class CrudService {
             error: true,
             statusCode: 200,
             errorMessage: "You don't have any transactions",
+            data: trans,
           });
         } else {
           return Return({

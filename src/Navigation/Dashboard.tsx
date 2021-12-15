@@ -5,21 +5,70 @@ import Transactions from '../Features/Dashboard/Pages/Transactions'
 import Savings from '../Features/Dashboard/Pages/Savings'
 import Settings from '../Features/Dashboard/Pages/Settings'
 import Navbar from '../Features/Dashboard/components/Navbar'
-import { Feather, FontAwesome5 } from '@expo/vector-icons'
-import { Platform, StyleSheet, Text, View } from 'react-native'
-import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming, } from 'react-native-reanimated'
+import { FontAwesome5 } from '@expo/vector-icons'
+import { Platform, Modal, View, Text, ActivityIndicator } from 'react-native'
 import { theme } from '../utils/theme';
+import { useQuery } from 'react-query'
+import url from '../utils/url'
+import { IReturnType } from '../Types/ReturnType'
+import { useAsyncStorage } from '@react-native-async-storage/async-storage'
+
+// redux
+import { useDispatch } from 'react-redux'
+import { updateUser } from '../States/UserDetails'
 
 const os = Platform.OS;
 
 const Tab = createBottomTabNavigator()
 
+const getUser = async(id: string) => {
+    const request = await fetch(`${url}user/${id}`);
+    const json = await request.json() as IReturnType;
+
+    if (!request.ok) {
+        throw new Error('An error occured');
+    }
+    return json;
+}
+
 export default function Dashboard() {
+    const [loading, setLoading] = React.useState(true);
+
+    const tokenStorage = useAsyncStorage('token');
+    const idStorage = useAsyncStorage('token');
+    const [id, setId] = React.useState('');
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        (async function() {
+            const _id = await idStorage.getItem();
+            setId(_id as string);
+        })()
+    })
+
+    const {} = useQuery(['getUser', id], () => getUser(id as string), {
+        onSuccess: (data) => {
+            dispatch(updateUser(data.data.user));
+            setLoading(false);
+        },
+        onError: () => {
+            setLoading(false);
+        }
+    })
   
     return (
         <>
 
         {/* tabs */}
+
+        <Modal visible={loading} transparent presentationStyle="pageSheet" animationType="slide" style={{ backgroundColor: 'black', justifyContent: 'center'}}>
+            <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.87);', justifyContent: 'center', paddingHorizontal: 20 }}>
+                <View style={{ width: '100%', height: 200, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}>
+                    <ActivityIndicator color={theme.primaryBackgroundColor} size="large" />
+                    <Text style={{ fontSize: 18, marginTop: 10, fontWeight: '500' }}>Loading Details...</Text>
+                </View>
+            </View>
+        </Modal>
 
         <Tab.Navigator screenOptions={{ header: ({route}) => route.name === 'settings' ? <></> : <Navbar />, tabBarStyle: { height: os === 'ios' ? 80:65, paddingBottom: os === 'ios' ? 20:10 }, tabBarLabelStyle: { fontWeight: '600', includeFontPadding: true, fontSize: 12} }}  >
 

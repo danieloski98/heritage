@@ -7,12 +7,28 @@ import { theme } from '../../../utils/theme'
 import PagerView from 'react-native-pager-view';
 import { useNavigation } from '@react-navigation/native'
 import { MotiView, AnimatePresence } from 'moti'
+import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 
 const HEIGTH = Dimensions.get('screen').height;
 
 export default function Home(props: any) {
     const [page, setPage] = React.useState(0);
     const navigation = useNavigation<any>();
+    const tokenStorage = useAsyncStorage('token');
+    const idStorage = useAsyncStorage('token');
+
+    React.useState(() => {
+        (async function() {
+            const token = await tokenStorage.getItem();
+            const id = await idStorage.getItem();
+
+            if (token === null || id === null) {
+                navigation.navigate('login')
+            }else {
+                navigation.navigate('index');
+            }
+        })()
+    });
 
     return (
         <View style={{ flex: 1, backgroundColor: '#020B4D' }}>

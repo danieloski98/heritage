@@ -9,6 +9,7 @@ import * as yup from 'yup'
 import { useFormik } from 'formik'
 import url from '../../../utils/url'
 import { IReturnType } from '../../../Types/ReturnType'
+import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 
 // redux
 import { RootState } from '../../../store'
@@ -24,6 +25,8 @@ const validationSchema = yup.object({
 export default function Login(props) {
     const [showing, setShowing] = React.useState(true);
     const [loading, setLoading] = React.useState(false);
+    const tokenStorage = useAsyncStorage('token');
+    const idStorage = useAsyncStorage('token');
 
      // redux
     const user = useSelector((state: RootState) => state.userdetail);
@@ -72,6 +75,8 @@ export default function Login(props) {
           ]);
           return;
         }else {
+          await tokenStorage.setItem(json.data.token);
+          await idStorage.setItem(json.data.user._id);
           dispatch(updateUser(json.data.user));
           dispatch(updateToken(json.data.token));
     

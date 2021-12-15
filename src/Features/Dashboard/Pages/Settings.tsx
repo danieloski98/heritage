@@ -1,62 +1,90 @@
 import React from 'react'
-import { View, TextInput, Pressable } from 'react-native'
+import { View, TextInput, Pressable, StatusBar, Image, TouchableOpacity } from 'react-native'
 import Button from '../../../globalcomponents/Button'
 import Container from '../../../globalcomponents/Container'
 import Text from '../../../globalcomponents/Text'
 import { theme } from '../../../utils/theme'
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/native'
+
+// redux
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store/index'
 
 export default function Settings() {
-    const [showing, setShowing] = React.useState(false)
+    const [showing, setShowing] = React.useState(false);
+    const navigation = useNavigation<any>();
+    const user = useSelector((state: RootState) => state.userdetail.user);
+
     return (
-        <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 30, backgroundColor: theme.light }}>
-            <Text color="black" fontSize="23px" fontWeight="bold">Change Password</Text>
+        <View style={{ flex: 1 }}>
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="30px" bgColor={theme.light} >
-                    <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Old Password</Text>
-                    <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="50px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
-                        <Ionicons name="lock-closed" size={25} color={theme.color} />
-                        <TextInput style={{ flex: 1 }} secureTextEntry={showing} />
-                        <Pressable onPress={() => setShowing(prev => !prev)}>
-                            <Text fontSize="16px" color="grey" fontWeight="bold">
-                                {showing ? 'SHOW':'HIDE'}
-                            </Text>
-                        </Pressable>
-                    </Container>
-                </Container>
+            <StatusBar translucent />
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="30px" bgColor={theme.light} >
-                    <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">New Password</Text>
-                    <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="50px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
-                        <Ionicons name="lock-closed" size={25} color={theme.color} />
-                        <TextInput style={{ flex: 1 }} secureTextEntry={showing} />
-                        <Pressable onPress={() => setShowing(prev => !prev)}>
-                            <Text fontSize="16px" color="grey" fontWeight="bold">
-                                {showing ? 'SHOW':'HIDE'}
-                            </Text>
-                        </Pressable>
-                    </Container>
-                </Container>
+            <ScrollView style={{ flex: 1, paddingBottom: 0, backgroundColor: 'white' }}>
+            <View style={{ width: '100%', height: 300, backgroundColor: theme.darkBlue, padding: 20 }}>
+                <Text style={{ fontSize: 22, fontWeight: 'bold', color:'white', marginTop: 20 }}>Settings</Text>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                    <View style={{ width: 100, height: 100}}>
+                        <Image source={require('../../../../assets/crypto/SHIB.png')} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
+                    </View>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color:'white', marginTop: 10 }}>{user.first_name} {user.last_name}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: '400', color:'white', marginBottom: 20 }}>{user.email}</Text>
+                </View>
+               
+            </View>
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-start" marginTop="30px" bgColor={theme.light} >
-                    <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Confirm Password</Text>
-                    <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="50px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
-                        <Ionicons name="lock-closed" size={25} color={theme.color} />
-                        <TextInput style={{ flex: 1 }} secureTextEntry={showing} />
-                        <Pressable onPress={() => setShowing(prev => !prev)}>
-                            <Text fontSize="16px" color="grey" fontWeight="bold">
-                                {showing ? 'SHOW':'HIDE'}
-                            </Text>
-                        </Pressable>
-                    </Container>
-                </Container>
+            <View style={{ width: '95%', padding: 20, marginHorizontal: 10, backgroundColor: 'white', transform: [
+                {translateY: -40}
+            ], borderTopLeftRadius: 10, borderTopRightRadius: 10, borderWidth: 1, borderColor: 'lightgrey' }}>
 
-                <Container width="50%" height="55px" marginTop="30px">
-                    <Button>
-                        <Text color="white" fontSize="16px">Update</Text>
-                    </Button>
-                </Container>
-        </ScrollView>
+                <TouchableOpacity onPress={() => navigation.navigate('profile')} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 40 }}>
+                    <View style={{ width: 40, height: 40 }}>
+                        <Image source={require('../../../../assets/icons/profile.png')} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
+                    </View>
+                    <Text style={{ fontSize: 20, fontWeight: '400', marginLeft: 16, color: 'black' }}>Profile</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate('wallets')} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 40 }}>
+                    <View style={{ width: 40, height: 40 }}>
+                        <Image source={require('../../../../assets/icons/wallet.png')} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
+                    </View>
+                    <Text style={{ fontSize: 20, fontWeight: '400', marginLeft: 16, color: 'black' }}>Wallets & Bank</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate('security')} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 40 }}>
+                    <View style={{ width: 40, height: 40 }}>
+                        <Image source={require('../../../../assets/icons/security.png')} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
+                    </View>
+                    <Text style={{ fontSize: 20, fontWeight: '400', marginLeft: 16, color: 'black' }}>Security</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 40 }}>
+                    <View style={{ width: 40, height: 40 }}>
+                        <Image source={require('../../../../assets/icons/support.png')} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
+                    </View>
+                    <Text style={{ fontSize: 20, fontWeight: '400', marginLeft: 16, color: 'black' }}>Support</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => navigation.navigate('about')} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 40 }}>
+                    <View style={{ width: 40, height: 40 }}>
+                        <Image source={require('../../../../assets/icons/about.png')} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
+                    </View>
+                    <Text style={{ fontSize: 20, fontWeight: '400', marginLeft: 16, color: 'black' }}>About App</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 40 }}>
+                    <View style={{ width: 40, height: 40 }}>
+                        <Image source={require('../../../../assets/icons/terms.png')} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
+                    </View>
+                    <Text style={{ fontSize: 20, fontWeight: '400', marginLeft: 16, color: 'black' }}>Terms & Conditions</Text>
+                </TouchableOpacity>
+
+            </View>
+
+           
+            </ScrollView>
+        </View>
     )
 }

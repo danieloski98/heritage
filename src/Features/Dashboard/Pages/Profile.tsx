@@ -89,7 +89,7 @@ export default function Profile() {
 
                             <Container width="20%" height="100%" bgColor="transparent" justifyContent="center" alignItems="flex-start" marginRight="20px">
                                 <Container width="70px" height="70px" borderRadius="50px" bgColor="lightgrey" justifyContent="flex-start" alignItems="flex-start">
-                                    <Image source={require('../../../../assets/images/avatar.png')} resizeMode="contain"  style={{ width: '100%', height: '100%'}} />
+                                    <Image source={require('../../../../assets/crypto/BNB.png')} resizeMode="contain"  style={{ width: '100%', height: '100%'}} />
                                 </Container>
                             </Container>
 
@@ -117,9 +117,9 @@ export default function Profile() {
                             <Text color="black" fontSize="16px">Personal Information</Text>
                         </Pressable>
 
-                        <Pressable onPress={() => changeindex(2)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: index === 2 ? 4:0, borderBottomColor: index === 2? theme.primaryBackgroundColor:'lightgrey'}}>
+                        {/* <Pressable onPress={() => changeindex(2)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: index === 2 ? 4:0, borderBottomColor: index === 2? theme.primaryBackgroundColor:'lightgrey'}}>
                             <Text color="black" fontSize="16px">Wallet & Bank</Text>
-                        </Pressable>
+                        </Pressable> */}
 
                         </View>
 

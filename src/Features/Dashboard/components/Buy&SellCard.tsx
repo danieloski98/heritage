@@ -87,26 +87,26 @@ export default function BuySellCard(props: IProps) {
                 </View>
             </View>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5, paddingHorizontal: 10 }}>
-                <Feather name="dollar-sign" color="green" size={15} />
-                <Text fontSize="18px" color="black" fontWeight="400" marginTop="0px" marginLeft="0px">{props.coinStat !== undefined ? currencyFormatterD(props.coinStat.current_price): '0'}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, paddingHorizontal: 10 }}>
+                <Feather name="dollar-sign" color="green" size={20} />
+                <Text fontSize="30px" color="black" fontWeight="bold" marginTop="0px" marginLeft="0px">{props.coinStat !== undefined ? currencyFormatterD(props.coinStat.current_price): '0'}</Text>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center',  marginTop: 3, paddingHorizontal: 15 }}>
-                <Text color="black">NGN</Text>
-                <Text fontSize="14px" color="black" fontWeight="400" marginTop="0px" marginLeft="5px">{props.coinStat !== undefined ? currencyFormatterNGN(props.coinStat.current_price * 550): '0'}</Text>
+                <Text color="black" fontSize="18px">NGN</Text>
+                <Text fontSize="18px" color="black" fontWeight="400" marginTop="0px" marginLeft="5px">{props.coinStat !== undefined ? currencyFormatterNGN(props.coinStat.current_price * 550): '0'}</Text>
             </View>
 
-            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, justifyContent: 'space-between', marginTop: 10 }}>
-                <View style={{ width: '45%', height: '60%', borderRadius: 20, borderWidth: 1, borderColor: 'grey' }}>
+            <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, justifyContent: 'space-between', marginTop: 20 }}>
+                <View style={{ width: '45%', height: '50%', borderRadius: 20, borderWidth: 1, borderColor: 'grey', backgroundColor: theme.light }}>
                     <TouchableOpacity
                             onPress={() => props.buy()}
-                            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                            style={{ flex: 1, justifyContent: 'center', alignItems: 'center',  }}
                         >
                             <Text color="black" fontWeight={Platform.OS === 'ios' ? '600':'bold'}  >{gettext(1)}</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ width: '45%', height: '60%', borderRadius: 20, borderWidth: 1, borderColor: 'grey' }}>
+                <View style={{ width: '45%', height: '50%', borderRadius: 20, borderWidth: 1, borderColor: 'grey', backgroundColor: theme.light }}>
                     <TouchableOpacity
                             onPress={() => props.sell()}
                             style={{ flex: 1, justifyContent: 'center', alignItems: 'center', zIndex: 50 }}

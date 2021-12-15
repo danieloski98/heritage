@@ -93,25 +93,7 @@ export default function Navbar() {
             </Container>
 
             <Container width="50%" height="50px" bgColor="transparent" flexDirection="row" alignItems="center">
-                <Container width="50px" height="50px" borderRadius="50px" bgColor="#FFFFFF3B" justifyContent="center" alignItems="center">
-                    
-                    <Popover
-                        visible={visible}
-                        style={{ marginTop: 10 }}
-                        onBackdropPress={() => setVisible(false)}
-                        anchor={() => <Ionicons name="person" size={30} color="white" onPress={() => setVisible(true)} />}
-                    >
-                        <Layout style={{ width: 100, padding: 10, justifyContent: 'space-between' }}>
-                            <Pressable onPress={() => { navigation.navigate('profile'); setVisible(false)} } style={{ width: '100%', height: 20, marginBottom: 10 }}>
-                                <Text fontSize="16px" color="black">Profile</Text>
-                            </Pressable>
-                            <Pressable onPress={() => {alert('Building the support page....'); setVisible(false)}}  style={{ width: '100%', height: 20,  marginBottom: 10 }}>
-                                <Text fontSize="16px" color="black">Support</Text>
-                            </Pressable>
-                            <Text fontSize="16px" color="black">Logout</Text>
-                        </Layout>
-                    </Popover>
-                </Container>
+                
                 <Container width="50px" height="50px" borderRadius="50px" bgColor="#FFFFFF3B" justifyContent="center" alignItems="center" marginLeft="10px">
                     <Ionicons size={30} color="white" name="notifications" onPress={() => navigation.navigate('notifications')} />
                 </Container>

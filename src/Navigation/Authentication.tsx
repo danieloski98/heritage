@@ -12,6 +12,10 @@ import Home from '../Features/Authentication/Pages/Home';
 import Dashboard from './Dashboard';
 import Profile from '../Features/Dashboard/Pages/Profile';
 import Notifications from '../Features/Dashboard/Pages/Notifications';
+import Security from '../Features/Dashboard/Pages/Security'
+import Wallets from '../Features/Dashboard/Pages/Wallets';
+import About from '../Features/Dashboard/Pages/About'
+
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +30,9 @@ export default function Authentication() {
             <Stack.Screen name="index" component={Dashboard} />
             <Stack.Screen name="profile" component={Profile} />
             <Stack.Screen name="notifications" component={Notifications} />
+            <Stack.Screen name="wallets" component={Wallets} />
+            <Stack.Screen name="security" component={Security} />
+            <Stack.Screen name="about" component={About} />
         </Stack.Navigator>
     )
 }

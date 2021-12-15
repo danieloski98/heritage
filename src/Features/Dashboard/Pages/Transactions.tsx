@@ -49,16 +49,19 @@ export default function Transactions() {
     {
       onSuccess: (data) => {
         setLoading(false);
-        const cry = data.data.filter(
-          (item: ITransaction, inx: number) => item.type === 1
-        );
-        const ngn = data.data.filter(
-          (item: ITransaction, inx: number) => item.type === 2
-        );
-        console.log(ngn);
-        setCrypto(cry);
-        setFiat(ngn);
-        // console.log(data.data);
+        if (data.data.length < 1) {
+          return;
+        } else {
+          const cry = data.data.filter(
+            (item: ITransaction, inx: number) => item.type === 1
+          );
+          const ngn = data.data.filter(
+            (item: ITransaction, inx: number) => item.type === 2
+          );
+          console.log(ngn);
+          setCrypto(cry);
+          setFiat(ngn);
+        }
       },
       onError: () => {
         setLoading(false);

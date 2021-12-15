@@ -35,7 +35,7 @@ export default function AddDetails({ visible, close}: IProps) {
                     
                     <Container width="100%" height="55px" alignItems="flex-start" marginTop="30px">
                         <Button>
-                            <Pressable onPress={() => {close(); navigation.navigate('profile')} }>
+                            <Pressable onPress={() => {close(); navigation.navigate('settings')} }>
                                 <Text color="white">Link Bank & Wallet</Text>
                             </Pressable>
                         </Button>

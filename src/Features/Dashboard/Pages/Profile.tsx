@@ -8,7 +8,6 @@ import { Feather } from '@expo/vector-icons'
 import { theme } from '../../../utils/theme'
 import PersonalInfoForm from '../components/PersonalInfoForm'
 import { useNavigation } from '@react-navigation/native'
-import WalletsBanks from '../components/WalletsBanks'
 import { useQuery } from 'react-query'
 import { IReturnType } from '../../../Types/ReturnType'
 import url from '../../../utils/url'
@@ -111,15 +110,11 @@ export default function Profile() {
 
                         {/* tab */}
                     
-                        <View style={{ width: '100%', height: 70, backgroundColor: theme.light, flexDirection: 'row', paddingHorizontal: 20}}>
+                        <View style={{ width: '100%', height: 70, backgroundColor: 'white', flexDirection: 'row', paddingHorizontal: 20}}>
 
-                        <Pressable onPress={() => changeindex(1)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: index === 1 ? 4:0, borderBottomColor: index === 1? theme.primaryBackgroundColor:'lightgrey' }}>
+                        <Pressable onPress={() => changeindex(1)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: index === 1 ? 4:0, borderBottomColor: 'lightgrey' }}>
                             <Text color="black" fontSize="16px">Personal Information</Text>
                         </Pressable>
-
-                        {/* <Pressable onPress={() => changeindex(2)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: index === 2 ? 4:0, borderBottomColor: index === 2? theme.primaryBackgroundColor:'lightgrey'}}>
-                            <Text color="black" fontSize="16px">Wallet & Bank</Text>
-                        </Pressable> */}
 
                         </View>
 
@@ -128,8 +123,6 @@ export default function Profile() {
                         {
                         index === 1 && <PersonalInfoForm />
                         }
-
-                        { index === 2 && <WalletsBanks /> }
 
                     </ScrollView>
                     

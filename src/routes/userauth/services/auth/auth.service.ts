@@ -122,6 +122,8 @@ export class AuthService {
   public async login(user: Partial<MongoUser>): Promise<ReturnTypeInterfcae> {
     try {
       // check account
+      const email = user.email.toLowerCase();
+      user.email = email;
       const account = await this.userModel.findOne({ email: user.email });
       this.logger.debug(account);
 

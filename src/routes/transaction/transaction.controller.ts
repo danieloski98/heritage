@@ -7,8 +7,9 @@ import {
   Body,
   UploadedFiles,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
-import { ApiParam, ApiTags, ApiBody } from '@nestjs/swagger';
+import { ApiParam, ApiTags, ApiBody, ApiQuery } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CrudService } from './sevrices/crud/crud.service';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
@@ -20,10 +21,40 @@ export class TransactionController {
 
   @ApiTags('TRANSACTIONS')
   @ApiParam({ name: 'user_id' })
+  @ApiQuery({
+    name: 'type',
+    type: Number,
+    description: 'indicates the type of transactions 1=Buy 2=Sell',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'createdAt',
+    type: String,
+    description: 'indicates the date of the transaction transactions',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'status',
+    type: Number,
+    description: 'indicates the state of transaction transactions',
+    required: false,
+  })
+  @ApiQuery({
+    name: 'last_id',
+    type: Number,
+    description: 'this is for pagination, this the the id of the last doc in the previous query',
+    required: false,
+  })
   @Get('all/:user_id')
-  async getTransactions(@Res() res: Response, @Param() param: any) {
+  async getTransactions(
+    @Res() res: Response,
+    @Param() param: any,
+    @Query() queries: any,
+  ) {
+    console.log(queries);
     const result = await this.transactioncrudService.getUserTransactions(
       param['user_id'],
+      queries,
     );
     res.status(result.statusCode).send(result);
   }

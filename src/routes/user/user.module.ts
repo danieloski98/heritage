@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { BankSchema, Bank } from 'src/Schemas/Bank';
 import { TransactionSchema, Transaction } from 'src/Schemas/Transaction';
 import { WalletSchema, Wallet } from 'src/Schemas/Wallet';
+import { NotificationsService } from './services/notifications/notifications.service';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { WalletSchema, Wallet } from 'src/Schemas/Wallet';
     ]),
   ],
   controllers: [UserController],
-  providers: [ProfileService, AddressService],
+  providers: [ProfileService, AddressService, NotificationsService],
 })
 export class UserModule {}

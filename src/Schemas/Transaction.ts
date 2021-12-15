@@ -80,14 +80,20 @@ export class Transaction {
     type: String,
     default: new Date().toISOString(),
   })
-  @Prop()
+  @Prop({
+    type: String,
+    default: new Date().toISOString(),
+  })
   public createdAt: string;
 
   @ApiProperty({
     type: String,
     default: new Date().toISOString(),
   })
-  @Prop()
+  @Prop({
+    type: String,
+    default: new Date().toISOString(),
+  })
   public updatedAt: string;
 }
 

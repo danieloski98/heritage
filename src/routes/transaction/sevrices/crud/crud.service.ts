@@ -23,8 +23,28 @@ export class CrudService {
 
   public async getUserTransactions(
     user_id: string,
+    query?: any,
   ): Promise<ReturnTypeInterfcae> {
     try {
+      if (query) {
+        const trans = await this.transactionModel
+          .find({ user_id, ...query })
+          .limit(10);
+        if (trans.length < 1) {
+          return Return({
+            error: true,
+            statusCode: 400,
+            errorMessage: "You don't have any transactions",
+          });
+        } else {
+          return Return({
+            error: false,
+            statusCode: 200,
+            successMessage: 'Transactions found',
+            data: trans,
+          });
+        }
+      }
       const trans = await this.transactionModel.find({ user_id });
       if (trans.length < 1) {
         return Return({

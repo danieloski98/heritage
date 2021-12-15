@@ -129,7 +129,7 @@ export default function SellModal({ visible, close, coinType, getCoin, action}: 
     const submit = async () => {
         try {
             const obj = {
-                type: action,
+                type: 2,
                 coin_amount: amount,
                 amount: amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550,
                 coin_type: coinType,

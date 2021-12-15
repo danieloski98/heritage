@@ -27,13 +27,11 @@ export class CrudService {
   ): Promise<ReturnTypeInterfcae> {
     try {
       if (query) {
-        const trans = await this.transactionModel
-          .find({ user_id, ...query })
-          .limit(10);
+        const trans = await this.transactionModel.find({ user_id, ...query });
         if (trans.length < 1) {
           return Return({
             error: true,
-            statusCode: 400,
+            statusCode: 200,
             errorMessage: "You don't have any transactions",
           });
         } else {

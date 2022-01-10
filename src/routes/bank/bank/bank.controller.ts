@@ -6,9 +6,10 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
 } from '@nestjs/common';
-import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Bank } from 'src/Schemas/Bank';
 import { CrudService } from '../services/crud/crud.service';
@@ -33,6 +34,18 @@ export class BankController {
   @Get('all')
   async getBank(@Res() res: Response) {
     const result = await this.verificationService.getAllBanks();
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('BANK')
+  @ApiQuery({ name: 'account_number' })
+  @ApiQuery({ name: 'bank_code' })
+  @Get('verifyaccount')
+  async verifyaccount(@Res() res: Response, @Query() query: any) {
+    const result = await this.verificationService.resolveAccount(
+      query['account_number'],
+      query['bank_code'],
+    );
     res.status(result.statusCode).send(result);
   }
 

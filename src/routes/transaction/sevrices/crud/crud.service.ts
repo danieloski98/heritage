@@ -217,4 +217,53 @@ export class CrudService {
       });
     }
   }
+
+  async changeTransactionStatus(
+    _id: string,
+    status: number,
+  ): Promise<ReturnTypeInterfcae> {
+    if (status > 3 || status < 2) {
+      return Return({
+        error: true,
+        statusCode: 400,
+        errorMessage: 'Invalid Status code',
+      });
+    }
+    try {
+      const transaction = await this.transactionModel.findById(_id);
+      if (transaction === null || transaction === undefined) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'Transaction not found',
+        });
+      }
+
+      if (transaction.status > 1) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'Status already changed',
+        });
+      }
+
+      const update = await this.transactionModel.updateOne({ _id }, { status });
+      console.log(update);
+      return Return({
+        error: false,
+        statusCode: 200,
+        successMessage: `Status changed to ${
+          status === 2 ? 'APPROVED' : 'DECLINED'
+        }`,
+      });
+    } catch (error) {
+      console.log(error);
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
 }

@@ -8,6 +8,7 @@ import {
   UploadedFiles,
   UseInterceptors,
   Query,
+  Put,
 } from '@nestjs/common';
 import { ApiParam, ApiTags, ApiBody, ApiQuery } from '@nestjs/swagger';
 import { Response } from 'express';
@@ -42,7 +43,8 @@ export class TransactionController {
   @ApiQuery({
     name: 'last_id',
     type: Number,
-    description: 'this is for pagination, this the the id of the last doc in the previous query',
+    description:
+      'this is for pagination, this the the id of the last doc in the previous query',
     required: false,
   })
   @Get('all/:user_id')
@@ -103,6 +105,18 @@ export class TransactionController {
     const result = await this.transactioncrudService.uploadFiles(
       param['transaction_id'],
       files,
+    );
+    res.status(result.statusCode).json(result);
+  }
+
+  @ApiTags('ADMIN:TRANSACTIONS')
+  @ApiParam({ name: 'id' })
+  @ApiParam({ name: 'status', type: Number })
+  @Put(':id/:status')
+  async changeStatus(@Res() res: Response, @Param() param: any) {
+    const result = await this.transactioncrudService.changeTransactionStatus(
+      param['id'],
+      param['status'],
     );
     res.status(result.statusCode).json(result);
   }

@@ -10,7 +10,7 @@ import { TransactionDocument, Transaction } from 'src/Schemas/Transaction';
 
 @Injectable()
 export class ProfileService {
-  logger = new Logger();
+  private logger = new Logger();
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Bank.name) private bankModel: Model<BankDocument>,

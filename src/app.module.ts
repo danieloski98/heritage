@@ -11,6 +11,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NotificationsGateway } from './websockest/notifications.gateway';
+import { PaypointModule } from './routes/paypoint/paypoint.module';
+import { NotificationsModule } from './routes/notifications/notifications.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
@@ -53,6 +55,8 @@ const url =
     WalletModule,
     BankModule,
     TransactionModule,
+    PaypointModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService, NotificationsGateway],

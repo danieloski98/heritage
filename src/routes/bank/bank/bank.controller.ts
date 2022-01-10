@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Post,
   Put,
@@ -11,16 +12,27 @@ import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Bank } from 'src/Schemas/Bank';
 import { CrudService } from '../services/crud/crud.service';
+import { VerificationService } from '../services/verification/verification.service';
 
 @Controller('bank')
 export class BankController {
-  constructor(private bankService: CrudService) {}
+  constructor(
+    private bankService: CrudService,
+    private verificationService: VerificationService,
+  ) {}
 
   @ApiTags('BANK')
   @ApiBody({ type: Bank })
   @Post()
   async addBank(@Res() res: Response, @Body() body: Bank) {
     const result = await this.bankService.addBank(body);
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('BANK')
+  @Get('all')
+  async getBank(@Res() res: Response) {
+    const result = await this.verificationService.getAllBanks();
     res.status(result.statusCode).send(result);
   }
 

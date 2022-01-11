@@ -9,14 +9,10 @@ export class AuthController {
   constructor(private userauth: AuthService) {}
 
   @ApiTags('USERAUTH')
-  @ApiParam({ name: 'user_id', type: String })
-  @Get('verify/:user_id')
-  async verifyemail(
-    @Res() res: Response,
-    @Body() body: { oldpassword: string; newpassword: string },
-    @Param() param: any,
-  ) {
-    const result = await this.userauth.verifyAccount(param['user_id']);
+  @ApiParam({ name: 'code', type: String })
+  @Get('verify/:code')
+  async verifyemail(@Res() res: Response, @Param() param: any) {
+    const result = await this.userauth.verifyAccount(param['code']);
     res.status(result.statusCode).send(result);
   }
 
@@ -33,6 +29,13 @@ export class AuthController {
   @Post('login')
   async login(@Res() res: Response, @Body() body: Partial<User>) {
     const result = await this.userauth.login(body);
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('USERAUTH')
+  @Post('verifytoken')
+  async verifytoken(@Res() res: Response, @Body() body: any) {
+    const result = await this.userauth.verifyToken(body['token']);
     res.status(result.statusCode).send(result);
   }
 

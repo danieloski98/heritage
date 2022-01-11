@@ -5,6 +5,8 @@ import { User, UserSchema } from 'src/Schemas/User';
 import { Bank } from 'src/Schemas/Bank';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BankSchema } from 'src/Schemas/Bank';
+import { VerificationService } from './services/verification/verification.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -15,8 +17,9 @@ import { BankSchema } from 'src/Schemas/Bank';
         schema: UserSchema,
       },
     ]),
+    HttpModule,
   ],
   controllers: [BankController],
-  providers: [CrudService],
+  providers: [CrudService, VerificationService],
 })
 export class BankModule {}

@@ -33,6 +33,13 @@ export class AuthController {
   }
 
   @ApiTags('USERAUTH')
+  @Post('verifytoken')
+  async verifytoken(@Res() res: Response, @Body() body: any) {
+    const result = await this.userauth.verifyToken(body['token']);
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('USERAUTH')
   @ApiParam({ name: 'user_id', type: String })
   @Put('changepassword/:user_id')
   async changepassword(

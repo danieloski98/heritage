@@ -2,8 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { hash, genSalt, compare } from 'bcrypt';
 import { Return, ReturnTypeInterfcae } from 'src/utils/types/returnType';
 import { MailerService } from '@nestjs-modules/mailer';
-import { sign } from 'jsonwebtoken';
-import { User as MongoUser, UserDocument } from 'src/Schemas/User';
+import { sign, decode, verify } from 'jsonwebtoken';
+import { User as MongoUser, User, UserDocument } from 'src/Schemas/User';
 import { Referral as Ref, ReferralDocument } from 'src/Schemas/Referral';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -88,7 +88,7 @@ export class AuthService {
           { email: newuser.email, password: newuser.password },
           process.env.JWTSECRET,
           {
-            expiresIn: '3h',
+            expiresIn: '1s',
           },
         );
 
@@ -148,7 +148,7 @@ export class AuthService {
 
       // generate token
       const token = sign(
-        { email: account.email, password: account.password },
+        { email: account.email, password: account.password, _id: account._id },
         process.env.JWTSECRET,
         {
           expiresIn: '3h',
@@ -281,6 +281,43 @@ export class AuthService {
       }
     } catch (error) {
       this.logger.error(error);
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
+
+  async verifyToken(token: string): Promise<ReturnTypeInterfcae> {
+    try {
+      const decoded: Partial<UserDocument> = decode(
+        token,
+      ) as Partial<UserDocument>;
+      const user = await this.userModel.findById(decoded._id);
+      if (user === null || user == undefined) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'User not found',
+        });
+      }
+      // generate token
+      const newtoken = sign(
+        { email: user.email, password: user.password, _id: user._id },
+        process.env.JWTSECRET,
+        {
+          expiresIn: '3h',
+        },
+      );
+      // console.log(decoded);
+      return Return({
+        error: false,
+        statusCode: 200,
+        data: newtoken,
+      });
+    } catch (error) {
       return Return({
         error: true,
         statusCode: 500,

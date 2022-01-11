@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Return, ReturnTypeInterfcae } from 'src/utils/types/returnType';
 import { HttpService } from '@nestjs/axios';
 import * as axios from 'axios';
+import { decode } from 'jsonwebtoken';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 

@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Param, Put, Res } from '@nestjs/common';
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { User } from 'src/Schemas/User';
 import { AddingWallet } from 'src/utils/types/Adressadding';
 import { EditingDetails, EditingNames } from 'src/utils/types/editingnames';
 import { AddressService } from '../services/address/address.service';
@@ -40,6 +41,19 @@ export class UserController {
     @Param() param: any,
   ) {
     const result = await this.profileService.editName(param['user_id'], body);
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('ADMIN:USER')
+  @ApiParam({ name: 'user_id' })
+  @ApiBody({ type: User })
+  @Put('admin/edit/:user_id')
+  async updateuserdetailsadmin(
+    @Res() res: Response,
+    @Body() body: User,
+    @Param() param: any,
+  ) {
+    const result = await this.crudService.updateUser(param['user_id'], body);
     res.status(result.statusCode).send(result);
   }
 

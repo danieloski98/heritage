@@ -51,13 +51,17 @@ export class Admin {
   @ApiProperty({
     type: String,
   })
-  @Prop()
+  @Prop({
+    default: new Date().toISOString(),
+  })
   public createdAt: string;
 
   @ApiProperty({
     type: String,
   })
-  @Prop()
+  @Prop({
+    default: new Date().toISOString(),
+  })
   public updatedAt: string;
 }
 

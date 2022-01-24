@@ -4,6 +4,7 @@ import { Response } from 'express';
 import { AddingWallet } from 'src/utils/types/Adressadding';
 import { EditingDetails, EditingNames } from 'src/utils/types/editingnames';
 import { AddressService } from '../services/address/address.service';
+import { CrudService } from '../services/crud/crud.service';
 import { ProfileService } from '../services/profile/profile.service';
 
 @Controller('user')
@@ -11,6 +12,7 @@ export class UserController {
   constructor(
     private profileService: ProfileService,
     private addressService: AddressService,
+    private crudService: CrudService,
   ) {}
 
   @ApiTags('USER')
@@ -18,6 +20,13 @@ export class UserController {
   @Get(':user_id')
   async getUser(@Res() res: Response, @Param() param: any) {
     const result = await this.profileService.getUserDetails(param['user_id']);
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('ADMIN:USER')
+  @Get('')
+  async getUsers(@Res() res: Response) {
+    const result = await this.crudService.getUsers();
     res.status(result.statusCode).send(result);
   }
 

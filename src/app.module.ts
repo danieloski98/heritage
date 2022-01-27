@@ -17,6 +17,8 @@ import { AdminsModule } from './routes/admins/admins.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
+console.log(process.env.LOCAL_MONGODB);
+
 console.log();
 const url =
   process.env.NODE_ENV === 'development'

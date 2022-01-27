@@ -98,6 +98,68 @@ export class CrudService {
     }
   }
 
+  public async getAllTransactions(query?: {
+    pending: boolean;
+  }): Promise<ReturnTypeInterfcae> {
+    try {
+      if (query.pending) {
+        const data = [];
+        const trans = await this.transactionModel.find({ status: 1 });
+        if (trans.length < 1) {
+          return Return({
+            error: true,
+            statusCode: 400,
+            errorMessage: 'transaction not found',
+          });
+        }
+        if (trans.length > 0) {
+          for (let i = 0; i < trans.length; i++) {
+            const user = await this.userModel.findById(trans[i].user_id);
+            const newObj = { ...trans[i]['_doc'], user };
+            data.push(newObj);
+          }
+          console.log(data);
+          return Return({
+            error: false,
+            statusCode: 200,
+            successMessage: 'Transaction found',
+            data: data,
+          });
+        }
+      }
+      const data = [];
+      const trans = await this.transactionModel.find({ status: { $gt: 1 } });
+      if (trans.length < 1) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'transaction not found',
+        });
+      }
+
+      for (let i = 0; i < trans.length; i++) {
+        const user = await this.userModel.findById(trans[i].user_id);
+        const newObj = { ...trans[i]['_doc'], user };
+        data.push(newObj);
+      }
+      console.log(data);
+      return Return({
+        error: false,
+        statusCode: 200,
+        successMessage: 'Transaction found',
+        data: data,
+      });
+    } catch (error) {
+      console.log(error);
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
+
   public async createTransaction(
     user_id: string,
     transactionDetails: Transaction,
@@ -177,7 +239,13 @@ export class CrudService {
         const urls: string[] = [];
         //upload files
         for (let i = 0; i < files.length; i++) {
-          const upload = await Cloudinary.uploader.upload(files[i].path);
+          const upload = await Cloudinary.uploader.upload(files[i].path, {
+            folder: `/heritage`,
+            transformation: {
+              width: 970,
+              height: 300,
+            },
+          });
           urls.push(upload.secure_url);
 
           // delete the files
@@ -220,7 +288,7 @@ export class CrudService {
 
   async changeTransactionStatus(
     _id: string,
-    status: number,
+    status: any,
   ): Promise<ReturnTypeInterfcae> {
     if (status > 3 || status < 2) {
       return Return({
@@ -249,11 +317,12 @@ export class CrudService {
 
       const update = await this.transactionModel.updateOne({ _id }, { status });
       console.log(update);
+      console.log(typeof status);
       return Return({
         error: false,
         statusCode: 200,
         successMessage: `Status changed to ${
-          status === 2 ? 'APPROVED' : 'DECLINED'
+          parseInt(status) === 2 ? 'APPROVED' : 'DECLINED'
         }`,
       });
     } catch (error) {

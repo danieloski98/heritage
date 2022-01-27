@@ -33,6 +33,7 @@ export class VerifyadminMiddleware implements NestMiddleware {
           process.env.JWTSECRET,
         ) as Partial<AdminDocument>;
         // search for user
+        console.log(verifiedData);
         const user = await this.adminModel.findById(verifiedData._id);
         if (user === null || user === undefined) {
           const msg = Return({

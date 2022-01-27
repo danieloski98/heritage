@@ -6,6 +6,8 @@ import { Return, ReturnTypeInterfcae } from 'src/utils/types/returnType';
 import { compareSync, genSalt, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import * as joi from 'joi';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
 
 const adminValidationSchema = joi.object({
   email: joi.string().email().required(),
@@ -42,7 +44,14 @@ export class CrudService {
         });
       }
       // generate token
-      const token = sign(details, 'KEYHERITAGE', { algorithm: 'HS256' });
+      const obj = {
+        ...details,
+        _id: admin._id,
+      };
+      const token = sign(obj, process.env.JWTSECRET, {
+        algorithm: 'HS256',
+        expiresIn: '4h',
+      });
       return Return({
         error: false,
         statusCode: 200,

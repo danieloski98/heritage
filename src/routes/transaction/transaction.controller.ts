@@ -110,6 +110,18 @@ export class TransactionController {
   }
 
   @ApiTags('ADMIN:TRANSACTIONS')
+  @ApiQuery({ name: 'pending', type: Boolean })
+  @Get('')
+  async getAlltransactions(
+    @Res() res: Response,
+    @Param() param: any,
+    @Query() query: { pending: boolean },
+  ) {
+    const result = await this.transactioncrudService.getAllTransactions(query);
+    res.status(result.statusCode).json(result);
+  }
+
+  @ApiTags('ADMIN:TRANSACTIONS')
   @ApiParam({ name: 'id' })
   @ApiParam({ name: 'status', type: Number })
   @Put(':id/:status')

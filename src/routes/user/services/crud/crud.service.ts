@@ -26,4 +26,31 @@ export class CrudService {
       });
     }
   }
+
+  async updateUser(_id: string, details: User): Promise<ReturnTypeInterfcae> {
+    try {
+      const user = await this.userModel.findOne({ _id });
+      if (user === null) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'User not found',
+        });
+      }
+
+      const update = await this.userModel.updateOne({ _id }, { ...details });
+      return Return({
+        error: false,
+        statusCode: 200,
+        successMessage: 'User account updated',
+      });
+    } catch (error) {
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
 }

@@ -44,11 +44,28 @@ export class AdminService {
     }
   }
 
-  async updatePaypoint(data: Paypoint): Promise<ReturnTypeInterfcae> {
+  async updatePaypoint(
+    data: Paypoint | any,
+    bank?: number,
+  ): Promise<ReturnTypeInterfcae> {
     try {
       // update Record
       const date = new Date().toISOString();
       data['updatedAt'] = date;
+      if (bank) {
+        const record = await this.paypointModel.updateMany({
+          bank: data,
+          updatedAt: date,
+        });
+        this.logger.log(record);
+        //   Pusher.trigger('paypoint', 'update', record);
+        return Return({
+          error: false,
+          statusCode: 200,
+          successMessage: 'Bank updated',
+          data: record,
+        });
+      }
       const record = await this.paypointModel.updateMany(data);
       this.logger.log(record);
       //   Pusher.trigger('paypoint', 'update', record);

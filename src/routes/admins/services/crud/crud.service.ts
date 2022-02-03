@@ -152,7 +152,26 @@ export class CrudService {
     }
   }
 
-  async getAdmins(): Promise<ReturnTypeInterfcae> {
+  async getAdmins(id: string): Promise<ReturnTypeInterfcae> {
+    try {
+      const admins = await this.adminModel.find({ _id: id });
+      return Return({
+        error: false,
+        statusCode: 200,
+        successMessage: 'Accounts found',
+        data: admins,
+      });
+    } catch (error) {
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
+
+  async getAdmin(): Promise<ReturnTypeInterfcae> {
     try {
       const admins = await this.adminModel.find();
       return Return({
@@ -160,6 +179,36 @@ export class CrudService {
         statusCode: 200,
         successMessage: 'Accounts found',
         data: admins,
+      });
+    } catch (error) {
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
+
+  async editAdmin(_id: string, param: Admin): Promise<ReturnTypeInterfcae> {
+    try {
+      const admins = await this.adminModel.find({ _id });
+      if (admins.length < 1) {
+        return Return({
+          error: false,
+          statusCode: 200,
+          successMessage: 'Accounts found',
+          data: admins,
+        });
+      }
+
+      const update = await this.adminModel.updateOne({ _id }, { ...param });
+      console.log(update);
+
+      return Return({
+        error: false,
+        statusCode: 200,
+        successMessage: 'Updated',
       });
     } catch (error) {
       return Return({

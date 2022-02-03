@@ -14,6 +14,9 @@ export class IBank {
   @ApiProperty()
   account_number: string;
 
+  @ApiProperty()
+  bank_code: string;
+
   @ApiProperty({
     description: 'can either be SAVINGS or CURRENT in uppercase',
   })

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Admin } from 'src/Schemas/Admin.Schema';
@@ -34,9 +34,22 @@ export class AdminsController {
 
   @ApiTags('ADMIN')
   @ApiParam({ type: String, name: 'id' })
-  @Get(':id')
-  async getAdmins(@Res() res: Response, @Param() param: any) {
-    const result = await this.crudService.getAdmins();
+  @Get('')
+  async getAdmins(@Res() res: Response) {
+    const result = await this.crudService.getAdmin();
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('ADMIN')
+  @ApiParam({ type: String, name: 'id' })
+  @ApiBody({ type: Admin })
+  @Put(':id')
+  async editAdmins(
+    @Res() res: Response,
+    @Param() param: any,
+    @Body() body: any,
+  ) {
+    const result = await this.crudService.editAdmin(param['id'], body);
     res.status(result.statusCode).send(result);
   }
 }

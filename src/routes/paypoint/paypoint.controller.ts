@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Query, Res } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Paypoint } from 'src/Schemas/Paypoints.Schema';
@@ -30,8 +30,15 @@ export class PaypointController {
   @ApiTags('ADMIN:PAYPOINT')
   @ApiBody({ type: Paypoint })
   @Put('')
-  async updatePaypoint(@Res() res: Response, @Body() body: Paypoint) {
-    const request = await this.adminPaypointService.updatePaypoint(body);
+  async updatePaypoint(
+    @Res() res: Response,
+    @Body() body: Paypoint,
+    @Query() query: any,
+  ) {
+    const request = await this.adminPaypointService.updatePaypoint(
+      body,
+      query['bank'],
+    );
     res.status(request.statusCode).send(request);
   }
 }

@@ -6,6 +6,8 @@ import { Return, ReturnTypeInterfcae } from 'src/utils/types/returnType';
 import { compareSync, genSalt, hash } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 import * as joi from 'joi';
+import { User, UserDocument } from 'src/Schemas/User';
+import { Transaction, TransactionDocument } from 'src/Schemas/Transaction';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
@@ -21,6 +23,9 @@ const adminValidationSchema = joi.object({
 export class CrudService {
   constructor(
     @InjectModel(Admin.name) private adminModel: Model<AdminDocument>,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Transaction.name)
+    private transactionModel: Model<TransactionDocument>,
   ) {}
 
   // login admin
@@ -209,6 +214,95 @@ export class CrudService {
         error: false,
         statusCode: 200,
         successMessage: 'Updated',
+      });
+    } catch (error) {
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
+
+  async analytics(): Promise<ReturnTypeInterfcae> {
+    try {
+      const users = await this.userModel.find();
+      const notpendingtransactions = await this.transactionModel.find({
+        status: { $gt: 1 },
+      });
+
+      const pending = await this.transactionModel.find({ status: 1 });
+
+      const btc: Transaction[] = [];
+      const eth: Transaction[] = [];
+      const usdt: Transaction[] = [];
+
+      let btc_amount = 0;
+      let eth_amount = 0;
+      let usdt_amount = 0;
+      let total = 0;
+      // const pending: Transaction[] = [];
+
+      // // get pending
+      // for (let i = 0; i < notpendingtransactions.length; i++) {
+      //   if (notpendingtransactions[i].status === 1) {
+      //     pending.push(notpendingtransactions[i]);
+      //   }
+      // }
+
+      // get btc notpendingtransactions
+      const b = notpendingtransactions.filter(
+        (items) => items.coin_type === 1 && items.type === 1,
+      );
+      btc.push(...b);
+
+      // get eth notpendingtransactions;
+      const e = notpendingtransactions.filter(
+        (items) => items.coin_type === 2 && items.type === 1,
+      );
+      eth.push(...e);
+
+      // get usdt notpendingtransactions
+      const u = notpendingtransactions.filter(
+        (items) => items.coin_type === 2 && items.type === 1,
+      );
+      usdt.push(...u);
+
+      // bitcoin amount
+      for (let i = 0; i < btc.length; i++) {
+        btc_amount += btc[i].amount;
+      }
+
+      // eheruem amount
+      for (let i = 0; i < eth.length; i++) {
+        eth_amount += eth[i].amount;
+      }
+
+      // usdt amount
+      for (let i = 0; i < usdt.length; i++) {
+        usdt_amount += usdt[i].amount;
+      }
+
+      // usdt amount
+      for (let i = 0; i < notpendingtransactions.length; i++) {
+        if (notpendingtransactions[i].type === 1) {
+          total += notpendingtransactions[i].amount;
+        }
+      }
+
+      return Return({
+        error: false,
+        statusCode: 200,
+        data: {
+          total,
+          users: users.length,
+          pending: pending.length,
+          transactions: notpendingtransactions.length,
+          btc_amount,
+          eth_amount,
+          usdt_amount,
+        },
       });
     } catch (error) {
       return Return({

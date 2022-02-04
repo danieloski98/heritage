@@ -9,6 +9,13 @@ export class AdminsController {
   constructor(private crudService: CrudService) {}
 
   @ApiTags('ADMIN')
+  @Get('analytics')
+  async getAnalytics(@Res() res: Response) {
+    const result = await this.crudService.analytics();
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('ADMIN')
   @ApiBody({ type: Admin })
   @Post('create')
   async createAdmin(@Res() res: Response, @Body() body: Admin) {

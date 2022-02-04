@@ -252,23 +252,28 @@ export class CrudService {
       // }
 
       // get btc notpendingtransactions
-      const b = notpendingtransactions.filter(
-        (items) => items.coin_type === 1 && items.type === 1,
-      );
-      btc.push(...b);
+      for (let i = 0; i < notpendingtransactions.length; i++) {
+        if (
+          notpendingtransactions[i].coin_type === 1 &&
+          notpendingtransactions[i].type === 1
+        ) {
+          btc.push(notpendingtransactions[i]);
+        }
 
-      // get eth notpendingtransactions;
-      const e = notpendingtransactions.filter(
-        (items) => items.coin_type === 2 && items.type === 1,
-      );
-      eth.push(...e);
+        if (
+          notpendingtransactions[i].coin_type === 2 &&
+          notpendingtransactions[i].type === 1
+        ) {
+          eth.push(notpendingtransactions[i]);
+        }
 
-      // get usdt notpendingtransactions
-      const u = notpendingtransactions.filter(
-        (items) => items.coin_type === 2 && items.type === 1,
-      );
-      usdt.push(...u);
-
+        if (
+          notpendingtransactions[i].coin_type === 3 &&
+          notpendingtransactions[i].type === 1
+        ) {
+          usdt.push(notpendingtransactions[i]);
+        }
+      }
       // bitcoin amount
       for (let i = 0; i < btc.length; i++) {
         btc_amount += btc[i].amount;

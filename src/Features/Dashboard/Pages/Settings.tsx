@@ -17,6 +17,8 @@ export default function Settings() {
     const navigation = useNavigation<any>();
     const user = useSelector((state: RootState) => state.userdetail.user);
 
+    const icon = `https://avatars.dicebear.com/api/human/${user.email}.png`;
+
     return (
         <View style={{ flex: 1 }}>
 
@@ -27,7 +29,7 @@ export default function Settings() {
                 <Text style={{ fontSize: 22, fontWeight: 'bold', color:'white', marginTop: 20 }}>Settings</Text>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <View style={{ width: 100, height: 100}}>
-                        <Image source={require('../../../../assets/crypto/SHIB.png')} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
+                        <Image source={{ uri: icon }} resizeMode="contain" style={{ width: '100%', height: '100%', borderRadius: 60 }} />
                     </View>
                     <Text style={{ fontSize: 18, fontWeight: 'bold', color:'white', marginTop: 10 }}>{user.first_name} {user.last_name}</Text>
                     <Text style={{ fontSize: 16, fontWeight: '400', color:'white', marginBottom: 20 }}>{user.email}</Text>

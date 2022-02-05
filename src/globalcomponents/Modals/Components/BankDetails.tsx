@@ -4,6 +4,7 @@ import Container from '../../Container';
 import Button from '../../Button';
 import { theme } from '../../../utils/theme';
 import { currencyFormatterD, currencyFormatterNGN } from '../../../utils/currencyConverter'
+import { IPaypoint } from '../../../Types/Paypoint';
 
 // image links
 const BTC = require('../../../../assets/crypto/BTC.png');
@@ -15,9 +16,10 @@ interface IProps {
     amount: any, 
     nextStep: Function;
     getCoin: Function;
+    paypoint: IPaypoint;
 }
 
-export default function BankDetails({value, amount, nextStep, getCoin }: IProps) {
+export default function BankDetails({value, amount, nextStep, getCoin, paypoint }: IProps) {
 
     const switchLogo = (): any => {
         if (value === 1) {
@@ -61,18 +63,18 @@ export default function BankDetails({value, amount, nextStep, getCoin }: IProps)
 
             <View style={{ marginTop: 30, height: 60 }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Payment Instructions</Text>
-                <Text style={{ fontWeight: '300', fontSize: 16, marginTop: 5 }}>Send money to the account below. </Text>
+                <Text style={{ fontWeight: '300', fontSize: 16, marginTop: 5 }}>Send the above amount to the account below. </Text>
             </View>
 
             <View style={{ marginTop: 30, height: 100, }}>
                 <Text style={{ fontSize: 18 }}>
-                    <Text style={{ fontWeight: 'bold'}}>Account Name :</Text> Heritage Exchange
+                    <Text style={{ fontWeight: 'bold'}}>Account Name :</Text> {paypoint.bank.account_name}
                 </Text>
                 <Text style={{ fontSize: 18, marginTop: 10 }}>
-                    <Text style={{ fontWeight: 'bold'}}>Account No. :</Text> 0292930922
+                    <Text style={{ fontWeight: 'bold'}}>Account No. :</Text> {paypoint.bank.account_number}
                 </Text>
                 <Text style={{ fontSize: 18, marginTop: 10 }}>
-                    <Text style={{ fontWeight: 'bold'}}>Bank :</Text> Heritage Bank
+                    <Text style={{ fontWeight: 'bold'}}>Bank :</Text> {paypoint.bank.bank_name}
                 </Text>
             </View>
 

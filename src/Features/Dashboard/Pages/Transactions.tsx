@@ -227,16 +227,15 @@ export default function Transactions() {
                     </View>
                   ) : (
                     <>
-                      <Datepicker
+                      {/* <Datepicker
                         date={date}
                         onSelect={(nextDate) => setDate(nextDate)}
                         size="large"
                         max={new Date()}
-                      />
+                      /> */}
                       {crypto.map((item, index) => (
-                        <View style={{ paddingTop: 10 }}>
+                        <View key={index.toString()} style={{ paddingTop: 10 }}>
                           <TransactionCard
-                            key={index.toString()}
                             transaction={item}
                           />
                         </View>
@@ -264,14 +263,14 @@ export default function Transactions() {
                     </View>
                   ) : (
                     <>
-                      <Datepicker
+                      {/* <Datepicker
                         date={date}
                         onSelect={(nextDate) => setDate(nextDate)}
                         size="large"
                         max={new Date()}
-                      />
+                      /> */}
                       {fiat.map((item, index) => (
-                        <View style={{ paddingTop: 10 }}>
+                        <View key={index.toString()} style={{ paddingTop: 10 }}>
                           <TransactionCard
                             key={index.toString()}
                             transaction={item}

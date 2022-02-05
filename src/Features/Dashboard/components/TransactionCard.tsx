@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable, Platform, Image } from 'react-native
 import { ITransaction } from '../../../Types/Transaction';
 import { theme } from '../../../utils/theme'
 import { currencyFormatterNGN } from '../../../utils/currencyConverter'
+import * as moment from 'moment';
  
 // redux
 import {RootState} from '../../../store/index'
@@ -13,19 +14,21 @@ const BTC = require('../../../../assets/crypto/BTC.png');
 const ETH = require('../../../../assets/crypto/ETC.png');
 const USDT = require('../../../../assets/crypto/USDC.png')
 
+const Moment = moment.default().days()
+
 export default function TransactionCard({ transaction }: {transaction: ITransaction}) {
     const user = useSelector((state: RootState) => state.userdetail.user);
 
     const status = (stat: number) => {
         switch(stat) {
             case 1: {
-                return 'Processing'
+                return 'Processing';
             }
             case 2: {
-                return 'Done'
+                return 'Done';
             }
             case 3: {
-                'Declined'
+                return 'Declined';
             }
         }
     }
@@ -58,6 +61,25 @@ export default function TransactionCard({ transaction }: {transaction: ITransact
         }
     }
 
+    const borderColor = () => {
+        switch(transaction.status) {
+            case 1: {
+                return theme.pending;
+            }
+            case 2: {
+                return theme.completed;
+            }
+            case 3: {
+                return theme.failed
+            }
+        }
+    }
+
+    const getDate = (date: any) => {
+        const dt = moment.default(date);
+        return dt.startOf('hours').fromNow();
+      }
+
     return (
         <View style={style.parent}>
 
@@ -76,14 +98,14 @@ export default function TransactionCard({ transaction }: {transaction: ITransact
                 
                </Text>}
                {transaction.type === 2 && <Text style={style.header}>NGN {currencyFormatterNGN(transaction.amount)} TO {user.bank_name}</Text>}
-               <Text style={style.normalText}>June 21, 2021 : 7.00 AM</Text>
+            <Text style={style.normalText}>{getDate(transaction.createdAt)}</Text>
            </View>
 
            {/* left */}
 
            <View style={style.right}>
-                <Pressable style={style.button}>
-                    <Text style={{ color: theme.pending }}>{status(transaction.status)}</Text>
+                <Pressable style={{...style.button, borderColor: borderColor()}}>
+                    <Text style={{ color: borderColor() }}>{status(transaction.status)}</Text>
                 </Pressable>
            </View>
 
@@ -96,7 +118,7 @@ const style = StyleSheet.create({
         width: '90%',
         height: 120,
         flexDirection: 'row',
-        backgroundColor: theme.light,
+        backgroundColor: 'whitesmoke',
         paddingHorizontal: 20,
         marginHorizontal: 20,
         marginBottom: 10,

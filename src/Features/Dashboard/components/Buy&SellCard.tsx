@@ -8,6 +8,10 @@ import { theme } from '../../../utils/theme'
 import { currencyFormatterD, currencyFormatterNGN } from '../../../utils/currencyConverter'
 import { FontAwesome5 } from '@expo/vector-icons'
 
+// redux
+import {useSelector} from 'react-redux'
+import {RootState} from '../../../store/index'
+
 function getname() {}
 
 interface IProps {
@@ -19,6 +23,7 @@ interface IProps {
 }
 
 export default function BuySellCard(props: IProps) {
+    const RATE = useSelector((state: RootState) => state.paypoint.paypoint.rate);
     // console.log(props.coinStat);
     const getimage = () => {
         if (props.type === 1) {
@@ -94,7 +99,7 @@ export default function BuySellCard(props: IProps) {
 
             <View style={{ flexDirection: 'row', alignItems: 'center',  marginTop: 3, paddingHorizontal: 15 }}>
                 <Text color="black" fontSize="18px">NGN</Text>
-                <Text fontSize="18px" color="black" fontWeight="400" marginTop="0px" marginLeft="5px">{props.coinStat !== undefined ? currencyFormatterNGN(props.coinStat.current_price * 550): '0'}</Text>
+                <Text fontSize="18px" color="black" fontWeight="400" marginTop="0px" marginLeft="5px">{props.coinStat !== undefined ? currencyFormatterNGN(props.coinStat.current_price * RATE): '0'}</Text>
             </View>
 
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, justifyContent: 'space-between', marginTop: 20 }}>

@@ -14,8 +14,10 @@ import { IReturnType } from '../Types/ReturnType'
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 
 // redux
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from '../States/UserDetails'
+import { setPaypoint } from '../States/Paypoint'
+import {RootState} from '../store'
 
 const os = Platform.OS;
 
@@ -31,6 +33,16 @@ const getUser = async(id: string) => {
     return json;
 }
 
+const getPaypoint = async () => {
+    const request = await fetch(`${url}paypoint`);
+    const json = await request.json() as IReturnType;
+
+    if (!request.ok) {
+        throw new Error('An error occured');
+    }
+    return json;
+}
+
 export default function Dashboard() {
     const [loading, setLoading] = React.useState(true);
 
@@ -38,6 +50,7 @@ export default function Dashboard() {
     const idStorage = useAsyncStorage('token');
     const [id, setId] = React.useState('');
     const dispatch = useDispatch();
+    const paypoint = useSelector((state: RootState) => state.paypoint);
 
     React.useEffect(() => {
         (async function() {
@@ -46,22 +59,33 @@ export default function Dashboard() {
         })()
     })
 
-    const {} = useQuery(['getUser', id], () => getUser(id as string), {
+    const userDataQuery = useQuery(['getUser', id], () => getUser(id as string), {
         onSuccess: (data) => {
             dispatch(updateUser(data.data.user));
+            // setLoading(false);
+        },
+        onError: () => {
+            setLoading(false);
+        }
+    });
+
+    const paypointQuery = useQuery('getpaypoint', () => getPaypoint(), {
+        onSuccess: (data) => {
+            // console.log(data.data);
+            dispatch(setPaypoint(data.data));
             setLoading(false);
         },
         onError: () => {
             setLoading(false);
         }
-    })
+    });
   
     return (
         <>
 
         {/* tabs */}
 
-        <Modal visible={loading} transparent presentationStyle="pageSheet" animationType="slide" style={{ backgroundColor: 'black', justifyContent: 'center'}}>
+        <Modal visible={loading} transparent animationType="slide" style={{ backgroundColor: 'black', justifyContent: 'center'}}>
             <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.87);', justifyContent: 'center', paddingHorizontal: 20 }}>
                 <View style={{ width: '100%', height: 200, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', borderRadius: 10 }}>
                     <ActivityIndicator color={theme.primaryBackgroundColor} size="large" />

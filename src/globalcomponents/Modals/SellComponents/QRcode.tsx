@@ -6,6 +6,8 @@ import { Ionicons } from '@expo/vector-icons'
 import Container from '../../Container';
 import Button from '../../Button';
 import { View as MotiView } from 'moti'
+import { IPaypoint } from '../../../Types/Paypoint';
+import { currencyFormatterNGN } from '../../../utils/currencyConverter';
 
 // image links
 const BTC = require('../../../../assets/icons/btc.png');
@@ -18,9 +20,10 @@ interface IProps {
     amount?: any, 
     nextStep: Function;
     getCoin: Function;
+    paypoint: IPaypoint;
 }
 
-export default function QRcode({ nextStep, amount, value, getCoin }: IProps) {
+export default function QRcode({ nextStep, amount, value, getCoin, paypoint }: IProps) {
     const switchID = (): any => {
         if (value === 1) {
             return 'bitcoin';
@@ -40,6 +43,16 @@ export default function QRcode({ nextStep, amount, value, getCoin }: IProps) {
             return 'USDT';
         }
     }
+
+    const switchWallet = (): any => {
+        if (value === 1) {
+            return paypoint.bitcoin_wallet;
+        }else if (value === 2) {
+            return paypoint.etheruem_wallet;
+        }else {
+            return paypoint.usdt_wallet;
+        }
+    }
     
     return (
         <MotiView 
@@ -51,7 +64,7 @@ export default function QRcode({ nextStep, amount, value, getCoin }: IProps) {
                 <Image source={ETH} resizeMode="contain" style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10}}>
                 <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{amount} {switchText()}</Text>
-                    <Text style={{ fontSize: 18}}>NGN: {amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550}</Text>
+                    <Text style={{ fontSize: 18}}>NGN: {currencyFormatterNGN(amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550)}</Text>
                 </View>
             </View>
 
@@ -61,13 +74,13 @@ export default function QRcode({ nextStep, amount, value, getCoin }: IProps) {
             </View>
 
             <View style={{ width: '100%', height: 100, alignItems: 'center'}}>
-                <QRCode content='https://reactnative.com' size={100} />
+                <QRCode content={switchWallet()} size={100} />
             </View>
 
             <View style={{ width: '100%', height: 80, justifyContent: 'center', paddingHorizontal: 10 }}>
                 <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>Address</Text>
                 <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'center', marginTop: 10 }}>
-                    <Text selectable selectionColor={theme.color} textBreakStrategy="highQuality" style={{ textAlign: 'center', fontSize: 16, fontWeight: '400', width: '90%' }}>0x89205A3A3b2A69De6Dbf7f01ED13B2108B2c43e7</Text>
+                    <Text selectable selectionColor={theme.color} textBreakStrategy="highQuality" style={{ textAlign: 'center', fontSize: 16, fontWeight: '400', width: '90%' }}>{switchWallet()}</Text>
                     <Ionicons name="copy" size={30} color={theme.color} style={{ marginLeft: 10 }} onPress={() => alert('Address copied')} />
                 </View>
             </View>

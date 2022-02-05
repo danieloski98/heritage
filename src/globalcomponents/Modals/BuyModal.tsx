@@ -36,7 +36,7 @@ interface IProps {
     close: Function;
     coinType: number;
     getCoin: Function;
-    action: number
+    action: number;
     // amount?: number;
 }
 
@@ -68,6 +68,7 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
     // redux state
     const user = useSelector((state: RootState) => state.userdetail.user);
     const token = useSelector((state: RootState) => state.userdetail.token);
+    const paypoint = useSelector((state: RootState) => state.paypoint.paypoint);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
@@ -81,10 +82,10 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
     const switchStep = () => {
         switch(step) {
             case 1 :{
-                return <SetAmount opener={1} value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} getCoin={getCoin} />
+                return <SetAmount opener={1} value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} getCoin={getCoin} paypoint={paypoint} />
             }
             case 2: {
-                return <BankDetails value={value} amount={amount} nextStep={changeStep} getCoin={getCoin} />
+                return <BankDetails value={value} amount={amount} nextStep={changeStep} getCoin={getCoin} paypoint={paypoint} />
             }
             case 3: {
                 return <UploadFiles nextStep={changeStep} image={images} setImage={setImages} />

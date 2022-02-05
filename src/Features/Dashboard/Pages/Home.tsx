@@ -9,6 +9,7 @@ import AddDetails from '../../../globalcomponents/Modals/AddDetails'
 import BuyModal from '../../../globalcomponents/Modals/BuyModal'
 import SellModal from '../../../globalcomponents/Modals/SellModal'
 import { STAT_URL } from '../../../utils/statsApi'
+import {queryClient} from '../../../../App'
 
 // redux things
 import { useSelector, useDispatch } from 'react-redux'
@@ -26,6 +27,7 @@ export default function Home() {
 
     // redux state
     const user = useSelector((state: RootState) => state.userdetail.user);
+    const rate = useSelector((state: RootState) => state.paypoint.paypoint.rate);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
@@ -48,6 +50,7 @@ export default function Home() {
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         (async function() {
+            queryClient.invalidateQueries();
             const request = await fetch(`${STAT_URL}`);
             const json = await request.json() as Array<any>;
             setData(json.slice(0,5));
@@ -103,7 +106,7 @@ export default function Home() {
       }
 
       const openSell = (type: number) => {
-          setAction(1);
+          setAction(2);
           setCoinType(type);
           switch(type) {
               case 1: {
@@ -178,7 +181,7 @@ export default function Home() {
 
             <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: 18, paddingHorizontal: 20, marginBottom: 100 }}>
 
-                <Card text1="Today's Rate" prize="N550/$" text2="Rates are updated daily" />
+                <Card text1="Today's Rate" prize={`${rate}/$`} text2="Rates are updated daily" />
 
                 <View style={{ flexDirection: 'row', width: '100%', height: 150, backgroundColor: 'white', marginTop: 20, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: 'lightgrey' }}>
                     <View style={{ flex: 1, justifyContent: 'center' }}>

@@ -27,12 +27,12 @@ export const UserDetailSlice = createSlice({
         },
         updateUser: (state: {user:IUser, token: string},  action:{ payload: IUser}) => {
             state.user = { ...state.user, ...action.payload};
-            console.log(state.user);
+            // console.log(state.user);
         },
         updateToken: (state: {user:IUser, token: string},  action:{ payload: string}) => {
-            console.log(action.payload);
+            // console.log(action.payload);
             state.token = action.payload;
-            console.log(state.token);
+            // console.log(state.token);
         }
     }
 })

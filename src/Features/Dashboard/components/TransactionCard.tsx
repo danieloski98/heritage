@@ -16,7 +16,7 @@ const USDT = require('../../../../assets/crypto/USDC.png')
 
 const Moment = moment.default().days()
 
-export default function TransactionCard({ transaction }: {transaction: ITransaction}) {
+export default function TransactionCard({ transaction, setActive }: {transaction: ITransaction, setActive: Function}) {
     const user = useSelector((state: RootState) => state.userdetail.user);
 
     const status = (stat: number) => {
@@ -77,22 +77,21 @@ export default function TransactionCard({ transaction }: {transaction: ITransact
 
     const getDate = (date: any) => {
         const dt = moment.default(date);
-        return dt.startOf('hours').fromNow();
+        return dt.startOf('minutes').fromNow();
       }
 
     return (
-        <View style={style.parent}>
+        <Pressable onPress={() => setActive(transaction)} style={style.parent}>
 
             {/* right */}
 
            <View style={style.left}>
 
-              {transaction.type === 1 && 
-              (
+              {/* {transaction.type === 1 && 
+              ( */}
                 <View style={{ width: 30, height: 30}}>
                     <Image source={imageSwitcher(transaction.coin_type)} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
                </View>
-              )}
 
                {transaction.type === 1 && <Text style={style.header}>Purchase of {transaction.coin_amount} {coinSwitcher(transaction.coin_type)}
                 
@@ -104,12 +103,12 @@ export default function TransactionCard({ transaction }: {transaction: ITransact
            {/* left */}
 
            <View style={style.right}>
-                <Pressable style={{...style.button, borderColor: borderColor()}}>
+                <View style={{...style.button, borderColor: borderColor()}}>
                     <Text style={{ color: borderColor() }}>{status(transaction.status)}</Text>
-                </Pressable>
+                </View>
            </View>
 
-        </View>
+        </Pressable>
     )
 }
 
@@ -137,11 +136,11 @@ const style = StyleSheet.create({
     },
     button: {
         width: '100%',
-        height: 40,
-        borderRadius: 10,
+        height: 30,
+        borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: theme.pending,
     },
     header: {

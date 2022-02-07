@@ -21,6 +21,7 @@ import { RootState } from "../../../store/index";
 import { useSelector } from "react-redux";
 import { IReturnType } from "../../../Types/ReturnType";
 import { ITransaction } from "../../../Types/Transaction";
+import TransactionModal from "../components/TransactionModal";
 
 // get transactions
 const getTransactions = async (id: string) => {
@@ -41,6 +42,8 @@ export default function Transactions() {
   const [error, setError] = React.useState(false);
   const [crypto, setCrypto] = React.useState([] as Array<ITransaction>);
   const [fiat, setFiat] = React.useState([] as Array<ITransaction>);
+  const [transaction, setTransaction] = React.useState({} as ITransaction);
+  const [showModal, setShowModal] = React.useState(false);
 
   const userDetails = useSelector((state: RootState) => state.userdetail.user);
   const { refetch } = useQuery(
@@ -76,15 +79,30 @@ export default function Transactions() {
     await refetch();
   };
 
+  const setTrans = (trans: ITransaction) => {
+    setTransaction(trans);
+    setShowModal(true);
+  }
+
+  const closeModal = () => {
+    // setTransaction({} as ITransaction);
+    setShowModal(false);
+  }
+
   const os = Platform.OS;
   return (
-    <View style={{ flex: 1, backgroundColor: theme.light }}>
-      <View style={{ padding: 0 }}>
+    <View style={{ flex: 1, backgroundColor: 'whitesmoke' }}>
+
+      {/* Modal */}
+      <TransactionModal transaction={transaction} open={showModal} close={closeModal} />
+
+      <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
         <View
           style={{
             width: "100%",
             height: "100%",
-            borderRadius: 10,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
             backgroundColor: "white",
           }}
         >
@@ -120,7 +138,7 @@ export default function Transactions() {
                 }}
               >
                 <Text
-                  style={{ fontWeight: os === "ios" ? "600" : "bold" }}
+                  style={{ fontWeight: os === "ios" ? "600" : "bold", color: tab === 1 ? 'black': 'lightgrey' }}
                   onPress={() => setTab(1)}
                 >
                   Cryptocurrency
@@ -144,7 +162,7 @@ export default function Transactions() {
                   justifyContent: "center",
                 }}
               >
-                <Text style={{ fontWeight: os === "ios" ? "600" : "bold" }}>
+                <Text style={{ fontWeight: os === "ios" ? "600" : "bold", color: tab === 2 ? 'black': 'lightgrey' }}>
                   FIAT
                 </Text>
               </Pressable>
@@ -237,6 +255,7 @@ export default function Transactions() {
                         <View key={index.toString()} style={{ paddingTop: 10 }}>
                           <TransactionCard
                             transaction={item}
+                            setActive={setTrans}
                           />
                         </View>
                       ))}
@@ -272,8 +291,8 @@ export default function Transactions() {
                       {fiat.map((item, index) => (
                         <View key={index.toString()} style={{ paddingTop: 10 }}>
                           <TransactionCard
-                            key={index.toString()}
                             transaction={item}
+                            setActive={setTrans}
                           />
                         </View>
                       ))}

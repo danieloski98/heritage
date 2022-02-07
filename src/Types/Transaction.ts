@@ -1,3 +1,5 @@
+import { IUser } from "./User";
+
 export interface ITransaction {
     __v: number;
     _id: string;
@@ -9,4 +11,5 @@ export interface ITransaction {
     type: number;
     user_id: string;
     createdAt: string;
+    user: IUser;
 }

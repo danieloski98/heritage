@@ -25,6 +25,7 @@ export class NotificationsService {
       const user = await this.userModel.findOne({ _id: user_id });
       // send notification
       const newNoti = await this.notificationModel.create({
+        user_type: 1,
         user_id,
         message: text,
       });

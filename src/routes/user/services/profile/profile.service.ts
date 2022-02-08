@@ -25,17 +25,26 @@ export class ProfileService {
       const wallets = await this.walletModel.find({ user_id: id });
       const banks = await this.bankModel.find({ user_id: id });
       const transactions = await this.transactionModel.find({ user_id: id });
-      return Return({
-        error: false,
-        statusCode: 200,
-        successMessage: 'User found',
-        data: {
-          user,
-          wallets,
-          banks,
-          transactions,
-        },
-      });
+      console.log(user);
+      if (user === null) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'User not found',
+        });
+      } else {
+        return Return({
+          error: false,
+          statusCode: 200,
+          successMessage: 'User found',
+          data: {
+            user,
+            wallets,
+            banks,
+            transactions,
+          },
+        });
+      }
     } catch (error) {
       this.logger.log(error);
       return Return({

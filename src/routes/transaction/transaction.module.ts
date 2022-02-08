@@ -17,6 +17,7 @@ import {
 import { Admin } from 'src/Entity/Admin.entity';
 import { AdminSchema } from 'src/Schemas/Admin.Schema';
 import { VerifyadminMiddleware } from 'src/middleware/verifyadmin.middleware';
+import { GeneralService } from '../notifications/services/general/general.service';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { VerifyadminMiddleware } from 'src/middleware/verifyadmin.middleware';
     ]),
   ],
   controllers: [TransactionController],
-  providers: [CrudService, NotificationsService],
+  providers: [CrudService, NotificationsService, GeneralService],
 })
 export class TransactionModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

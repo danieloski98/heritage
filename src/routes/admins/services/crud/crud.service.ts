@@ -229,7 +229,7 @@ export class CrudService {
     try {
       const users = await this.userModel.find();
       const notpendingtransactions = await this.transactionModel.find({
-        status: { $gt: 1 },
+        status: { $ne: 1 },
       });
 
       const pending = await this.transactionModel.find({ status: 1 });

@@ -21,6 +21,20 @@ export class CrudService {
     private notiService: NotificationsService,
   ) {}
 
+  private coinCheck(coin: number): string {
+    switch (coin) {
+      case 1: {
+        return 'Bitcoin';
+      }
+      case 2: {
+        return 'Ethereum';
+      }
+      case 3: {
+        return 'USDT';
+      }
+    }
+  }
+
   public async getUserTransactions(
     user_id: string,
     query?: any,
@@ -189,6 +203,8 @@ export class CrudService {
         amount: joi.number().optional(),
         coin_amount: joi.number().optional(),
         type: joi.number().required().min(1).max(2),
+        USD: joi.string().required(),
+        rate: joi.number().required(),
       });
 
       // validate
@@ -204,7 +220,14 @@ export class CrudService {
         // create the transaction
         const newTrans = await this.transactionModel.create(transactionDetails);
         // sent notification
-        // await this.notiService.transactionNoti(user_id, 'Transaction created');
+        await this.notiService.transactionNoti(
+          user_id,
+          `Request to ${newTrans.type === 1 ? 'Buy' : 'Sell'} ${
+            newTrans.coin_amount
+          }  ${this.coinCheck(
+            newTrans.coin_type,
+          )} has been recieved and is been processed.`,
+        );
         return Return({
           error: false,
           statusCode: 200,

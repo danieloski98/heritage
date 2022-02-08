@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { number } from 'joi';
 import { Document } from 'mongoose';
 import { COINTYPE } from 'src/utils/enums/cointype-enum';
 import { TRANSACTIONSTATUS } from 'src/utils/enums/Transaction-status-enum';
@@ -42,6 +43,16 @@ export class Transaction {
   proof_of_payment: string[];
 
   @ApiProperty({
+    type: String,
+    description: '',
+  })
+  @Prop({
+    required: true,
+    type: String,
+  })
+  USD: string;
+
+  @ApiProperty({
     type: Array,
     description: 'A array containing all the file objects not string',
   })
@@ -58,6 +69,14 @@ export class Transaction {
     type: Number,
   })
   type: TRANSACTIONTYPE;
+
+  @ApiProperty({
+    type: number,
+  })
+  @Prop({
+    type: Number,
+  })
+  rate: number;
 
   @ApiProperty({
     enum: COINTYPE,

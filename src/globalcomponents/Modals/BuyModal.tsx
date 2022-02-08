@@ -18,6 +18,7 @@ import url from '../../utils/url'
 // redux things
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../store'
+import { currencyFormatterD } from '../../utils/currencyConverter'
 
 const os = Platform.OS;
 
@@ -134,8 +135,10 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
             const obj = {
                 type: 1,
                 coin_amount: amount,
-                amount: amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550,
+                amount: amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.rate) : getCoin(switchID()).current_price * amount * paypoint.rate,
                 coin_type: coinType,
+                USD: amount <= 0 ? 0 : currencyFormatterD(getCoin(switchID()).current_price * amount),
+                rate: paypoint.rate,
             }
 
             const request = await fetch(`${url}transaction/create/${user._id}`, {

@@ -12,6 +12,7 @@ import { useQuery } from 'react-query'
 import url from '../utils/url'
 import { IReturnType } from '../Types/ReturnType'
 import { useAsyncStorage } from '@react-native-async-storage/async-storage'
+import {useNavigation} from '@react-navigation/native'
 
 // redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,7 +29,7 @@ const getUser = async(id: string) => {
     const json = await request.json() as IReturnType;
 
     if (!request.ok) {
-        throw new Error('An error occured');
+        throw new Error('An error occured while getting the user');
     }
     return json;
 }
@@ -52,6 +53,8 @@ export default function Dashboard() {
     const dispatch = useDispatch();
     const paypoint = useSelector((state: RootState) => state.paypoint);
 
+    const navigation = useNavigation<any>();
+
     React.useEffect(() => {
         (async function() {
             const _id = await idStorage.getItem();
@@ -61,11 +64,13 @@ export default function Dashboard() {
 
     const userDataQuery = useQuery(['getUser', id], () => getUser(id as string), {
         onSuccess: (data) => {
+            console.log(data);
             dispatch(updateUser(data.data.user));
             // setLoading(false);
         },
         onError: () => {
             setLoading(false);
+            navigation.navigate('login');
         }
     });
 

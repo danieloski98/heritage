@@ -89,9 +89,10 @@ export default function TransactionModal({ transaction, open, close }: {transact
         }
     }
 
-    const getDate = (date: any) => {
+    const getDate = (date: string) => {
+        console.log(date);
         const dt = moment.default(date);
-        return dt.startOf('hours').fromNow();
+        return dt.startOf('minutes').fromNow();
       }
 
 
@@ -147,7 +148,7 @@ export default function TransactionModal({ transaction, open, close }: {transact
                         
                         <View style={{ flex: 1 }}>
                             <Text style={{ fontSize: 18, fontWeight: '600', color: 'black'}}>Amount USD</Text>
-                            <Text style={{ fontSize: 12, fontWeight: '500', color: 'grey'}}>${currencyFormatterD(transaction.coin_amount || 0)}</Text>
+                            <Text style={{ fontSize: 12, fontWeight: '500', color: 'grey'}}>${currencyFormatterD(transaction.amount/rate)}</Text>
                         </View>
 
                         <View style={{ width: '40%' }}>

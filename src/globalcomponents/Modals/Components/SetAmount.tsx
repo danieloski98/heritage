@@ -100,7 +100,7 @@ export default function SetAmount({value, setValue, amount, setAmount, nextStep,
 
                 <Text style={{ fontWeight: Platform.OS === 'ios'? '300':'300', fontSize: 18, color: 'black', flex: 0.5, }}>
                 <Text style={{ fontWeight: Platform.OS === 'ios' ? '600':'bold', fontSize: 18, color: 'black' }}>NGN: </Text>
-                    {amount <= 0 ? 0 : amount < 1 ? currencyFormatterNGN(getCoin(switchID()).current_price * amount * (paypoint?.rate as number)) : currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550)}</Text>
+                    {amount <= 0 ? 0 : amount < 1 ? currencyFormatterNGN(getCoin(switchID()).current_price * amount * (paypoint?.rate as number)) : currencyFormatterNGN(getCoin(switchID()).current_price * amount * (paypoint?.rate as number))}</Text>
 
                 <Text style={{ fontWeight: Platform.OS === 'ios'? '300':'300', fontSize: 18, color: 'black', flex: 0.5,  }}>
                     <Text style={{ fontWeight: Platform.OS === 'ios' ? '600':'bold', fontSize: 18, color: 'black' }}>USD: </Text>

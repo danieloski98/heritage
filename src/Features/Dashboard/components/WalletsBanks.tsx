@@ -32,6 +32,8 @@ export default function WalletsBanks() {
     const user = useSelector((state: RootState) => state.userdetail.user);
     const token = useSelector((state: RootState) => state.userdetail.token);
 
+    console.log(user);
+
     // formik
     const formik = useFormik({
         initialValues: {bitcoin_wallet: user.bitcoin_wallet, ethereum_wallet: user.ethereum_wallet, usdt_wallet: user.usdt_wallet, bank_name: user.bank_name, account_name: user.account_name, account_number: user.account_number },
@@ -55,6 +57,7 @@ export default function WalletsBanks() {
         }
     
         setLoading(true);
+        console.log(user);
     
         // make request
         const request = await fetch(`${url}user/edit/details/${user._id}`, {

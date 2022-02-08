@@ -11,5 +11,7 @@ export interface ITransaction {
     type: number;
     user_id: string;
     createdAt: string;
+    USD: number;
+    rate: number;
     user: IUser;
 }

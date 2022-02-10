@@ -15,4 +15,11 @@ export const theme = {
     completed: '#148B3E',
     failed: '#D52C60',
     darkBlue: '#020B4D',
+    fontFamily: {
+        'Inter-Bold': 'Inter-Bold',
+        'Inter-SemiBold': 'Inter-SemiBold',
+        'Inter-Medium': 'Inter-Medium',
+        'Inter-Regular': 'Inter-Regular',
+        'Inter-Light': 'Inter-Light',
+    }
 }

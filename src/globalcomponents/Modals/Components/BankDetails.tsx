@@ -56,32 +56,35 @@ export default function BankDetails({value, amount, nextStep, getCoin, paypoint 
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 20, alignItems: 'center', height: 70 }}>
                 <Image source={switchLogo()} resizeMode="contain" style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10}}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{amount} {switchText()}</Text>
-                    <Text style={{ fontSize: 18}}>NGN: {amount <= 0 ? 0 : amount < 1 ? currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550) : currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550)}</Text>
+                    <Text style={{ fontFamily: theme.fontFamily['Inter-Bold'] , fontSize: 24 }}>{amount} {switchText()}</Text>
+                    <Text style={{ fontSize: 18, fontFamily: theme.fontFamily['Inter-Light']}}>
+                    <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold']}}>NGN: </Text>
+                    {amount <= 0 ? 0 : amount < 1 ? currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550) : currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550)}
+                    </Text>
                 </View>
             </View>
 
             <View style={{ marginTop: 30, height: 60 }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Payment Instructions</Text>
-                <Text style={{ fontWeight: '300', fontSize: 16, marginTop: 5 }}>Send the above amount to the account below. </Text>
+                <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] , fontSize: 18 }}>Payment Instructions</Text>
+                <Text style={{ fontFamily: theme.fontFamily['Inter-Regular'] , fontSize: 16, marginTop: 5 }}>Send the above amount to the account below. </Text>
             </View>
 
             <View style={{ marginTop: 30, height: 100, }}>
-                <Text style={{ fontSize: 18 }}>
-                    <Text style={{ fontWeight: 'bold'}}>Account Name :</Text> {paypoint.bank.account_name}
+                <Text style={{ fontSize: 18, fontFamily: theme.fontFamily['Inter-Regular'] }}>
+                    <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] }}>Account Name :</Text> {paypoint.bank.account_name}
                 </Text>
-                <Text style={{ fontSize: 18, marginTop: 10 }}>
-                    <Text style={{ fontWeight: 'bold'}}>Account No. :</Text> {paypoint.bank.account_number}
+                <Text style={{ fontSize: 18, marginTop: 10, fontFamily: theme.fontFamily['Inter-Regular'] }}>
+                    <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] }}>Account No. :</Text> {paypoint.bank.account_number}
                 </Text>
-                <Text style={{ fontSize: 18, marginTop: 10 }}>
-                    <Text style={{ fontWeight: 'bold'}}>Bank :</Text> {paypoint.bank.bank_name}
+                <Text style={{ fontSize: 18, marginTop: 10, fontFamily: theme.fontFamily['Inter-Regular'] }}>
+                    <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] }}>Bank :</Text> {paypoint.bank.bank_name}
                 </Text>
             </View>
 
             <Container width="100%" height="55px" alignItems="flex-start" marginTop="20px">
                     <Button>
                     <Pressable style={{ flex: 1, justifyContent: 'center', backgroundColor: theme.primaryBackgroundColor, width: '100%', borderRadius: 10, alignItems: 'center' }} onPress={() => nextStep(3)}>
-                        <Text style={{ color: 'white'}}>Upload Payment Proof</Text>
+                        <Text style={{ color: 'white', fontFamily: 'Inter-SemiBold'}}>Upload Payment Proof</Text>
                     </Pressable>
                     </Button>
                 </Container>

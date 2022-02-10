@@ -83,23 +83,23 @@ export default function BuySellCard(props: IProps) {
             <View style={{ flexDirection: 'row', width: '100%', height: 65, alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'transparent', paddingHorizontal: 10 }}>
                 <View style={{ flexDirection: 'row', height: '100%', alignItems: 'center' }}>
                     <Image source={getimage()} resizeMode="contain" style={{ width: 50, height: 50}} />
-                    <Text fontSize="16px" color="black" fontWeight={Platform.OS === 'ios' ? '600':'bold'} marginLeft="10px">{getcoin()}</Text>
+                    <Text fontSize="16px"  fontFamily={theme.fontFamily['Inter-Regular']} color="black" fontWeight={Platform.OS === 'ios' ? '600':'bold'} marginLeft="10px">{getcoin()}</Text>
                 </View>
 
                 <View style={{ flexDirection: 'row', height: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
                     <FontAwesome5 name="caret-up" color="green" size={15} />
-                    <Text fontSize="16px" color="black" fontWeight="600" marginLeft="3px">8.06%</Text>
+                    <Text fontSize="16px" fontFamily={theme.fontFamily['Inter-Light']} color="green" fontWeight="600" marginLeft="3px">8.06%</Text>
                 </View>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, paddingHorizontal: 10 }}>
-                <Feather name="dollar-sign" color="green" size={20} />
-                <Text fontSize="30px" color="black" fontWeight="bold" marginTop="0px" marginLeft="0px">{props.coinStat !== undefined ? currencyFormatterD(props.coinStat.current_price): '0'}</Text>
+                <Feather name="dollar-sign" color="black" size={25} />
+                <Text fontSize="30px" fontFamily={theme.fontFamily['Inter-Bold']} color="black" fontWeight="bold" marginTop="0px" marginLeft="0px">{props.coinStat !== undefined ? currencyFormatterD(props.coinStat.current_price): '0'}</Text>
             </View>
 
             <View style={{ flexDirection: 'row', alignItems: 'center',  marginTop: 3, paddingHorizontal: 15 }}>
-                <Text color="black" fontSize="18px">NGN</Text>
-                <Text fontSize="18px" color="black" fontWeight="400" marginTop="0px" marginLeft="5px">{props.coinStat !== undefined ? currencyFormatterNGN(props.coinStat.current_price * RATE): '0'}</Text>
+                <Text fontFamily={theme.fontFamily['Inter-SemiBold']} color="black" fontSize="18px">NGN</Text>
+                <Text fontSize="18px" fontFamily={theme.fontFamily['Inter-Light']} color="black" fontWeight="400" marginTop="0px" marginLeft="5px">{props.coinStat !== undefined ? currencyFormatterNGN(props.coinStat.current_price * RATE): '0'}</Text>
             </View>
 
             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, justifyContent: 'space-between', marginTop: 20 }}>
@@ -108,7 +108,7 @@ export default function BuySellCard(props: IProps) {
                             onPress={() => props.buy()}
                             style={{ flex: 1, justifyContent: 'center', alignItems: 'center',  }}
                         >
-                            <Text color="black" fontWeight={Platform.OS === 'ios' ? '600':'bold'}  >{gettext(1)}</Text>
+                            <Text color="black" fontFamily={theme.fontFamily['Inter-Medium']} fontWeight={Platform.OS === 'ios' ? '600':'bold'}  >{gettext(1)}</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ width: '45%', height: '50%', borderRadius: 20, borderWidth: 1, borderColor: 'grey', backgroundColor: theme.light }}>
@@ -116,7 +116,7 @@ export default function BuySellCard(props: IProps) {
                             onPress={() => props.sell()}
                             style={{ flex: 1, justifyContent: 'center', alignItems: 'center', zIndex: 50 }}
                         >
-                            <Text color="black" fontWeight={Platform.OS === 'ios' ? '600':'bold'}  >{gettext(2)}</Text>
+                            <Text color="black" fontFamily={theme.fontFamily['Inter-Medium']} fontWeight={Platform.OS === 'ios' ? '600':'bold'}  >{gettext(2)}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

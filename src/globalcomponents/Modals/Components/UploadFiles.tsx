@@ -46,8 +46,8 @@ export default function UploadFiles({ nextStep, image, setImage }: IProps) {
            <View style={{ width: '100%', borderRadius: 10, borderWidth: 2, borderStyle: 'dashed', borderColor: 'grey', height: 250, marginTop: 30 }}>
                <Pressable onPress={pick} style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Ionicons name="cloud-upload" color={theme.color} size={60} />
-                <Text style={{ fontWeight: 'bold', fontSize: 18, marginTop: 5 }}>Tap to upload a file here</Text>
-                <Text style={{ fontSize: 16, color: 'grey', marginTop: 5 }}>Supports JPG and PNG</Text>
+                <Text style={{ fontFamily: 'Inter-Bold', fontSize: 18, marginTop: 5 }}>Tap to upload a file here</Text>
+                <Text style={{ fontSize: 16, color: 'grey', marginTop: 5, fontFamily: 'Inter-Regular' }}>Supports JPG and PNG</Text>
                </Pressable>
            </View>
         </View>

@@ -11,7 +11,7 @@ export default function Savings() {
     return (
         <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
 
-            <Text fontSize="28px">Coming Soon</Text>
+            <Text fontSize="28px" fontFamily="Inter-Bold">Coming Soon</Text>
             {/* <ScrollView style={{ flex: 1}}> */}
                     {/* <Container width='100%' height="50px" alignItems="flex-start" marginTop="20px" paddingLeft="20px" paddingRight="20px" bgColor="white">
                         <Text color="black" fontWeight="bold" fontSize="20px" >Crypto Savings</Text>

@@ -3,6 +3,7 @@ import { theme } from '../utils/theme';
 
 const Text = styled.Text`
     font-size: ${props => props.fontSize ? props.fontSize : '14px'};
+    font-family: ${props => props.fontFamily ? props.fontFamily: 'Inter-Regular'};
     color: ${ props => props.color ? props.color : theme.inactiveText };
     text-align: ${ props => props.textAlign ? props.textAlign : 'left'};
     padding-top: ${ props => props.paddingTop ? props.paddingTop: '0px'};

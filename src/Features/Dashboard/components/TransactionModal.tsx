@@ -90,7 +90,6 @@ export default function TransactionModal({ transaction, open, close }: {transact
     }
 
     const getDate = (date: string) => {
-        console.log(date);
         const dt = moment.default(date);
         return dt.startOf('minutes').fromNow();
       }
@@ -119,13 +118,13 @@ export default function TransactionModal({ transaction, open, close }: {transact
 
                     <View style={{ width: '100%', height: 70, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
                         <View>
-                            <Text style={{ fontSize: 18, fontWeight: '600', color: 'black'}}>Transaction Details</Text>
-                            <Text style={{ fontSize: 12, fontWeight: '300', color: 'grey'}}>ID: #{transaction._id}</Text>
+                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Transaction Details</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>ID: #{transaction._id}</Text>
                         </View>
 
-                        <View style={{ width: '40%'}}>
-                            <Text style={{ fontSize: 18, fontWeight: '600', color: 'black'}}>Time</Text>
-                            <Text style={{ fontSize: 12, fontWeight: '300', color: 'grey'}}>{getDate(transaction.createdAt)}</Text>
+                        <View style={{ width: '30%'}}>
+                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Time</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{getDate(transaction.createdAt)}</Text>
                         </View>
                         
                     </View>
@@ -133,13 +132,13 @@ export default function TransactionModal({ transaction, open, close }: {transact
                     <View style={{ width: '100%', height: 70, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
 
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 18, fontWeight: '600', color: 'black'}}>Transaction Type</Text>
-                            <Text style={{ fontSize: 12, fontWeight: '500', color: 'grey'}}>{transaction.type === 1 ? 'CRYPTO':'FIAT'}</Text>
+                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Transaction Type</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{transaction.type === 1 ? 'CRYPTO':'FIAT'}</Text>
                         </View>
 
-                        <View style={{ width: '40%' }}>
-                            <Text style={{ fontSize: 18, fontWeight: '600', color: 'black'}}>Coin Type</Text>
-                            <Text style={{ fontSize: 12, fontWeight: '500', color: 'grey'}}>{coinSwitcher(transaction.coin_type)}</Text>
+                        <View style={{ width: '30%' }}>
+                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Coin Type</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{coinSwitcher(transaction.coin_type)}</Text>
                         </View>
                        
                     </View>
@@ -147,13 +146,13 @@ export default function TransactionModal({ transaction, open, close }: {transact
                     <View style={{ width: '100%', height: 70, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 18, fontWeight: '600', color: 'black'}}>Amount USD</Text>
-                            <Text style={{ fontSize: 12, fontWeight: '500', color: 'grey'}}>${currencyFormatterD(transaction.amount/rate)}</Text>
+                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Amount USD</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>${currencyFormatterD(transaction.amount/rate)}</Text>
                         </View>
 
-                        <View style={{ width: '40%' }}>
-                            <Text style={{ fontSize: 18, fontWeight: '600', color: 'black'}}>Amount NGN</Text>
-                            <Text style={{ fontSize: 12, fontWeight: '500', color: 'grey'}}>NGN{currencyFormatterNGN(transaction.amount || 0)}</Text>
+                        <View style={{ width: '30%' }}>
+                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Amount NGN</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>NGN{currencyFormatterNGN(transaction.amount || 0)}</Text>
                         </View>
                        
                     </View>
@@ -161,11 +160,11 @@ export default function TransactionModal({ transaction, open, close }: {transact
                     <View style={{ width: '100%', height: 70, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
                         
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 18, fontWeight: '600', color: 'black'}}>Recieving {transaction.type === 1 ? 'Address':'Account'}</Text>
-                            {transaction.type === 2 && <Text style={{ fontSize: 12, fontWeight: '500', color: 'grey'}}>{user.account_name}</Text>}
-                           {transaction.type === 2 &&  <Text style={{ fontSize: 12, fontWeight: '500', color: 'grey'}}>{user.bank_name} - {user.account_number}</Text>}
+                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Recieving {transaction.type === 1 ? 'Address':'Account'}</Text>
+                            {transaction.type === 2 && <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{user.account_name}</Text>}
+                           {transaction.type === 2 &&  <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{user.bank_name} - {user.account_number}</Text>}
 
-                           {transaction.type === 1 &&  <Text style={{ fontSize: 12, fontWeight: '500', color: 'grey'}}>{coinSwitcher(transaction.coin_type)} - {wallet(transaction.coin_type)}</Text>}
+                           {transaction.type === 1 &&  <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{coinSwitcher(transaction.coin_type)} - {wallet(transaction.coin_type)}</Text>}
                         </View>
 
                         {/* <View style={{ width: '30%' }}>
@@ -177,7 +176,7 @@ export default function TransactionModal({ transaction, open, close }: {transact
 
                     <View style={{ flex: 0.2, justifyContent: 'flex-end'}}>
                         <View style={{ width: '100%', height: 40, borderColor: borderColor(), borderWidth: 1, borderRadius: 5, alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
-                                <Text style={{ color: borderColor() }}>{status(transaction.status)}</Text>
+                                <Text style={{ color: borderColor(), fontFamily: 'Inter-Light' }}>{status(transaction.status)}</Text>
                         </View>
                     </View>
 

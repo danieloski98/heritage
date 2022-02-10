@@ -92,7 +92,7 @@ export default function Summary({nextStep, images, setImage, action, coinType, o
                         images.map((item, index) => (
                             <View key={index.toString()} style={{ width: '100%', height: 50, backgroundColor: theme.light, marginVertical: 5, borderRadius: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
                                 <FontAwesome5 name="file-alt" size={25} color={theme.color} />
-                                <Text style={{ fontSize: Platform.OS === 'ios' ? 14:14, fontWeight: Platform.OS === 'ios' ? '500':'500', width: '80%', textAlign: 'center', paddingHorizontal: 10 }}>{item.name}</Text>
+                                <Text style={{ fontSize: Platform.OS === 'ios' ? 14:14, fontFamily: 'Inter-Regular', width: '80%', textAlign: 'center', paddingHorizontal: 10 }}>{item.name}</Text>
                                 <Pressable style={{ width: 25, height: 25, borderRadius: 15, backgroundColor: 'rgba(189, 99, 99, 0.226)', justifyContent: 'center', alignItems: 'center' }} onPress={() => deleteImg(index)}>
                                     <FontAwesome5 name="times" size={15} color="red" />
                                 </Pressable>
@@ -103,7 +103,7 @@ export default function Summary({nextStep, images, setImage, action, coinType, o
                     {
                         images.length < 5 && (
                             <View style={{ alignItems: 'flex-end', marginTop: 20, height: 20 }}>
-                                <Text onPress={pick} style={{ color: '#1526A7', fontSize: Platform.OS === 'ios' ? 14:16, fontWeight: Platform.OS === 'ios' ? '500':'bold' }}>+ Add Another ScreenShot</Text>
+                                <Text onPress={pick} style={{ color: '#1526A7', fontSize: Platform.OS === 'ios' ? 14:16, fontFamily: 'Inter-SemiBold' }}>+ Add Another ScreenShot</Text>
                             </View>
                         )
                     }
@@ -116,25 +116,25 @@ export default function Summary({nextStep, images, setImage, action, coinType, o
             </View> */}
 
             <View style={{ marginTop: 20 }}>
-                <Text style={{ fontSize: Platform.OS === 'ios' ? 14:16, }}>Recieving {action === 1 ? 'Wallet Address': 'Account'}</Text>
+                <Text style={{ fontSize: Platform.OS === 'ios' ? 14:16, fontFamily: 'Inter-SemiBold' }}>Recieving {action === 1 ? 'Wallet Address': 'Account'}</Text>
                 <View style={{ width: '100%', height: 50, backgroundColor: theme.light, marginVertical: 5, borderRadius: 10, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', paddingHorizontal: 10 }}>
                         {action > 1 && (
-                            <Text>{user.account_number} - {user.bank_name}</Text>
+                            <Text style={{ fontFamily: 'Inter-SemiBold'}}>{user.account_number} - {user.bank_name}</Text>
                         )}
                         {
                             action === 1 && (
-                                <Text>{wallet()}</Text>
+                                <Text style={{ fontFamily: 'Inter-SemiBold'}}>{wallet()}</Text>
                             )
                         }
                 </View>
-                <Text style={{ fontSize: Platform.OS === 'ios' ? 14:16, color: 'red', marginTop: 10 }}>Please make sure your account details are correct as Heritage exchange won't be held responsible for any error from your end.</Text>
+                <Text style={{ fontSize: Platform.OS === 'ios' ? 14:16, color: 'red', marginTop: 10, fontFamily: 'Inter-Bold' }}>Please make sure your account details are correct as Heritage exchange won't be held responsible for any error from your end.</Text>
             </View>
 
             <Container width="100%" height="55px" alignItems="flex-start" marginTop="20px">
                     <Button>
                         <Pressable style={{ flex: 1, justifyContent: 'center', backgroundColor: theme.primaryBackgroundColor, width: '100%', borderRadius: 10, alignItems: 'center' }} onPress={submit}>
                             {loading && <ActivityIndicator size="small" color="white" />}
-                            {!loading && <Text style={{ color: 'white' }}>Submit</Text>}
+                            {!loading && <Text style={{ color: 'white', fontFamily: 'Inter-SemiBold' }}>Submit</Text>}
                         </Pressable>
                     </Button>
             </Container>

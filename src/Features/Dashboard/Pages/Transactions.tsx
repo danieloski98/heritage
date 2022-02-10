@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   View,
   Text,
@@ -15,6 +15,9 @@ import TransactionCard from "../components/TransactionCard";
 import { Datepicker } from "@ui-kitten/components";
 import url from "../../../utils/url";
 import { useQuery } from "react-query";
+import { MotiView, AnimatePresence } from 'moti'
+import * as Permissions from 'expo-permissions'
+import * as Haptics from 'expo-haptics';
 
 // redux
 import { RootState } from "../../../store/index";
@@ -36,7 +39,7 @@ const getTransactions = async (id: string) => {
 };
 
 export default function Transactions() {
-  const [tab, setTab] = React.useState(2);
+  const [tab, setTab] = React.useState(1);
   const [date, setDate] = React.useState(new Date());
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(false);
@@ -44,6 +47,7 @@ export default function Transactions() {
   const [fiat, setFiat] = React.useState([] as Array<ITransaction>);
   const [transaction, setTransaction] = React.useState({} as ITransaction);
   const [showModal, setShowModal] = React.useState(false);
+
 
   const userDetails = useSelector((state: RootState) => state.userdetail.user);
   const { refetch } = useQuery(
@@ -61,7 +65,6 @@ export default function Transactions() {
           const ngn = data.data.filter(
             (item: ITransaction, inx: number) => item.type === 2
           );
-          console.log(ngn);
           setCrypto(cry);
           setFiat(ngn);
         }
@@ -83,6 +86,12 @@ export default function Transactions() {
     setTransaction(trans);
     setShowModal(true);
   }
+
+  const changeTab = useCallback((tab: number) => {
+    Haptics.selectionAsync();
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setTab(tab);
+  }, []);
 
   const closeModal = () => {
     // setTransaction({} as ITransaction);
@@ -130,7 +139,7 @@ export default function Transactions() {
               }}
             >
               <Pressable
-                onPress={() => setTab(1)}
+                onPress={() => changeTab(1)}
                 style={{
                   flex: 1,
                   alignItems: "center",
@@ -138,8 +147,7 @@ export default function Transactions() {
                 }}
               >
                 <Text
-                  style={{ fontWeight: os === "ios" ? "600" : "bold", color: tab === 1 ? 'black': 'lightgrey' }}
-                  onPress={() => setTab(1)}
+                  style={{ fontFamily: 'Inter-SemiBold', color: tab === 1 ? 'black': 'lightgrey', fontSize: 16 }}
                 >
                   Cryptocurrency
                 </Text>
@@ -155,14 +163,14 @@ export default function Transactions() {
               }}
             >
               <Pressable
-                onPress={() => setTab(2)}
+               onPress={() => changeTab(2)}
                 style={{
                   flex: 1,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <Text style={{ fontWeight: os === "ios" ? "600" : "bold", color: tab === 2 ? 'black': 'lightgrey' }}>
+                <Text style={{ fontFamily: 'Inter-SemiBold', color: tab === 2 ? 'black': 'lightgrey', fontSize: 16 }}>
                   FIAT
                 </Text>
               </Pressable>
@@ -205,7 +213,7 @@ export default function Transactions() {
                 paddingHorizontal: 20,
               }}
             >
-              <Text style={{ color: "black", fontSize: 18 }}>
+              <Text style={{ color: "black", fontSize: 18, fontFamily: 'Inter-Regular' }}>
                 An Error Occured
               </Text>
               <TouchableOpacity
@@ -239,12 +247,12 @@ export default function Transactions() {
                         paddingHorizontal: 20,
                       }}
                     >
-                      <Text style={{ color: "black", fontSize: 18 }}>
+                      <Text style={{ color: "black", fontSize: 18, fontFamily: 'Inter-Regular' }}>
                         You have no Crypto Transactions
                       </Text>
                     </View>
                   ) : (
-                    <>
+                    <AnimatePresence>
                       {/* <Datepicker
                         date={date}
                         onSelect={(nextDate) => setDate(nextDate)}
@@ -252,14 +260,25 @@ export default function Transactions() {
                         max={new Date()}
                       /> */}
                       {crypto.map((item, index) => (
-                        <View key={index.toString()} style={{ paddingTop: 10 }}>
+                        <MotiView 
+                        from={{ opacity: 0, top: 300 }}
+                        animate={{ opacity: 1, top: 0 }}
+                        exit={{ opacity: 0, top: 200 }}
+                        transition={{
+                          delay: parseInt(`${index}00`),
+                          type: 'spring',
+                          // repeat: 4,
+                          // repeatReverse: false,
+                        }}
+                        key={index.toString()} 
+                        style={{ paddingTop: 10 }}>
                           <TransactionCard
                             transaction={item}
                             setActive={setTrans}
                           />
-                        </View>
+                        </MotiView>
                       ))}
-                    </>
+                    </AnimatePresence>
                   )}
                 </View>
               )}
@@ -281,7 +300,7 @@ export default function Transactions() {
                       </Text>
                     </View>
                   ) : (
-                    <>
+                    <AnimatePresence>
                       {/* <Datepicker
                         date={date}
                         onSelect={(nextDate) => setDate(nextDate)}
@@ -289,14 +308,25 @@ export default function Transactions() {
                         max={new Date()}
                       /> */}
                       {fiat.map((item, index) => (
-                        <View key={index.toString()} style={{ paddingTop: 10 }}>
+                        <MotiView 
+                        from={{ opacity: 0, top: 300 }}
+                        animate={{ opacity: 1, top: 0 }}
+                        exit={{ opacity: 0, top: 200 }}
+                        transition={{
+                          delay: parseInt(`${index}00`),
+                          type: 'spring',
+                          // repeat: 4,
+                          // repeatReverse: false,
+                        }}
+                        key={index.toString()} 
+                        style={{ paddingTop: 10 }}>
                           <TransactionCard
                             transaction={item}
                             setActive={setTrans}
                           />
-                        </View>
+                        </MotiView>
                       ))}
-                    </>
+                    </AnimatePresence>
                   )}
                 </View>
               )}

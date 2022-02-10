@@ -200,7 +200,7 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
                             <Pressable onPress={goBack}>
                                 {step > 1 || step === 5 && <Feather name="chevron-left" size={30} color={theme.color} /> }
                             </Pressable>
-                            { step < 5 && <Text fontSize="16px" fontWeight="bold">{title}</Text> }
+                            { step < 5 && <Text fontSize="16px" fontFamily={theme.fontFamily['Inter-SemiBold']} color="black">{title}</Text> }
                             <Pressable onPress={onclose}>
                                 <Feather name="x-circle" size={30} color="grey" />
                             </Pressable>

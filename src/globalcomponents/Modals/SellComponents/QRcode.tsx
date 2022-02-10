@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, Pressable } from 'react-native'
+import { View, Text, Image, Pressable, Alert } from 'react-native'
 import { QRCode } from 'react-native-custom-qr-codes-expo';
 import { theme } from '../../../utils/theme';
 import { Ionicons } from '@expo/vector-icons'
@@ -8,6 +8,8 @@ import Button from '../../Button';
 import { View as MotiView } from 'moti'
 import { IPaypoint } from '../../../Types/Paypoint';
 import { currencyFormatterNGN } from '../../../utils/currencyConverter';
+import Snackbar from 'react-native-snackbar-component'
+import * as Clipboard from 'expo-clipboard';
 
 // image links
 const BTC = require('../../../../assets/icons/btc.png');
@@ -24,6 +26,7 @@ interface IProps {
 }
 
 export default function QRcode({ nextStep, amount, value, getCoin, paypoint }: IProps) {
+    const [showSnack, setShowSnack] = React.useState(false);
     const switchID = (): any => {
         if (value === 1) {
             return 'bitcoin';
@@ -44,7 +47,7 @@ export default function QRcode({ nextStep, amount, value, getCoin, paypoint }: I
         }
     }
 
-    const switchWallet = (): any => {
+    const switchWallet = (): string => {
         if (value === 1) {
             return paypoint.bitcoin_wallet;
         }else if (value === 2) {
@@ -53,6 +56,18 @@ export default function QRcode({ nextStep, amount, value, getCoin, paypoint }: I
             return paypoint.usdt_wallet;
         }
     }
+
+    const copy = () => {
+        Clipboard.setString(switchWallet());
+        setShowSnack(true);
+        Alert.alert('Action', `${switchID()} wallet address copied`);
+    }
+
+    const close = async () => {
+        const text = await Clipboard.getStringAsync();
+        console.log(text);
+        setShowSnack(false);
+    }
     
     return (
         <MotiView 
@@ -60,17 +75,21 @@ export default function QRcode({ nextStep, amount, value, getCoin, paypoint }: I
         animate={{ opacity: 1 }}
         transition={{ type: 'timing' }} 
         style={{ flex: 1 }}>
+            <Snackbar visible={showSnack} textMessage={`${switchID()} wallet address copied`} actionHandler={close} actionText="close"/>
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 20, alignItems: 'center', height: 70 }}>
                 <Image source={ETH} resizeMode="contain" style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10}}>
                 <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{amount} {switchText()}</Text>
-                    <Text style={{ fontSize: 18}}>NGN: {currencyFormatterNGN(amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * 550) : getCoin(switchID()).current_price * amount * 550)}</Text>
+                    <Text style={{ fontSize: 18, fontFamily: 'Inter-Regular' }}>
+                    <Text style={{ fontFamily: 'Inter-SemiBold', marginRight: 10 }}>NGN: </Text> 
+                    {currencyFormatterNGN(amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.rate) : getCoin(switchID()).current_price * amount * paypoint.rate)}
+                </Text>
                 </View>
             </View>
 
             <View style={{ width: '100%', height: 80, justifyContent: 'center' }}>
-                <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>Payment Instructions</Text>
-                <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: '400' }}>Send crypto by scanning or copying the wallet address below</Text>
+                <Text style={{ textAlign: 'center', fontSize: 18, fontFamily: 'Inter-SemiBold' }}>Payment Instructions</Text>
+                <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: '400', fontFamily: 'Inter-Regular' }}>Send crypto by scanning or copying the wallet address below</Text>
             </View>
 
             <View style={{ width: '100%', height: 100, alignItems: 'center'}}>
@@ -78,17 +97,17 @@ export default function QRcode({ nextStep, amount, value, getCoin, paypoint }: I
             </View>
 
             <View style={{ width: '100%', height: 80, justifyContent: 'center', paddingHorizontal: 10 }}>
-                <Text style={{ textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>Address</Text>
+                <Text style={{ textAlign: 'center', fontSize: 16, fontFamily: 'Inter-SemiBold' }}>Address</Text>
                 <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'center', marginTop: 10 }}>
-                    <Text selectable selectionColor={theme.color} textBreakStrategy="highQuality" style={{ textAlign: 'center', fontSize: 16, fontWeight: '400', width: '90%' }}>{switchWallet()}</Text>
-                    <Ionicons name="copy" size={30} color={theme.color} style={{ marginLeft: 10 }} onPress={() => alert('Address copied')} />
+                    <Text selectable selectionColor={theme.color} textBreakStrategy="highQuality" style={{ textAlign: 'center', fontSize: 16, fontFamily: 'Inter-SemiBold', width: '90%' }}>{switchWallet()}</Text>
+                    <Ionicons name="copy" size={30} color={theme.color} style={{ marginLeft: 10 }} onPress={copy} />
                 </View>
             </View>
 
             <Container width="100%" height="55px" alignItems="flex-start" marginTop="20px">
                     <Button>
                         <Pressable onPress={() => nextStep(3)}>
-                            <Text style={{ color: 'white' }}>Upload Payment Proof</Text>
+                            <Text style={{ color: 'white', fontFamily: 'Inter-SemiBold' }}>Upload Payment Proof</Text>
                         </Pressable>
                     </Button>
             </Container>

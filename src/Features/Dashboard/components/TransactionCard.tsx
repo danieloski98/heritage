@@ -104,7 +104,7 @@ export default function TransactionCard({ transaction, setActive }: {transaction
 
            <View style={style.right}>
                 <View style={{...style.button, borderColor: borderColor()}}>
-                    <Text style={{ color: borderColor() }}>{status(transaction.status)}</Text>
+                    <Text style={{ color: borderColor(), fontFamily: 'Inter-Light', fontSize: 14 }}>{status(transaction.status)}</Text>
                 </View>
            </View>
 
@@ -144,13 +144,14 @@ const style = StyleSheet.create({
         borderColor: theme.pending,
     },
     header: {
-        marginTop: 10,
+        marginTop: 12,
         fontSize: 16,
-        fontWeight: os === 'ios' ? '600':'bold',
+        fontFamily: 'Inter-SemiBold',
     },
     normalText: {
-        fontSize: 12,
+        fontSize: 14,
         color: 'grey',
-        marginTop: 20
+        marginTop: 15,
+        fontFamily: 'Inter-Light'
     }
 })

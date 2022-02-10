@@ -10,6 +10,7 @@ import BuyModal from '../../../globalcomponents/Modals/BuyModal'
 import SellModal from '../../../globalcomponents/Modals/SellModal'
 import { STAT_URL } from '../../../utils/statsApi'
 import {queryClient} from '../../../../App'
+import { MotiView, AnimatePresence } from 'moti'
 
 // redux things
 import { useSelector, useDispatch } from 'react-redux'
@@ -37,7 +38,6 @@ export default function Home() {
                 const json = await request.json() as Array<any>;
                 setData(json.slice(0,5));
             } catch (error) {
-                console.log(error);
                 alert(JSON.stringify(error));
             }
         })()
@@ -163,17 +163,46 @@ export default function Home() {
                 <View style={{ width: '100%', height: 250, backgroundColor: 'transparent', top: 0, overflow: 'hidden', justifyContent: 'flex-end', zIndex: 20 }}>
                     <ScrollView horizontal style={{ height: '95%', marginTop: 20, paddingLeft: 20 }} showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingRight: 30 }}>
 
-                        <View style={{ width: 230, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, borderWidth: 1, borderColor: 'lightgrey', }}>
-                            <BuySellCard type={1} action={1} buy={() => openBuy(1)} sell={() => openSell(1)} coinStat={getCoin('bitcoin')} />
-                        </View>
+                       <AnimatePresence>
+                            <MotiView
+                            key={`one`}
+                            from={{ opacity: 0, top: 300 }}
+                            animate={{ opacity: 1, top: 0 }}
+                            exit={{ opacity: 0, top: 200 }}
+                            transition={{
+                              delay: 100,
+                              type: 'spring',
+                            }}
+                             style={{ width: 230, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, borderWidth: 1, borderColor: 'lightgrey', }}>
+                                <BuySellCard type={1} action={1} buy={() => openBuy(1)} sell={() => openSell(1)} coinStat={getCoin('bitcoin')} />
+                            </MotiView>
 
-                        <View style={{ width: 230, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, borderWidth: 1, borderColor: 'lightgrey', }}>
-                            <BuySellCard type={2} action={1} buy={() => openBuy(2)} sell={() => openSell(2)} coinStat={getCoin('ethereum')}/>
-                        </View>
+                            <MotiView 
+                            key={`two`}
+                            from={{ opacity: 0, top: 300 }}
+                            animate={{ opacity: 1, top: 0 }}
+                            exit={{ opacity: 0, top: 200 }}
+                            transition={{
+                              delay: 200,
+                              type: 'spring',
+                            }}
+                            style={{ width: 230, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, borderWidth: 1, borderColor: 'lightgrey', }}>
+                                <BuySellCard type={2} action={1} buy={() => openBuy(2)} sell={() => openSell(2)} coinStat={getCoin('ethereum')}/>
+                            </MotiView>
 
-                        <View style={{ width: 230, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, borderWidth: 1, borderColor: 'lightgrey', }}>
-                            <BuySellCard type={3} action={1} buy={() => openBuy(3)} sell={() => openSell(3)} coinStat={getCoin('tether')}/>
-                        </View>
+                            <MotiView 
+                            key={`three`}
+                            from={{ opacity: 0, top: 300 }}
+                            animate={{ opacity: 1, top: 0 }}
+                            exit={{ opacity: 0, top: 200 }}
+                            transition={{
+                              delay: 300,
+                              type: 'spring',
+                            }}
+                            style={{ width: 230, height: '100%', borderRadius: 10, overflow: 'hidden', marginRight: 10, borderWidth: 1, borderColor: 'lightgrey', }}>
+                                <BuySellCard type={3} action={1} buy={() => openBuy(3)} sell={() => openSell(3)} coinStat={getCoin('tether')}/>
+                            </MotiView>
+                       </AnimatePresence>
 
                     </ScrollView>
                 </View>
@@ -185,8 +214,8 @@ export default function Home() {
 
                 <View style={{ flexDirection: 'row', width: '100%', height: 150, backgroundColor: 'white', marginTop: 20, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: 'lightgrey' }}>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <Text color="#0071EC" fontSize="20px" fontWeight="bold">Coming Soon</Text>
-                        <Text color="grey" fontSize="16px" fontWeight="300" marginTop="5px">Refer Friends and earn. </Text>
+                        <Text color="#0071EC" fontFamily={theme.fontFamily['Inter-Regular']} fontSize="20px">Coming Soon</Text>
+                        <Text color="grey" fontFamily={theme.fontFamily['Inter-Light']} fontSize="16px" marginTop="5px">Refer Friends and earn. </Text>
                     </View>
 
                     <View style={{ flex: 0.4, height: '100%', justifyContent: 'center', alignItems: 'center' }}>

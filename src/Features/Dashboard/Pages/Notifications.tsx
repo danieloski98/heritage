@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { View, Text, ScrollView, RefreshControl } from 'react-native'
 import Navbar from '../components/Navbar'
 import { Feather } from '@expo/vector-icons';
@@ -8,6 +8,8 @@ import url from '../../../utils/url';
 import { IReturnType } from '../../../Types/ReturnType';
 import {useQuery} from 'react-query'
 import * as moment from 'moment'
+import { MotiView, AnimatePresence } from 'moti'
+import * as Haptics from 'expo-haptics';
 
 // redux
 import {useSelector} from 'react-redux';
@@ -51,6 +53,10 @@ export default function Notifications() {
         const dt = moment.default(date);
         return dt.startOf('minutes').fromNow();
     }
+    const navigate = useCallback(() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        navigation.goBack()
+    }, []);
     return (
         <View style={{ flex: 1, backgroundColor: theme.light }}>
 
@@ -58,8 +64,8 @@ export default function Notifications() {
 
             <Navbar />
             <View style={{ flexDirection: 'row', paddingHorizontal: 20, alignItems: 'center', paddingTop: 20 }}>
-                <Feather name="arrow-left" size={30} color={theme.color} onPress={() => navigation.goBack()} />
-                <Text style={{ marginLeft: 20, fontSize: 16 }}>Notifications</Text>
+                <Feather name="arrow-left" size={30} color={theme.color} onPress={navigate} />
+                <Text style={{ marginLeft: 20, fontSize: 16, fontFamily: 'Inter-SemiBold' }}>Notifications</Text>
             </View>
 
             <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} />} style={{ paddingHorizontal: 20, marginTop: 20, marginBottom: 20 }}>
@@ -71,16 +77,27 @@ export default function Notifications() {
                         </View>
                     ) 
                 }
+                <AnimatePresence>
                 {
                     !error && !refreshing && noti.length > 0 && noti.map((item, index) => (
-                        <View key={index.toString()} style={{ width: '100%', height: 120, backgroundColor: 'white', justifyContent: 'center', marginBottom: 20 }}>
+                        <MotiView 
+                        from={{ opacity: 0, top: 300 }}
+                        animate={{ opacity: 1, top: 0 }}
+                        exit={{ opacity: 0, top: 200 }}
+                        transition={{
+                          delay: parseInt(`${index}00`),
+                          type: 'spring',
+                        }}
+                        key={index.toString()} 
+                        style={{ width: '100%', height: 120, backgroundColor: 'white', justifyContent: 'center', marginBottom: 20 }}>
                             <View style={{ width: '100%', height: '90%', borderLeftColor: theme.primaryBackgroundColor, borderLeftWidth: 5, justifyContent: 'center', paddingHorizontal: 20 }}>
-                                <Text style={{ fontSize: 16, fontWeight: '500' }}>{item.message}</Text>
-                                <Text style={{ fontSize: 14, fontWeight: '200', marginTop: 20, color: 'grey' }}>{getDate(item.createdAt)}</Text>
+                                <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular' }}>{item.message}</Text>
+                                <Text style={{ fontSize: 14, fontFamily: 'Inter-Light', marginTop: 20, color: 'grey' }}>{getDate(item.createdAt)}</Text>
                             </View>
-                        </View>
+                        </MotiView>
                     ))
                 }
+                </AnimatePresence>
                
 
                 {/* <View style={{ width: '100%', height: 120, backgroundColor: 'white', justifyContent: 'center', marginBottom: 20 }}>

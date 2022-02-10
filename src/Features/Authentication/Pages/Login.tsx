@@ -164,7 +164,7 @@ export default function Login(props) {
                     <Pressable
                         onPress={() => props.navigation.navigate('resetpassword')}
                     >
-                        <Text textAlign="center" color="grey" fontSize="16px" fontWeight="600">Dont't Have An Account?</Text>
+                        <Text textAlign="center" color="grey" fontSize="16px" fontWeight="600">Don't Have An Account?</Text>
                     </Pressable>
                     <Pressable
                         onPress={() => props.navigation.navigate('signup')}

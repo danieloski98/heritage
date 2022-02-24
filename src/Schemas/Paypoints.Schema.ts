@@ -39,7 +39,11 @@ export class Paypoint {
 
   @ApiProperty()
   @Prop()
-  rate: number;
+  buy_rate: number;
+
+  @ApiProperty()
+  @Prop()
+  sell_rate: number;
 
   @ApiProperty({
     type: IBank,

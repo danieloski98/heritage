@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put, Res } from '@nestjs/common';
+import { Controller, Get, Param, Put, Res, Post, Delete } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { GeneralService } from './services/general/general.service';
@@ -12,6 +12,14 @@ export class NotificationsController {
   @Put(':id')
   async markAsRead(@Res() res: Response, @Param() param: any) {
     const result = await this.generalService.markAsRead(param['id']);
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('NOTIFICATION')
+  @ApiParam({ type: String, name: 'id' })
+  @Delete(':id')
+  async deleteNoti(@Res() res: Response, @Param() param: any) {
+    const result = await this.generalService.deleteNoti(param['id']);
     res.status(result.statusCode).send(result);
   }
 

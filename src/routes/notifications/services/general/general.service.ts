@@ -127,4 +127,23 @@ export class GeneralService {
       });
     }
   }
+
+  async deleteNoti(_id: string): Promise<ReturnTypeInterfcae> {
+    try {
+      const notis = await this.notificationModel.deleteOne({ _id });
+      return Return({
+        error: false,
+        statusCode: 200,
+        successMessage: 'Success',
+        data: notis,
+      });
+    } catch (error) {
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
 }

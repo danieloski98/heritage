@@ -3,6 +3,7 @@ import { Return, ReturnTypeInterfcae } from 'src/utils/types/returnType';
 import { HttpService } from '@nestjs/axios';
 import * as axios from 'axios';
 import { decode } from 'jsonwebtoken';
+import * as fetch from 'node-fetch';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
@@ -51,28 +52,41 @@ export class VerificationService {
     bank_code: string,
   ): Promise<ReturnTypeInterfcae> {
     try {
-      const request = await axios.default.get(
+      console.log(typeof bank_code);
+      const request = await fetch.default(
         `${this.URL}/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`,
         {
+          method: 'get',
           headers: {
             Authorization: `Bearer ${process.env.PAYSTACK_SECRET}`,
           },
         },
       );
 
+      const json = await request.json();
+
+      // const request = await axios.default.get(
+      //   `${this.URL}/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${process.env.PAYSTACK_SECRET}`,
+      //     },
+      //   },
+      // );
+
       if (request.status !== 200) {
         return Return({
           error: true,
           statusCode: 400,
-          errorMessage: request.data.message,
-          trace: request.data,
+          errorMessage: json['message'],
+          trace: json,
         });
       }
       return Return({
         error: false,
         statusCode: 200,
-        successMessage: request.data.message,
-        data: request.data.data,
+        successMessage: json['message'],
+        data: json['data'],
       });
     } catch (error) {
       return Return({

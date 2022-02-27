@@ -42,6 +42,7 @@ export class BankController {
   @ApiQuery({ name: 'bank_code' })
   @Get('verifyaccount')
   async verifyaccount(@Res() res: Response, @Query() query: any) {
+    console.log(query);
     const result = await this.verificationService.resolveAccount(
       query['account_number'],
       query['bank_code'],

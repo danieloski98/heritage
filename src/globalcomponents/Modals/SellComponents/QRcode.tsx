@@ -23,9 +23,10 @@ interface IProps {
     nextStep: Function;
     getCoin: Function;
     paypoint: IPaypoint;
+    action: number;
 }
 
-export default function QRcode({ nextStep, amount, value, getCoin, paypoint }: IProps) {
+export default function QRcode({ nextStep, amount, value, getCoin, paypoint, action }: IProps) {
     const [showSnack, setShowSnack] = React.useState(false);
     const switchID = (): any => {
         if (value === 1) {
@@ -79,10 +80,11 @@ export default function QRcode({ nextStep, amount, value, getCoin, paypoint }: I
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 20, alignItems: 'center', height: 70 }}>
                 <Image source={ETH} resizeMode="contain" style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10}}>
-                <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{amount} {switchText()}</Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{(amount/ getCoin(switchID()).current_price).toFixed(6)} {switchText()}</Text>
                     <Text style={{ fontSize: 18, fontFamily: 'Inter-Regular' }}>
                     <Text style={{ fontFamily: 'Inter-SemiBold', marginRight: 10 }}>NGN: </Text> 
-                    {currencyFormatterNGN(amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.rate) : getCoin(switchID()).current_price * amount * paypoint.rate)}
+                    {currencyFormatterNGN(amount * (action === 1 ? (paypoint.buy_rate):(paypoint.sell_rate)))}
+                    {/* {currencyFormatterNGN(amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.rate) : getCoin(switchID()).current_price * amount * paypoint.rate)} */}
                 </Text>
                 </View>
             </View>

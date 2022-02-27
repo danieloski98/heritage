@@ -40,6 +40,7 @@ export default function Summary({nextStep, images, setImage, action, coinType, o
         // pick file
         const data = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            // aspect: [16,9],
             allowsEditing: true,
         });
  

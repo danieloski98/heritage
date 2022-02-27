@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import { updateUser } from '../../../States/UserDetails'
 import url from '../../../utils/url'
 import { IReturnType } from '../../../Types/ReturnType'
+import EditBankModal from './EditBankModal'
 
 const validationSchema = yup.object({
     bitcoin_wallet: yup.string().required(),
@@ -27,6 +28,7 @@ const validationSchema = yup.object({
 
 export default function WalletsBanks() {
     const [loading, setLoading] = React.useState(false);
+    const [openModal, setOpenModal] = React.useState(false);
 
     // redux
     const user = useSelector((state: RootState) => state.userdetail.user);
@@ -39,15 +41,16 @@ export default function WalletsBanks() {
         initialValues: {bitcoin_wallet: user.bitcoin_wallet, ethereum_wallet: user.ethereum_wallet, usdt_wallet: user.usdt_wallet, bank_name: user.bank_name, account_name: user.account_name, account_number: user.account_number },
         onSubmit: () => {},
         validationSchema,
+        enableReinitialize: true,
     })
 
     const submit = async () => {
-        if (!formik.dirty) {
-          Alert.alert('Message', 'Make a change first', [
-            { text: 'ok', style: "cancel", onPress: () => {}}
-          ]);
-          return;
-        }
+        // if (!formik.dirty) {
+        //   Alert.alert('Message', 'Make a change first', [
+        //     { text: 'ok', style: "cancel", onPress: () => {}}
+        //   ]);
+        //   return;
+        // }
     
         if (!formik.isValid) {
           Alert.alert('Message', 'Please Fill in the form properly to continue', [
@@ -91,6 +94,7 @@ export default function WalletsBanks() {
             }
           ]);
           formik.resetForm();
+          setOpenModal(false);
           return;
         }
         
@@ -98,6 +102,10 @@ export default function WalletsBanks() {
 
     return (
         <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 30, paddingBottom: 200, backgroundColor: 'white' }}>
+
+          {/* modal */}
+          <EditBankModal user={user} formik={formik} open={openModal} setClose={setOpenModal} submit={submit} loading={loading} />
+
             <Text fontSize="20px" color="black" fontWeight="bold">My Wallet Addresses</Text>
 
             <Container width="100%" height="80px" justifyContent="center" alignItems="flex-start" marginTop="20px" bgColor="white">
@@ -124,13 +132,23 @@ export default function WalletsBanks() {
                 </Container>
             </Container>
 
-            <Text fontSize="20px" color="black" fontWeight="bold" marginTop="40px">My Bank Details</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 30 }}>
+              <Text fontSize="20px" color="black" fontWeight="bold" marginTop="0px">My Bank Details</Text>
+              <Feather name="edit-2" color={theme.primaryBackgroundColor} size={20} onPress={() => setOpenModal(true)} />
+            </View>
+            
 
             <Container width="100%" height="80px" justifyContent="center" alignItems="flex-start" marginTop="20px" bgColor="white">
                 <Text color="gray" fontSize="16px" fontWeight="500" marginTop="0px">Account Name</Text>
                 <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="55px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
                     <Ionicons name="person" size={25} color={theme.color} />
-                    <TextInput style={{ flex: 1, paddingHorizontal: 10 }} value={formik.values.account_name} onChangeText={formik.handleChange('account_name')} onFocus={() => formik.setFieldTouched('account_name', true, true)} />
+                    <TextInput 
+                    editable={false}
+                    selectTextOnFocus={false}
+                    style={{ flex: 1, paddingHorizontal: 10 }} 
+                    value={formik.values.account_name} 
+                    onChangeText={formik.handleChange('account_name')} 
+                    onFocus={() => formik.setFieldTouched('account_name', true, true)} />
                 </Container>
             </Container>
 
@@ -138,7 +156,13 @@ export default function WalletsBanks() {
                 <Text color="gray" fontSize="16px" fontWeight="500" marginTop="0px">Bank Name</Text>
                 <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="55px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
                     <Ionicons name="card" size={25} color={theme.color} />
-                    <TextInput style={{ flex: 1, paddingHorizontal: 10 }} value={formik.values.bank_name} onChangeText={formik.handleChange('bank_name')} onFocus={() => formik.setFieldTouched('bank_name', true, true)} />
+                    <TextInput 
+                    editable={false}
+                    selectTextOnFocus={false}
+                    style={{ flex: 1, paddingHorizontal: 10 }} 
+                    value={formik.values.bank_name} 
+                    onChangeText={formik.handleChange('bank_name')} 
+                    onFocus={() => formik.setFieldTouched('bank_name', true, true)} />
                 </Container>
             </Container>
 
@@ -146,7 +170,14 @@ export default function WalletsBanks() {
                 <Text color="gray" fontSize="16px" fontWeight="500" marginTop="0px">Account Number</Text>
                 <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="55px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
                     <Ionicons name="card" size={25} color={theme.color} />
-                    <TextInput style={{ flex: 1, paddingHorizontal: 10 }} keyboardType="number-pad" value={formik.values.account_number} onChangeText={formik.handleChange('account_number')} onFocus={() => formik.setFieldTouched('account_number', true, true)} />
+                    <TextInput 
+                    editable={false}
+                    selectTextOnFocus={false}
+                    style={{ flex: 1, paddingHorizontal: 10 }} 
+                    keyboardType="number-pad" 
+                    value={formik.values.account_number} 
+                    onChangeText={formik.handleChange('account_number')} 
+                    onFocus={() => formik.setFieldTouched('account_number', true, true)} />
                 </Container>
             </Container>
 

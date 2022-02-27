@@ -16,7 +16,7 @@ const ETH = require('../../../../assets/crypto/ETC.png');
 const USDT = require('../../../../assets/crypto/USDC.png')
 
 export default function TransactionModal({ transaction, open, close }: {transaction: ITransaction, open: boolean, close: Function}) {
-    const rate = useSelector((state: RootState) => state.paypoint.paypoint.rate);
+    const rate = useSelector((state: RootState) => state.paypoint.paypoint.buy_rate);
     const user = useSelector((state: RootState) => state.userdetail.user);
 
     const status = (stat: number) => {
@@ -25,7 +25,7 @@ export default function TransactionModal({ transaction, open, close }: {transact
                 return 'Processing';
             }
             case 2: {
-                return 'Done';
+                return 'Approved';
             }
             case 3: {
                 return 'Declined';
@@ -100,7 +100,7 @@ export default function TransactionModal({ transaction, open, close }: {transact
 
         <Container height="100%" width="100%" bgColor="#00000083" alignItems="flex-start">
 
-            <View style={{ width: '100%', height: theme.screenHeight/100*60, backgroundColor: 'white', alignItems: 'center', paddingHorizontal: 20 , paddingBottom: 10, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
+            <View style={{ width: '100%', height: theme.screenHeight/100*65, backgroundColor: 'white', alignItems: 'center', paddingHorizontal: 20 , paddingBottom: 10, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
 
                 <ScrollView horizontal={false} style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
 
@@ -116,55 +116,55 @@ export default function TransactionModal({ transaction, open, close }: {transact
                         </View>
                     </View>
 
-                    <View style={{ width: '100%', height: 70, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
-                        <View>
-                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Transaction Details</Text>
-                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>ID: #{transaction._id}</Text>
+                    <View style={{ width: '100%', height: 80, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
+                        <View style={{ flex: 1, paddingRight: 10, height: '100%', justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-SemiBold', color: 'black'}}>Transaction Details</Text>
+                            <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>ID: #{transaction._id}</Text>
                         </View>
 
                         <View style={{ width: '30%'}}>
-                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Time</Text>
-                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{getDate(transaction.createdAt)}</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-SemiBold', color: 'black'}}>Time</Text>
+                            <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{getDate(transaction.createdAt)}</Text>
                         </View>
                         
                     </View>
 
-                    <View style={{ width: '100%', height: 70, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <View style={{ width: '100%', height: 80, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
 
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Transaction Type</Text>
-                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{transaction.type === 1 ? 'CRYPTO':'FIAT'}</Text>
+                        <View style={{ flex: 1, paddingRight: 10, height: '100%', justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-SemiBold', color: 'black'}}>Transaction Type</Text>
+                            <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{transaction.type === 1 ? 'CRYPTO':'FIAT'}</Text>
                         </View>
 
                         <View style={{ width: '30%' }}>
-                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Coin Type</Text>
-                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{coinSwitcher(transaction.coin_type)}</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-SemiBold', color: 'black'}}>Coin Type</Text>
+                            <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{coinSwitcher(transaction.coin_type)}</Text>
                         </View>
                        
                     </View>
 
-                    <View style={{ width: '100%', height: 70, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <View style={{ width: '100%', height: 80, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                         
-                        <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Amount USD</Text>
-                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>${currencyFormatterD(transaction.amount/rate)}</Text>
+                        <View style={{ flex: 1, paddingRight: 10, height: '100%', justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-SemiBold', color: 'black'}}>Amount USD</Text>
+                            <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>${currencyFormatterD(transaction.amount/rate)}</Text>
                         </View>
 
                         <View style={{ width: '30%' }}>
-                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Amount NGN</Text>
-                            <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>NGN{currencyFormatterNGN(transaction.amount || 0)}</Text>
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-SemiBold', color: 'black'}}>Amount NGN</Text>
+                            <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>NGN{currencyFormatterNGN(transaction.amount || 0)}</Text>
                         </View>
                        
                     </View>
 
-                    <View style={{ width: '100%', height: 70, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
+                    <View style={{ width: '100%', minHeight: 70, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
                         
                         <View style={{ flex: 1 }}>
-                            <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: 'black'}}>Recieving {transaction.type === 1 ? 'Address':'Account'}</Text>
-                            {transaction.type === 2 && <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{user.account_name}</Text>}
-                           {transaction.type === 2 &&  <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{user.bank_name} - {user.account_number}</Text>}
+                            <Text style={{ fontSize: 16, fontFamily: 'Inter-SemiBold', color: 'black'}}>Recieving {transaction.type === 1 ? 'Address':'Account'}</Text>
+                            {transaction.type === 2 && <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{user.account_name}</Text>}
+                           {transaction.type === 2 &&  <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{user.bank_name} - {user.account_number}</Text>}
 
-                           {transaction.type === 1 &&  <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{coinSwitcher(transaction.coin_type)} - {wallet(transaction.coin_type)}</Text>}
+                           {transaction.type === 1 &&  <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{coinSwitcher(transaction.coin_type)} - {wallet(transaction.coin_type)}</Text>}
                         </View>
 
                         {/* <View style={{ width: '30%' }}>
@@ -175,8 +175,8 @@ export default function TransactionModal({ transaction, open, close }: {transact
                     </View>
 
                     <View style={{ flex: 0.2, justifyContent: 'flex-end'}}>
-                        <View style={{ width: '100%', height: 40, borderColor: borderColor(), borderWidth: 1, borderRadius: 5, alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
-                                <Text style={{ color: borderColor(), fontFamily: 'Inter-Light' }}>{status(transaction.status)}</Text>
+                        <View style={{ width: '100%', height: 40, borderColor: borderColor(), borderWidth: 2, borderRadius: 5, alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+                                <Text style={{ color: borderColor(), fontFamily: 'Inter-Medium' }}>{status(transaction.status)}</Text>
                         </View>
                     </View>
 

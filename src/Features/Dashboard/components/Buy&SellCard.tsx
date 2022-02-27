@@ -23,8 +23,18 @@ interface IProps {
 }
 
 export default function BuySellCard(props: IProps) {
-    const RATE = useSelector((state: RootState) => state.paypoint.paypoint.rate);
-    // console.log(props.coinStat);
+    const RATE = useSelector((state: RootState) => state.paypoint.paypoint.buy_rate);
+    const [color, setColor] = React.useState('grey');
+    // const color = 'green'
+    //props.coinStat.price_change_percentage_7d_in_currency > 0 ? 'green':'red';
+
+    React.useEffect(() => {
+        if (props.coinStat !== undefined) {
+            setColor(props.coinStat !== undefined ? props.coinStat.price_change_percentage_24h > 0 ? 'green':'red': 'grey');
+        }
+    }, [props.coinStat])
+
+    console.log(props.coinStat);
     const getimage = () => {
         if (props.type === 1) {
             return require('../../../../assets/crypto/BTC.png')
@@ -82,13 +92,14 @@ export default function BuySellCard(props: IProps) {
 
             <View style={{ flexDirection: 'row', width: '100%', height: 65, alignItems: 'center', justifyContent: 'space-between', backgroundColor: 'transparent', paddingHorizontal: 10 }}>
                 <View style={{ flexDirection: 'row', height: '100%', alignItems: 'center' }}>
-                    <Image source={getimage()} resizeMode="contain" style={{ width: 50, height: 50}} />
-                    <Text fontSize="16px"  fontFamily={theme.fontFamily['Inter-Regular']} color="black" fontWeight={Platform.OS === 'ios' ? '600':'bold'} marginLeft="10px">{getcoin()}</Text>
+                    <Image source={getimage()} resizeMode="contain" style={{ width: 40, height: 40}} />
+                    <Text fontSize="16px"  fontFamily={theme.fontFamily['Inter-Medium']} color="black" fontWeight={Platform.OS === 'ios' ? '600':'bold'} marginLeft="10px">{getcoin()}</Text>
                 </View>
 
                 <View style={{ flexDirection: 'row', height: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
-                    <FontAwesome5 name="caret-up" color="green" size={15} />
-                    <Text fontSize="16px" fontFamily={theme.fontFamily['Inter-Light']} color="green" fontWeight="600" marginLeft="3px">8.06%</Text>
+                    <FontAwesome5 name={color === 'green' ? 'caret-up':'caret-down'} color={color} size={15} />
+                    <Text fontSize="14px" fontFamily={theme.fontFamily['Inter-Light']} color={color} fontWeight="600" marginLeft="3px">{props.coinStat !== undefined ? (props.coinStat.price_change_percentage_24h as number).toFixed(2):0}%</Text>
+                    {/* <Text> (24H)</Text> */}
                 </View>
             </View>
 

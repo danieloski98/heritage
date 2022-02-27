@@ -26,10 +26,11 @@ interface IProps {
     getCoin: Function;
     opener: number;
     paypoint: IPaypoint;
+    action: number;
 }
 
 
-export default function SetAmount({value, setValue, amount, setAmount, nextStep, getCoin, opener, paypoint}: IProps) {
+export default function SetAmount({value, setValue, amount, setAmount, nextStep, getCoin, opener, paypoint, action}: IProps) {
 
 
     const [open, setOpen] = useState(false);
@@ -79,9 +80,9 @@ export default function SetAmount({value, setValue, amount, setAmount, nextStep,
             </View>
 
             <View style={{ width: '100%', marginTop: 20,  height: 100, zIndex: 2 }}>
-                <Text color="grey" fontSize="16px" fontFamily={theme.fontFamily['Inter-SemiBold']}>Amount</Text>
+                <Text color="grey" fontSize="16px" fontFamily={theme.fontFamily['Inter-SemiBold']}>Amount in Dollar</Text>
                 <View style={{ marginTop: 10, width: '100%', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <TextInput keyboardType="number-pad" value={amount} onChangeText={(val) => setAmount(val)} style={{ width: '100%', height: 50, borderRadius: 10, borderWidth: 2, borderColor: 'lightgrey', paddingHorizontal: 20, backgroundColor: '#E4E9F2', }} />
+                    <TextInput keyboardType="numbers-and-punctuation" value={amount} onChangeText={(val) => setAmount(val)} style={{ width: '100%', height: 50, borderRadius: 10, borderWidth: 2, borderColor: 'lightgrey', paddingHorizontal: 20, backgroundColor: '#E4E9F2', }} />
                     {/* <DropDownPicker
                         open={open}
                         value={value}
@@ -100,11 +101,14 @@ export default function SetAmount({value, setValue, amount, setAmount, nextStep,
 
                 <Text style={{ fontWeight: Platform.OS === 'ios'? '300':'300', fontSize: 18, color: 'black', flex: 1, }}>
                 <Text style={{ fontSize: 18, color: 'black', fontFamily: theme.fontFamily['Inter-SemiBold'] }}>NGN: </Text>
-                    {amount <= 0 ? 0 : amount < 1 ? currencyFormatterNGN(getCoin(switchID()).current_price * amount * (paypoint?.rate as number)) : currencyFormatterNGN(getCoin(switchID()).current_price * amount * (paypoint?.rate as number))}</Text>
+                {currencyFormatterNGN(amount * (action === 1 ? (paypoint.buy_rate):(paypoint.sell_rate)))}
+                    {/* {amount <= 0 ? 0 : amount < 1 ? currencyFormatterNGN(getCoin(switchID()).current_price * amount * (action === 1 ? (paypoint?.buy_rate as number): (paypoint?.sell_rate as number))) : currencyFormatterNGN(getCoin(switchID()).current_price * amount * action === 1 ? (paypoint?.buy_rate as number): (paypoint?.sell_rate as number))} */}
+                </Text>
 
                 <Text style={{ flex: 1 }}>
-                    <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] , fontSize: 18, color: 'black' }}>USD: </Text>
-                    <Text style={{ fontFamily: theme.fontFamily['Inter-Light'], fontSize: 18, color: 'black', }}>{amount <= 0 ? 0 : currencyFormatterD(getCoin(switchID()).current_price * amount)}</Text>
+                    <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] , fontSize: 18, color: 'black' }}>{switchID()}: </Text>
+                    <Text style={{ fontFamily: theme.fontFamily['Inter-Light'], fontSize: 18, color: 'black', }}>{(amount / getCoin(switchID()).current_price).toFixed(6)}</Text>
+                    {/* <Text style={{ fontFamily: theme.fontFamily['Inter-Light'], fontSize: 18, color: 'black', }}>{amount <= 0 ? 0 : currencyFormatterD(getCoin(switchID()).current_price * amount)}</Text> */}
                 </Text>
                     
             </View>
@@ -112,7 +116,7 @@ export default function SetAmount({value, setValue, amount, setAmount, nextStep,
             <Container width="100%" height="55px" alignItems="flex-start" marginTop="10px">
                 <Button>
                     <Pressable style={{ flex: 1, justifyContent: 'center', backgroundColor: theme.primaryBackgroundColor, width: '100%', borderRadius: 10, alignItems: 'center' }} onPress={() => nextStep(2)}>
-                        <Text fontFamily={theme.fontFamily['Inter-Medium']} color="white">{`${opener === 1 ? 'Buy':'Sell'} ${amount} ${switchText()}`}</Text>
+                        <Text fontFamily={theme.fontFamily['Inter-Medium']} color="white">{`${opener === 1 ? 'Buy':'Sell'} ${(amount / getCoin(switchID()).current_price).toFixed(6)} ${switchText()}`}</Text>
                     </Pressable>
                 </Button>
             </Container>

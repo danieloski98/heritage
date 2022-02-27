@@ -11,6 +11,17 @@ import SellModal from '../../../globalcomponents/Modals/SellModal'
 import { STAT_URL } from '../../../utils/statsApi'
 import {queryClient} from '../../../../App'
 import { MotiView, AnimatePresence } from 'moti'
+import {useQuery} from 'react-query';
+
+const getBlockchaindata = async () => {
+    const request = await fetch(`${STAT_URL}`);
+    const json = await request.json() as Array<any>;
+
+    if (!request.ok) {
+        throw new Error('An error occured');
+    }
+    return json;
+}
 
 // redux things
 import { useSelector, useDispatch } from 'react-redux'
@@ -26,21 +37,27 @@ export default function Home() {
     const [sell, setSell] = React.useState(false);
     const [data, setData] = React.useState([] as Array<any>);
 
+    const getCoins = useQuery('getCoins', getBlockchaindata, {
+        onSuccess: (data) => {
+            setData(data);
+        }
+    })
+
     // redux state
     const user = useSelector((state: RootState) => state.userdetail.user);
-    const rate = useSelector((state: RootState) => state.paypoint.paypoint.rate);
+    const paypoint = useSelector((state: RootState) => state.paypoint.paypoint);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
-        (async function() {
-            try {
-                const request = await fetch(`${STAT_URL}`);
-                const json = await request.json() as Array<any>;
-                setData(json.slice(0,5));
-            } catch (error) {
-                alert(JSON.stringify(error));
-            }
-        })()
+        // (async function() {
+        //     try {
+        //         const request = await fetch(`${STAT_URL}`);
+        //         const json = await request.json() as Array<any>;
+        //         setData(json.slice(0,5));
+        //     } catch (error) {
+        //         alert(JSON.stringify(error));
+        //     }
+        // })()
     }, []);
 
     // details
@@ -210,7 +227,11 @@ export default function Home() {
 
             <View style={{ flex: 1, backgroundColor: 'transparent', paddingTop: 18, paddingHorizontal: 20, marginBottom: 100 }}>
 
-                <Card text1="Today's Rate" prize={`${rate}/$`} text2="Rates are updated daily" />
+                <Card text1="Today's Buying Rate" prize={`${paypoint.buy_rate}/$`} text2="Rates are updated daily" />
+                
+                <View style={{ width: '100%', marginTop: 20 }}>
+                    <Card text1="Today's Selling Rate" prize={`${paypoint.sell_rate}/$`} text2="Rates are updated daily" />
+                </View>
 
                 <View style={{ flexDirection: 'row', width: '100%', height: 150, backgroundColor: 'white', marginTop: 20, padding: 10, borderRadius: 10, borderWidth: 1, borderColor: 'lightgrey' }}>
                     <View style={{ flex: 1, justifyContent: 'center' }}>

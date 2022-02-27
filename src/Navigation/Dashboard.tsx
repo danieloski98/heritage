@@ -76,7 +76,7 @@ export default function Dashboard() {
 
     const paypointQuery = useQuery('getpaypoint', () => getPaypoint(), {
         onSuccess: (data) => {
-            // console.log(data.data);
+            console.log(data.data);
             dispatch(setPaypoint(data.data));
             setLoading(false);
         },

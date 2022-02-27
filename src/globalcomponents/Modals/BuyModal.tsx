@@ -83,10 +83,10 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
     const switchStep = () => {
         switch(step) {
             case 1 :{
-                return <SetAmount opener={1} value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} getCoin={getCoin} paypoint={paypoint} />
+                return <SetAmount opener={1} action={action} value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} getCoin={getCoin} paypoint={paypoint} />
             }
             case 2: {
-                return <BankDetails value={value} amount={amount} nextStep={changeStep} getCoin={getCoin} paypoint={paypoint} />
+                return <BankDetails value={value} action={action} amount={amount} nextStep={changeStep} getCoin={getCoin} paypoint={paypoint} />
             }
             case 3: {
                 return <UploadFiles nextStep={changeStep} image={images} setImage={setImages} />
@@ -134,11 +134,12 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
         try {
             const obj = {
                 type: 1,
-                coin_amount: amount,
-                amount: amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.rate) : getCoin(switchID()).current_price * amount * paypoint.rate,
+                coin_amount: amount * getCoin(switchID()).current_price,
+                amount: amount * (action === 1 ? (paypoint.buy_rate):(paypoint.sell_rate)),
+                // amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.buy_rate) : getCoin(switchID()).current_price * amount * paypoint.buy_rate,
                 coin_type: coinType,
-                USD: amount <= 0 ? 0 : currencyFormatterD(getCoin(switchID()).current_price * amount),
-                rate: paypoint.rate,
+                USD: amount,
+                rate: action === 1 ? paypoint.buy_rate:paypoint.sell_rate,
             }
 
             const request = await fetch(`${url}transaction/create/${user._id}`, {

@@ -1,10 +1,8 @@
 import React from 'react';
 import { QueryClientProvider, QueryClient} from 'react-query'
-import { RecoilRoot } from 'recoil'
 import Navigation from './src/Navigation'
 import { Provider } from 'react-redux'
 import Store from './src/store';
-import * as Updates from 'expo-updates';
 
 export const queryClient = new QueryClient();
 

@@ -81,11 +81,11 @@ export default function SellModal({ visible, close, coinType, getCoin, action}: 
     const switchStep = () => {
         switch(step) {
             case 1 :{
-                return <SetAmount opener={2} value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} getCoin={getCoin}
+                return <SetAmount opener={2} action={action} value={value} setValue={setValue} amount={amount} setAmount={setAmount} nextStep={changeStep} getCoin={getCoin}
                 paypoint={paypoint} />
             }
             case 2: {
-                return <QRcode value={value} amount={amount} nextStep={changeStep} getCoin={getCoin} paypoint={paypoint} />
+                return <QRcode value={value} action={action} amount={amount} nextStep={changeStep} getCoin={getCoin} paypoint={paypoint} />
             }
             case 3: {
                 return <UploadFiles nextStep={changeStep} image={images} setImage={setImages} />
@@ -133,11 +133,12 @@ export default function SellModal({ visible, close, coinType, getCoin, action}: 
         try {
             const obj = {
                 type: 2,
-                coin_amount: amount,
-                amount: amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.rate) : getCoin(switchID()).current_price * amount * paypoint.rate,
+                coin_amount: amount / getCoin(switchID()).current_price,
+                amount: (paypoint.sell_rate),
+                // amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.rate) : getCoin(switchID()).current_price * amount * paypoint.rate,
                 coin_type: coinType,
                 USD: amount <= 0 ? 0 : currencyFormatterD(getCoin(switchID()).current_price * amount),
-                rate: paypoint.rate,
+                rate: paypoint.sell_rate,
             }
 
             const request = await fetch(`${url}transaction/create/${user._id}`, {

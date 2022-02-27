@@ -17,9 +17,10 @@ interface IProps {
     nextStep: Function;
     getCoin: Function;
     paypoint: IPaypoint;
+    action: number;
 }
 
-export default function BankDetails({value, amount, nextStep, getCoin, paypoint }: IProps) {
+export default function BankDetails({value, amount, nextStep, getCoin, paypoint, action }: IProps) {
 
     const switchLogo = (): any => {
         if (value === 1) {
@@ -56,10 +57,11 @@ export default function BankDetails({value, amount, nextStep, getCoin, paypoint 
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 20, alignItems: 'center', height: 70 }}>
                 <Image source={switchLogo()} resizeMode="contain" style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10}}>
-                    <Text style={{ fontFamily: theme.fontFamily['Inter-Bold'] , fontSize: 24 }}>{amount} {switchText()}</Text>
+                    <Text style={{ fontFamily: theme.fontFamily['Inter-Bold'] , fontSize: 24 }}>{(amount/ getCoin(switchID()).current_price).toFixed(6)} {switchText()}</Text>
                     <Text style={{ fontSize: 18, fontFamily: theme.fontFamily['Inter-Light']}}>
                     <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold']}}>NGN: </Text>
-                    {amount <= 0 ? 0 : amount < 1 ? currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550) : currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550)}
+                    {currencyFormatterNGN(amount * (action === 1 ? (paypoint.buy_rate):(paypoint.sell_rate)))}
+                    {/* {amount <= 0 ? 0 : amount < 1 ? currencyFormatterNGN(getCoin(switchID()).current_price * amount * paypoint.buy_rate) : currencyFormatterNGN(getCoin(switchID()).current_price * amount * 550)} */}
                     </Text>
                 </View>
             </View>

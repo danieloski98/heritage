@@ -6,12 +6,25 @@ import { theme } from '../../../utils/theme'
 import SavingsCard from '../components/SavingsCard'
 import SavingsTransactionCard from '../components/SavingsTransaction'
 import TransactionCard from '../components/TransactionCard'
+import LottieView from 'lottie-react-native';
 
 export default function Savings() {
     return (
-        <View style={{ flex: 1, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flex: 1, backgroundColor: 'white', padding: 20, justifyContent: 'center'  }}>
 
-            <Text fontSize="28px" fontFamily="Inter-Bold">Coming Soon</Text>
+            <LottieView
+                autoPlay
+                loop
+                speed={1}
+                style={{
+                    width: 100,
+                    height: 150,
+                    backgroundColor: 'white',
+                }}
+                source={require('../../../../assets/lottiefiles/coming-soon.json')}
+            />
+
+            {/* <Text fontSize="28px" fontFamily="Inter-Bold">Coming Soon</Text> */}
             {/* <ScrollView style={{ flex: 1}}> */}
                     {/* <Container width='100%' height="50px" alignItems="flex-start" marginTop="20px" paddingLeft="20px" paddingRight="20px" bgColor="white">
                         <Text color="black" fontWeight="bold" fontSize="20px" >Crypto Savings</Text>

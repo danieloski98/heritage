@@ -4,7 +4,7 @@
     "slug": "theheritageexchange",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/h.png",
+    "icon": "./assets/nl.png",
     "splash": {
       "image": "./assets/h.png",
       "resizeMode": "contain",
@@ -18,7 +18,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dandolla98.theheritageexchange"
+      "bundleIdentifier": "com.dandolla98.theheritageexchange",
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {

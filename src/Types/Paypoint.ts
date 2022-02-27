@@ -2,7 +2,8 @@ export interface IPaypoint {
   bitcoin_wallet: string;
   usdt_wallet: string;
   etheruem_wallet: string;
-  rate: number;
+  buy_rate: number;
+  sell_rate: number;
   bank: IBank;
   createdAt: string;
   updatedAt: string;

@@ -25,7 +25,7 @@ export default function TransactionCard({ transaction, setActive }: {transaction
                 return 'Processing';
             }
             case 2: {
-                return 'Done';
+                return 'Approved';
             }
             case 3: {
                 return 'Declined';
@@ -104,7 +104,7 @@ export default function TransactionCard({ transaction, setActive }: {transaction
 
            <View style={style.right}>
                 <View style={{...style.button, borderColor: borderColor()}}>
-                    <Text style={{ color: borderColor(), fontFamily: 'Inter-Light', fontSize: 14 }}>{status(transaction.status)}</Text>
+                    <Text style={{ color: borderColor(), fontFamily: theme.fontFamily['Inter-Medium'], fontSize: 14 }}>{status(transaction.status)}</Text>
                 </View>
            </View>
 
@@ -115,7 +115,7 @@ export default function TransactionCard({ transaction, setActive }: {transaction
 const style = StyleSheet.create({
     parent: {
         width: '90%',
-        height: 120,
+        minHeight: 120,
         flexDirection: 'row',
         backgroundColor: 'whitesmoke',
         paddingHorizontal: 20,
@@ -140,7 +140,7 @@ const style = StyleSheet.create({
         borderRadius: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: theme.pending,
     },
     header: {

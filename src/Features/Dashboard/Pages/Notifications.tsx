@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { View, Text, ScrollView, RefreshControl } from 'react-native'
+import { View, Text, ScrollView, RefreshControl, Alert, Pressable } from 'react-native'
 import Navbar from '../components/Navbar'
 import { Feather } from '@expo/vector-icons';
 import { theme } from '../../../utils/theme';
@@ -10,11 +10,13 @@ import {useQuery} from 'react-query'
 import * as moment from 'moment'
 import { MotiView, AnimatePresence } from 'moti'
 import * as Haptics from 'expo-haptics';
+import SnackBar from 'react-native-snackbar-component'
 
 // redux
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../store/index'
 import { INotification } from '../../../Types/Notifications';
+import { queryClient } from '../../../../App';
 
 const getNoti = async (id: string) => {
     const request = await fetch(`${url}notifications/user/${id}`);
@@ -29,6 +31,7 @@ export default function Notifications() {
     const [refreshing, setRefreshing] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [noti, setNoti] = React.useState([] as Array<INotification>);
+    const [showSnack, setShowSnack] = React.useState(false);
 
     const user = useSelector((state: RootState) => state.userdetail.user);
     const {refetch} = useQuery(['getnotification', user._id], () => getNoti(user._id), {
@@ -57,12 +60,30 @@ export default function Notifications() {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         navigation.goBack()
     }, []);
+
+    const deleteNoti = useCallback(async (id: string) => {
+        const request = await fetch(`${url}notifications/${id}`, {
+            method: 'delete',
+        });
+        const json = await request.json() as IReturnType;
+        if (json.statusCode !== 200) {
+            Alert.alert('Error', json.errorMessage);
+            return;
+        } else {
+            setShowSnack(true);
+            queryClient.invalidateQueries();
+            return;
+        }
+    }, []);
     return (
         <View style={{ flex: 1, backgroundColor: theme.light }}>
 
             {/* navbar  */}
-
             <Navbar />
+
+            {/* snackbar */}
+            <SnackBar visible={showSnack} textMessage="Notification Deleted" actionHandler={()=>{setShowSnack(false)}} actionText="Close" />
+
             <View style={{ flexDirection: 'row', paddingHorizontal: 20, alignItems: 'center', paddingTop: 20 }}>
                 <Feather name="arrow-left" size={30} color={theme.color} onPress={navigate} />
                 <Text style={{ marginLeft: 20, fontSize: 16, fontFamily: 'Inter-SemiBold' }}>Notifications</Text>
@@ -90,9 +111,14 @@ export default function Notifications() {
                         }}
                         key={index.toString()} 
                         style={{ width: '100%', height: 120, backgroundColor: 'white', justifyContent: 'center', marginBottom: 20 }}>
-                            <View style={{ width: '100%', height: '90%', borderLeftColor: theme.primaryBackgroundColor, borderLeftWidth: 5, justifyContent: 'center', paddingHorizontal: 20 }}>
-                                <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular' }}>{item.message}</Text>
-                                <Text style={{ fontSize: 14, fontFamily: 'Inter-Light', marginTop: 20, color: 'grey' }}>{getDate(item.createdAt)}</Text>
+                            <View style={{ width: '100%', height: '90%', borderLeftColor: theme.primaryBackgroundColor, borderLeftWidth: 5, justifyContent: 'center', paddingHorizontal: 20, flexDirection: 'row' }}>
+                                <View style={{ justifyContent: 'center', paddingHorizontal: 20, }}>
+                                    <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular' }}>{item.message}</Text>
+                                    <Text style={{ fontSize: 14, fontFamily: 'Inter-Light', marginTop: 20, color: 'grey' }}>{getDate(item.createdAt)}</Text>
+                                </View>
+                                <Pressable onPress={() => deleteNoti(item._id)} style={{ width: 50, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Feather name="trash-2" size={25} color={theme.primaryBackgroundColor} />
+                                </Pressable>
                             </View>
                         </MotiView>
                     ))

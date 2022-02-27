@@ -76,8 +76,12 @@ export default function Profile() {
 
                     {/* banner */}
 
-                    <ImageBackground source={{ uri: 'https://cdn.pixabay.com/photo/2018/01/18/07/31/bitcoin-3089728__480.jpg'}} style={{ width: '100%', height: 200 }} blurRadius={os === 'android' ? 2:6}>
-                        <Container width="100%" height="100%" bgColor="#070707A1" paddingLeft="20px" paddingRight="20px" flexDirection="row" alignItems="flex-start">
+                    
+                    <ScrollView horizontal={false} style={{ flex: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} progressViewOffset={50} />} >
+
+
+                    <View  style={{ width: '100%', height: 150, backgroundColor: theme.darkBlue }} >
+                        <Container width="100%" height="100%" bgColor={theme.darkBlue} paddingLeft="20px" paddingRight="20px" flexDirection="row" alignItems="flex-start">
                             {
                                 os === 'ios' && (
                                     <Container width="10%" height="30px" alignItems="flex-end" bgColor="transparent" justifyContent="flex-start" marginTop="10px">
@@ -95,28 +99,26 @@ export default function Profile() {
                             <Container width="70%" height="100%" justifyContent="center" alignItems="flex-start" bgColor="transparent">
                                 <Text color="white" fontSize="20px" fontWeight="bold">{user.first_name} {user.last_name}</Text>
                                 <Text color="white" fontSize="18px" fontWeight="300" marginTop="5px">{user.email}</Text>
-                                <Text color="white" fontSize="18px" fontWeight="300" marginTop="15px">Referral Code</Text>
+                                {/* <Text color="white" fontSize="18px" fontWeight="300" marginTop="15px">Referral Code</Text>
                                 <Container width="100%" height="30px" flexDirection="row" justifyContent="flex-start" bgColor="transparent">
                                     <Text color="white" fontSize="18px" fontWeight="bold">{user._id.slice(0, 10)}</Text>
                                     <Feather name="copy" size={25} color="white" style={{ marginLeft: 20 }} />
                                     <Text color="white" fontSize="18px" fontWeight="bold">Copy</Text>
-                                </Container>
+                                </Container> */}
                             </Container>
 
                         </Container>
-                    </ImageBackground>
-                    
-                    <ScrollView horizontal={false} style={{ flex: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} progressViewOffset={50} />} >
+                    </View>
 
                         {/* tab */}
                     
-                        <View style={{ width: '100%', height: 70, backgroundColor: 'white', flexDirection: 'row', paddingHorizontal: 20}}>
+                        {/* <View style={{ width: '100%', height: 70, backgroundColor: 'white', flexDirection: 'row', paddingHorizontal: 20}}>
 
                         <Pressable onPress={() => changeindex(1)} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomWidth: index === 1 ? 4:0, borderBottomColor: 'lightgrey' }}>
                             <Text color="black" fontSize="16px">Personal Information</Text>
                         </Pressable>
 
-                        </View>
+                        </View> */}
 
                         {/* forms */}
 

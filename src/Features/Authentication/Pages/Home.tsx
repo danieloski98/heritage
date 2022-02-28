@@ -15,20 +15,24 @@ export default function Home(props: any) {
     const [page, setPage] = React.useState(0);
     const navigation = useNavigation<any>();
     const tokenStorage = useAsyncStorage('token');
-    const idStorage = useAsyncStorage('token');
+    const idStorage = useAsyncStorage('id');
+    const passedHome = useAsyncStorage('passedHome')
 
     React.useState(() => {
         (async function() {
-            const token = await tokenStorage.getItem();
+            //const token = await tokenStorage.getItem();
             const id = await idStorage.getItem();
-
-            if (token === null || id === null) {
+            if (id === null) {
                 navigation.navigate('login')
             }else {
                 navigation.navigate('index');
             }
         })()
     });
+
+    const nav = () => {
+        passedHome.setItem('true')
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: '#020B4D' }}>

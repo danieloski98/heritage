@@ -7,6 +7,7 @@ import { theme } from '../../../utils/theme'
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
+import {useAsyncStorage} from '@react-native-async-storage/async-storage'
 
 // redux
 import { useSelector } from 'react-redux'
@@ -15,9 +16,15 @@ import { RootState } from '../../../store/index'
 export default function Settings() {
     const [showing, setShowing] = React.useState(false);
     const navigation = useNavigation<any>();
+    const idStorage = useAsyncStorage('id');
     const user = useSelector((state: RootState) => state.userdetail.user);
 
     const icon = `https://avatars.dicebear.com/api/human/${user.email}.png`;
+
+    const logout = () => {
+        idStorage.removeItem();
+        navigation.navigate('home');
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -81,6 +88,13 @@ export default function Settings() {
                         <Image source={require('../../../../assets/icons/terms.png')} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
                     </View>
                     <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', marginLeft: 16, color: 'black' }}>Terms & Conditions</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={logout} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 40 }}>
+                    <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', backgroundColor: 'red', borderRadius: 10 }}>
+                        <Feather name="arrow-left-circle" color="white" size={25} />
+                    </View>
+                    <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', marginLeft: 16, color: 'black' }}>Logout</Text>
                 </TouchableOpacity>
 
             </View>

@@ -34,7 +34,7 @@ export default function BuySellCard(props: IProps) {
         }
     }, [props.coinStat])
 
-    console.log(props.coinStat);
+
     const getimage = () => {
         if (props.type === 1) {
             return require('../../../../assets/crypto/BTC.png')

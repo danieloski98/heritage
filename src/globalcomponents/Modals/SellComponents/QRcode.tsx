@@ -66,7 +66,6 @@ export default function QRcode({ nextStep, amount, value, getCoin, paypoint, act
 
     const close = async () => {
         const text = await Clipboard.getStringAsync();
-        console.log(text);
         setShowSnack(false);
     }
     

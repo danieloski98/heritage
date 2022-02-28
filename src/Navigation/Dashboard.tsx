@@ -48,7 +48,7 @@ export default function Dashboard() {
     const [loading, setLoading] = React.useState(true);
 
     const tokenStorage = useAsyncStorage('token');
-    const idStorage = useAsyncStorage('token');
+    const idStorage = useAsyncStorage('id');
     const [id, setId] = React.useState('');
     const dispatch = useDispatch();
     const paypoint = useSelector((state: RootState) => state.paypoint);
@@ -58,13 +58,16 @@ export default function Dashboard() {
     React.useEffect(() => {
         (async function() {
             const _id = await idStorage.getItem();
+            if (id === null) {
+                navigation.navigate('home');
+            }
             setId(_id as string);
         })()
     })
 
     const userDataQuery = useQuery(['getUser', id], () => getUser(id as string), {
+        enabled: id !== null,
         onSuccess: (data) => {
-            console.log(data);
             dispatch(updateUser(data.data.user));
             // setLoading(false);
         },
@@ -76,7 +79,6 @@ export default function Dashboard() {
 
     const paypointQuery = useQuery('getpaypoint', () => getPaypoint(), {
         onSuccess: (data) => {
-            console.log(data.data);
             dispatch(setPaypoint(data.data));
             setLoading(false);
         },

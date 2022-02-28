@@ -26,7 +26,7 @@ export default function Login(props) {
     const [showing, setShowing] = React.useState(true);
     const [loading, setLoading] = React.useState(false);
     const tokenStorage = useAsyncStorage('token');
-    const idStorage = useAsyncStorage('token');
+    const idStorage = useAsyncStorage('id');
 
      // redux
     const user = useSelector((state: RootState) => state.userdetail);
@@ -79,8 +79,6 @@ export default function Login(props) {
           await idStorage.setItem(json.data.user._id);
           dispatch(updateUser(json.data.user));
           dispatch(updateToken(json.data.token));
-    
-          // console.log(user);
     
           Alert.alert('Message', json.successMessage, [
             {

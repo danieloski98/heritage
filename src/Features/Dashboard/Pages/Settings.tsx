@@ -69,7 +69,7 @@ export default function Settings() {
                     <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', marginLeft: 16, color: 'black' }}>Security</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 40 }}>
+                <TouchableOpacity onPress={() => navigation.navigate('support')} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 40 }}>
                     <View style={{ width: 40, height: 40 }}>
                         <Image source={require('../../../../assets/icons/support.png')} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
                     </View>

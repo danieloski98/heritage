@@ -14,6 +14,7 @@ import Security from '../Features/Dashboard/Pages/Security'
 import Wallets from '../Features/Dashboard/Pages/Wallets';
 import About from '../Features/Dashboard/Pages/About'
 import Terms from '../Features/Dashboard/Pages/Terms';
+import Support from '../Features/Dashboard/Pages/Support';
 
 
 const Stack = createNativeStackNavigator();
@@ -33,6 +34,7 @@ export default function Authentication() {
             <Stack.Screen name="security" component={Security} />
             <Stack.Screen name="about" component={About} />
             <Stack.Screen name="terms" component={Terms} />
+            <Stack.Screen name="support" component={Support} />
         </Stack.Navigator>
     )
 }

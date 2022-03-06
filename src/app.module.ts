@@ -14,6 +14,7 @@ import { NotificationsGateway } from './websockest/notifications.gateway';
 import { PaypointModule } from './routes/paypoint/paypoint.module';
 import { NotificationsModule } from './routes/notifications/notifications.module';
 import { AdminsModule } from './routes/admins/admins.module';
+import { SupportModule } from './routes/support/support.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
@@ -61,6 +62,7 @@ const url =
     PaypointModule,
     NotificationsModule,
     AdminsModule,
+    SupportModule,
   ],
   controllers: [AppController],
   providers: [AppService, NotificationsGateway],

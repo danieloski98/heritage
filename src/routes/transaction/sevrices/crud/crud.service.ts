@@ -265,7 +265,7 @@ export class CrudService {
           const upload = await Cloudinary.uploader.upload(files[i].path, {
             folder: `/heritage`,
             transformation: {
-              width: 450,
+              width: 600,
               height: 1080,
             },
           });

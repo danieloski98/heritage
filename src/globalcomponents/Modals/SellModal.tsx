@@ -134,10 +134,10 @@ export default function SellModal({ visible, close, coinType, getCoin, action}: 
             const obj = {
                 type: 2,
                 coin_amount: amount / getCoin(switchID()).current_price,
-                amount: (paypoint.sell_rate),
+                amount: amount * (action === 1 ? (paypoint.buy_rate):(paypoint.sell_rate)),
                 // amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.rate) : getCoin(switchID()).current_price * amount * paypoint.rate,
                 coin_type: coinType,
-                USD: amount <= 0 ? 0 : currencyFormatterD(getCoin(switchID()).current_price * amount),
+                USD: amount,
                 rate: paypoint.sell_rate,
             }
 
@@ -197,7 +197,7 @@ export default function SellModal({ visible, close, coinType, getCoin, action}: 
 
                     <Container width="100%" height="30px" marginTop="20px" bgColor="white" flexDirection="row" justifyContent="space-between" alignItems="center">
                             <Pressable onPress={goBack}>
-                                {step > 1 || step === 5 && <Feather name="chevron-left" size={30} color={theme.color} /> }
+                                {step > 1 && step !== 5 && <Feather name="chevron-left" size={30} color={theme.color} /> }
                             </Pressable>
                             { step < 5 && <Text fontSize="16px" fontWeight="bold">{title}</Text> }
                             <Pressable onPress={onclose}>

@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/nl.png",
     "splash": {
-      "image": "./assets/h.png",
+      "image": "./assets/nh.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.dandolla98.theheritageexchange",
-      "buildNumber": "4"
+      "buildNumber": "5"
     },
     "android": {
       "adaptiveIcon": {

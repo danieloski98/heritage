@@ -25,7 +25,7 @@ export default function UploadFiles({ nextStep, image, setImage }: IProps) {
        const data = await ImagePicker.launchImageLibraryAsync({
            mediaTypes: ImagePicker.MediaTypeOptions.Images,
            aspect: [16,9],
-           allowsEditing: true,
+           allowsEditing: false,
        });
 
        if (data.cancelled) {

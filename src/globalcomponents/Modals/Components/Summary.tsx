@@ -38,21 +38,21 @@ export default function Summary({nextStep, images, setImage, action, coinType, o
         }
  
         // pick file
-        const data = await ImagePicker.launchImageLibraryAsync({
+        const data2 = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            // aspect: [16,9],
-            allowsEditing: true,
+            aspect: [16,9],
+            allowsEditing: false,
         });
  
-        if (data.cancelled) {
+        if (data2.cancelled) {
             return;
         }
  
         // added the image
-        const request = await fetch(data.uri);
+        const request = await fetch(data2.uri);
         const blob = await request.blob();
         // construct object 
-        const newObj = {...data, name: blob['_data'].name, type: blob['_data'].type};
+        const newObj = {...data2, name: blob['_data'].name, type: blob['_data'].type};
        setImage([...images, newObj])
      }
 

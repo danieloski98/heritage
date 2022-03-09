@@ -134,7 +134,7 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
         try {
             const obj = {
                 type: 1,
-                coin_amount: amount * getCoin(switchID()).current_price,
+                coin_amount: amount / getCoin(switchID()).current_price,
                 amount: amount * (action === 1 ? (paypoint.buy_rate):(paypoint.sell_rate)),
                 // amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.buy_rate) : getCoin(switchID()).current_price * amount * paypoint.buy_rate,
                 coin_type: coinType,
@@ -199,7 +199,7 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
 
                     <Container width="100%" height="30px" marginTop="20px" bgColor="white" flexDirection="row" justifyContent="space-between" alignItems="center">
                             <Pressable onPress={goBack}>
-                                {step > 1 || step === 5 && <Feather name="chevron-left" size={30} color={theme.color} /> }
+                                {step > 1 && step !== 5 && <Feather name="chevron-left" size={30} color={theme.color} onPress={() => setStep(prev => prev - 1)} /> }
                             </Pressable>
                             { step < 5 && <Text fontSize="16px" fontFamily={theme.fontFamily['Inter-SemiBold']} color="black">{title}</Text> }
                             <Pressable onPress={onclose}>

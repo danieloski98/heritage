@@ -133,7 +133,7 @@ export default function SellModal({ visible, close, coinType, getCoin, action}: 
         try {
             const obj = {
                 type: 2,
-                coin_amount: amount / getCoin(switchID()).current_price,
+                coin_amount: (amount / getCoin(switchID()).current_price).toFixed(6),
                 amount: amount * (action === 1 ? (paypoint.buy_rate):(paypoint.sell_rate)),
                 // amount <= 0 ? 0 : amount < 1 ? Math.fround((Math.round(getCoin(switchID()).current_price) * amount) * paypoint.rate) : getCoin(switchID()).current_price * amount * paypoint.rate,
                 coin_type: coinType,

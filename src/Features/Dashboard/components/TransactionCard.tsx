@@ -93,7 +93,7 @@ export default function TransactionCard({ transaction, setActive }: {transaction
                     <Image source={imageSwitcher(transaction.coin_type)} resizeMode="cover" style={{ width: '100%', height: '100%' }} />
                </View>
 
-               {transaction.type === 1 && <Text style={style.header}>Purchase of {transaction.coin_amount} {coinSwitcher(transaction.coin_type)}
+               {transaction.type === 1 && <Text style={style.header}>Purchase of {transaction.coin_amount.toFixed(6)} {coinSwitcher(transaction.coin_type)}
                 
                </Text>}
                {transaction.type === 2 && <Text style={style.header}>NGN {currencyFormatterNGN(transaction.amount)} TO {user.bank_name}</Text>}

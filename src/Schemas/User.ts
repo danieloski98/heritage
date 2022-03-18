@@ -84,6 +84,10 @@ export class User {
   updateAt: string;
 
   @ApiProperty()
+  @Prop()
+  pin: string;
+
+  @ApiProperty()
   @Prop({
     default: false,
   })

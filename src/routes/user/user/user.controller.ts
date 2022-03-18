@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, Res, Post } from '@nestjs/common';
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { User } from 'src/Schemas/User';
@@ -28,6 +28,33 @@ export class UserController {
   @Get('')
   async getUsers(@Res() res: Response) {
     const result = await this.crudService.getUsers();
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('USER')
+  @ApiParam({ name: 'id' })
+  @ApiBody({ type: EditingNames })
+  @Post('pin/:id')
+  async updatePin(
+    @Res() res: Response,
+    @Body() body: { pin: string },
+    @Param() param: any,
+  ) {
+    const result = await this.crudService.createPin(param['id'], body.pin);
+    res.status(result.statusCode).send(result);
+  }
+
+  @ApiTags('USER')
+  @ApiParam({ name: 'id' })
+  @ApiParam({ name: 'pin' })
+  @ApiBody({ type: EditingNames })
+  @Get('pin/:id/:pin')
+  async verifyPin(
+    @Res() res: Response,
+    @Body() body: { pin: string },
+    @Param() param: any,
+  ) {
+    const result = await this.crudService.verifyPin(param['id'], param['pin']);
     res.status(result.statusCode).send(result);
   }
 

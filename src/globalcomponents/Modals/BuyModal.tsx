@@ -191,7 +191,7 @@ export default function BuyModal({ visible, close, coinType, getCoin, action}: I
 
         <Container height="100%" width="100%" bgColor="#00000083" alignItems="flex-start">
 
-            <View style={{ width: '100%', height: theme.screenHeight/100*60, backgroundColor: 'white', alignItems: 'center', paddingHorizontal: 20 , paddingBottom: 20, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
+            <View style={{ width: '100%', height: theme.screenHeight/100*65, backgroundColor: 'white', alignItems: 'center', paddingHorizontal: 20 , paddingBottom: 20, borderTopRightRadius: 10, borderTopLeftRadius: 10 }}>
 
                <ScrollView horizontal={false} style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
 

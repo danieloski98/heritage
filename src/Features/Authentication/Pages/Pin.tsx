@@ -123,13 +123,13 @@ export default function Pin(props) {
                 <Text style={{ fontFamily: theme.fontFamily['Inter-Regular'], fontSize: 20 }}>Code</Text>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
 
-                    <TextInput ref={refOne as any} keyboardType="number-pad" value={v1}  onChangeText={(e) => checker(1, e)} style={{ width: 69, height: 55, backgroundColor: theme.textInputBgColor, borderRadius: 10, fontFamily: theme.fontFamily['Inter-Bold'], fontSize: 20, color: 'black', paddingLeft: 30  }} /> 
+                    <TextInput ref={refOne as any} keyboardType="number-pad" secureTextEntry={true} value={v1}  onChangeText={(e) => checker(1, e)} style={{ width: 69, height: 55, backgroundColor: theme.textInputBgColor, borderRadius: 10, fontFamily: theme.fontFamily['Inter-Bold'], fontSize: 20, color: 'black', paddingLeft: 30  }} /> 
 
-                    <TextInput ref={refTwo as any} keyboardType="number-pad" value={v2}  onChangeText={(e) => checker(2, e)} style={{ width: 69, height: 55, backgroundColor: theme.textInputBgColor, borderRadius: 10, fontFamily: theme.fontFamily['Inter-Bold'], fontSize: 20, color: 'black', paddingLeft: 30  }} /> 
+                    <TextInput ref={refTwo as any} keyboardType="number-pad" secureTextEntry={true} value={v2}  onChangeText={(e) => checker(2, e)} style={{ width: 69, height: 55, backgroundColor: theme.textInputBgColor, borderRadius: 10, fontFamily: theme.fontFamily['Inter-Bold'], fontSize: 20, color: 'black', paddingLeft: 30  }} /> 
 
-                    <TextInput ref={refThree as any} keyboardType="number-pad" value={v3} onChangeText={(e) => checker(3, e)} style={{ width: 69, height: 55, backgroundColor: theme.textInputBgColor, borderRadius: 10, fontFamily: theme.fontFamily['Inter-Bold'], fontSize: 20, color: 'black', paddingLeft: 30  }} /> 
+                    <TextInput ref={refThree as any} keyboardType="number-pad" secureTextEntry={true} value={v3} onChangeText={(e) => checker(3, e)} style={{ width: 69, height: 55, backgroundColor: theme.textInputBgColor, borderRadius: 10, fontFamily: theme.fontFamily['Inter-Bold'], fontSize: 20, color: 'black', paddingLeft: 30  }} /> 
 
-                    <TextInput ref={refFour as any} keyboardType="number-pad" value={v4}  onChangeText={(e) => checker(4, e)} style={{ width: 69, height: 55, backgroundColor: theme.textInputBgColor, borderRadius: 10, fontFamily: theme.fontFamily['Inter-Bold'], fontSize: 20, color: 'black', paddingLeft: 30  }} />    
+                    <TextInput ref={refFour as any} keyboardType="number-pad" secureTextEntry={true} value={v4}  onChangeText={(e) => checker(4, e)} style={{ width: 69, height: 55, backgroundColor: theme.textInputBgColor, borderRadius: 10, fontFamily: theme.fontFamily['Inter-Bold'], fontSize: 20, color: 'black', paddingLeft: 30  }} />    
                 </View>
 
                 <Pressable style={{ justifyContent: 'center', alignItems: 'center', width: '100%', height: 60, backgroundColor: theme.primaryBackgroundColor, marginTop: 30, borderRadius: 10 }} onPress={submit}>

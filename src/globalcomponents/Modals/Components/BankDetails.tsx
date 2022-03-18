@@ -5,6 +5,9 @@ import Button from '../../Button';
 import { theme } from '../../../utils/theme';
 import { currencyFormatterD, currencyFormatterNGN } from '../../../utils/currencyConverter'
 import { IPaypoint } from '../../../Types/Paypoint';
+import {FontAwesome, Ionicons} from '@expo/vector-icons'
+import * as Clipboard from 'expo-clipboard';
+import Snackbar from 'react-native-snackbar-component'
 
 // image links
 const BTC = require('../../../../assets/crypto/BTC.png');
@@ -21,6 +24,7 @@ interface IProps {
 }
 
 export default function BankDetails({value, amount, nextStep, getCoin, paypoint, action }: IProps) {
+    const [showSnack, setShowSnack] = React.useState(false);
 
     const switchLogo = (): any => {
         if (value === 1) {
@@ -52,8 +56,20 @@ export default function BankDetails({value, amount, nextStep, getCoin, paypoint,
         }
     }
 
+    const copy = () => {
+        Clipboard.setString(paypoint.bank.account_number);
+        setShowSnack(true);
+        // Alert.alert('Action', `${switchID()} wallet address copied`);
+    }
+
+    const close = async () => {
+        const text = await Clipboard.getStringAsync();
+        setShowSnack(false);
+    }
+
     return (
         <View style={{ flex: 1 }}>
+             <Snackbar visible={showSnack} textMessage={`Account number copied`} actionHandler={close} actionText="close"/>
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 20, alignItems: 'center', height: 70 }}>
                 <Image source={switchLogo()} resizeMode="contain" style={{ width: 60, height: 60 }} />
                 <View style={{ marginLeft: 10}}>
@@ -68,20 +84,25 @@ export default function BankDetails({value, amount, nextStep, getCoin, paypoint,
 
             <View style={{ marginTop: 30, height: 60 }}>
                 <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] , fontSize: 18 }}>Payment Instructions</Text>
-                <Text style={{ fontFamily: theme.fontFamily['Inter-Regular'] , fontSize: 16, marginTop: 5 }}>Send the above amount to the account below. </Text>
+                <Text style={{ fontFamily: theme.fontFamily['Inter-Regular'] , fontSize: 16, marginTop: 5 }}>Send the above amount(NGN) to the account below. </Text>
             </View>
 
             <View style={{ marginTop: 30, height: 100, }}>
                 <Text style={{ fontSize: 18, fontFamily: theme.fontFamily['Inter-Regular'] }}>
                     <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] }}>Account Name :</Text> {paypoint.bank.account_name}
                 </Text>
-                <Text style={{ fontSize: 18, marginTop: 10, fontFamily: theme.fontFamily['Inter-Regular'] }}>
-                    <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] }}>Account No. :</Text> {paypoint.bank.account_number}
-                </Text>
+                <View style={{ flexDirection: 'row'}}>
+                    <Text style={{ fontSize: 18, marginTop: 10, fontFamily: theme.fontFamily['Inter-Regular'] }}>
+                        <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] }}>Account No. :</Text> {paypoint.bank.account_number}
+                    </Text>
+                    <Ionicons name="copy" size={30} color={theme.color} style={{ marginLeft: 10 }} onPress={copy} />
+                </View>
                 <Text style={{ fontSize: 18, marginTop: 10, fontFamily: theme.fontFamily['Inter-Regular'] }}>
                     <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] }}>Bank :</Text> {paypoint.bank.bank_name}
                 </Text>
             </View>
+
+            <Text style={{ color: 'red', fontFamily: theme.fontFamily['Inter-Medium'], fontSize: 14 }}>Disclaimer: when sending funds do not include anything related to cryptocurrency(btc, eth, usdt) in the reference note, doing so might result in the restriction of your bank account.</Text>
 
             <Container width="100%" height="55px" alignItems="flex-start" marginTop="20px">
                     <Button>

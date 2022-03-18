@@ -15,6 +15,7 @@ import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import { RootState } from '../../../store'
 import {updateUser, updateToken} from '../../../States/UserDetails'
 import { useDispatch, useSelector } from 'react-redux'
+import { IUser } from '../../../Types/User'
 
 // validationSchema
 const validationSchema = yup.object({
@@ -79,12 +80,19 @@ export default function Login(props) {
           await idStorage.setItem(json.data.user._id);
           dispatch(updateUser(json.data.user));
           dispatch(updateToken(json.data.token));
+          console.log(json.data.user);
+          if ((json.data.user as IUser).pin === null || (json.data.user as IUser).pin === '' || (json.data.user as IUser).pin === undefined ) {
+            props.navigation.navigate('pin');
+            return;
+          } else {
+            props.navigation.navigate('verifypin')
+          }
     
-          Alert.alert('Message', json.successMessage, [
-            {
-              text: 'ok', style: 'cancel', onPress: () => {props.navigation.navigate('verifypin')}
-            }
-          ]);
+          // Alert.alert('Message', json.successMessage, [
+          //   {
+          //     text: 'ok', style: 'cancel', onPress: () => {}
+          //   }
+          // ]);
           formik.resetForm();
           return;
         }

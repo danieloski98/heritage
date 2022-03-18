@@ -17,4 +17,5 @@ export interface IUser {
     bank_name?: string;
     account_name?: string;
     account_number?: string;
+    pin: string;
 }

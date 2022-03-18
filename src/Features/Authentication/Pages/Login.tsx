@@ -82,7 +82,7 @@ export default function Login(props) {
     
           Alert.alert('Message', json.successMessage, [
             {
-              text: 'ok', style: 'cancel', onPress: () => {props.navigation.navigate('index')}
+              text: 'ok', style: 'cancel', onPress: () => {props.navigation.navigate('verifypin')}
             }
           ]);
           formik.resetForm();
@@ -111,7 +111,7 @@ export default function Login(props) {
            <ScrollView style={{ flex: 1, backgroundColor: 'white', minHeight: theme.screenHeight,  borderTopLeftRadius: 30, overflow: 'hidden' }} contentContainerStyle={{ height: theme.screenHeight, overflow: 'hidden', borderTopLeftRadius: 30 }}>
            
             <View style={{ paddingHorizontal: 20, justifyContent: 'center', height: 100  }}>
-                <Text color="black" fontSize="24px" fontWeight="bold">Glad  To See You Back</Text>
+                <Text color="black" fontSize="24px" fontWeight="bold">Glad To See You Back</Text>
                 <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Sign In To Your Account To Continue</Text>
             </View>
 

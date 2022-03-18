@@ -56,7 +56,7 @@ export default function Verifyemail(props: any) {
             }
         ]);
         formik.resetForm();
-        props.navigation.navigate('index');
+        props.navigation.navigate('pin');
         return;
         }
         

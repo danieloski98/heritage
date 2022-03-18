@@ -25,7 +25,7 @@ export default function Home(props: any) {
             if (id === null) {
                 navigation.navigate('login')
             }else {
-                navigation.navigate('index');
+                navigation.navigate('verifypin');
             }
         })()
     });

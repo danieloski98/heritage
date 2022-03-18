@@ -15,6 +15,8 @@ import Wallets from '../Features/Dashboard/Pages/Wallets';
 import About from '../Features/Dashboard/Pages/About'
 import Terms from '../Features/Dashboard/Pages/Terms';
 import Support from '../Features/Dashboard/Pages/Support';
+import Pin from '../Features/Authentication/Pages/Pin';
+import VerifyPin from '../Features/Authentication/Pages/Verifypin';
 
 
 const Stack = createNativeStackNavigator();
@@ -25,6 +27,8 @@ export default function Authentication() {
             <Stack.Screen name="home" component={Home}  />
             <Stack.Screen name="login" component={Login} />
             <Stack.Screen name="signup" component={Signup} />
+            <Stack.Screen name="pin" component={Pin} />
+            <Stack.Screen name="verifypin" component={VerifyPin} />
             <Stack.Screen name="verifyemail" component={Verifyemail} />
             <Stack.Screen name="resetpassword" component={ResetPassword} />
             <Stack.Screen name="index" component={Dashboard} />

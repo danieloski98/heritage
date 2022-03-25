@@ -1,6 +1,15 @@
 import { Dimensions } from 'react-native'
 
 export const theme = {
+    darkModeBg: 'rgb(46, 46, 46)',
+    primaryBgColor: 'white',
+    textColor: 'black',
+    darkenTextColor: 'rgb(97, 97, 97)',
+    darkText: 'grey',
+    themeColor: 'rgb(75, 214, 184)',
+    inactive: 'lightgrey',
+    whitesmoke: 'whitesmoke',
+    
     buttonHeight: 55,
     primaryBackgroundColor: '#1526AE',
     headerTextColor: '#020C26',

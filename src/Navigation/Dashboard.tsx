@@ -5,7 +5,7 @@ import Transactions from '../Features/Dashboard/Pages/Transactions'
 import Savings from '../Features/Dashboard/Pages/Savings'
 import Settings from '../Features/Dashboard/Pages/Settings'
 import Navbar from '../Features/Dashboard/components/Navbar'
-import { FontAwesome5 } from '@expo/vector-icons'
+import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import { Platform, Modal, View, Text, ActivityIndicator } from 'react-native'
 import { theme } from '../utils/theme';
 import { useQuery } from 'react-query'
@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from '../States/UserDetails'
 import { setPaypoint } from '../States/Paypoint'
 import {RootState} from '../store'
+import NewsHome from '../Features/Dashboard/Pages/markets'
 
 const os = Platform.OS;
 
@@ -103,9 +104,11 @@ export default function Dashboard() {
 
         <Tab.Navigator screenOptions={{ header: ({route}) => route.name === 'settings' ? <></> : <Navbar />, tabBarStyle: { height: os === 'ios' ? 80:65, paddingBottom: os === 'ios' ? 20:10 }, tabBarLabelStyle: { fontWeight: '600', includeFontPadding: true, fontSize: 12} }}  >
 
-            <Tab.Screen name="dashboard" component={Home} options={{ title: 'Dashboard', tabBarIcon: ({ focused }) => <FontAwesome5 name="chart-pie" size={25} color={focused ? theme.darkBlue : theme.color } />}} />
+            <Tab.Screen name="dashboard" component={Home} options={{ title: 'Home', tabBarIcon: ({ focused }) => <FontAwesome5 name="chart-pie" size={25} color={focused ? theme.darkBlue : theme.color } />}} />
 
             <Tab.Screen name="transactions" component={Transactions} options={{ title: 'Transaction',  tabBarIcon: ({ focused }) => <FontAwesome5 name="th-large" size={25} color={focused ? theme.darkBlue : theme.color } />}} />
+
+            <Tab.Screen name="markets" component={NewsHome} options={{ title: 'Markets',  tabBarIcon: ({ focused }) => <Ionicons name="stats-chart" size={25} color={focused ? theme.darkBlue : theme.color } />}} />
 
             <Tab.Screen name="savings" component={Savings} options={{ title: 'Savings', tabBarIcon: ({ focused }) => <FontAwesome5 name="piggy-bank" size={25} color={focused ? theme.darkBlue : theme.color } /> }} />
 

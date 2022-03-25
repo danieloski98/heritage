@@ -81,12 +81,7 @@ export default function Login(props) {
           dispatch(updateUser(json.data.user));
           dispatch(updateToken(json.data.token));
           console.log(json.data.user);
-          if ((json.data.user as IUser).pin === null || (json.data.user as IUser).pin === '' || (json.data.user as IUser).pin === undefined ) {
-            props.navigation.navigate('pin');
-            return;
-          } else {
-            props.navigation.navigate('verifypin')
-          }
+          props.navigation.navigate('index')
     
           // Alert.alert('Message', json.successMessage, [
           //   {

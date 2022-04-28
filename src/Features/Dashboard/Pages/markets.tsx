@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Image, RefreshControl, ScrollView } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Image, RefreshControl, ScrollView, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 import {theme} from '../../../utils/theme'
 import { ICoin } from '../../../types/CoinType';
@@ -7,15 +7,21 @@ import {useQuery} from 'react-query';
 import { COINGECKO_URL } from '../../../utils/url';
 import {Feather, FontAwesome5} from '@expo/vector-icons'
 import { currencyFormatterD } from '../../../utils/currencyConverter';
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
+import { Icon } from '@ui-kitten/components';
+import Charts from '../components/Charts';
 
 const getCoins = async () => {
-  const request = await fetch(`${COINGECKO_URL}coins/markets?vs_currency=usd&sparkline=true&price_change_percentage=7d`);
-  const json = await request.json() as Array<ICoin>;
-
-  if (!request.ok) {
-    throw new Error('An error occured while getting the coins');
-  }
-  return json;
+    const request = await fetch(`${COINGECKO_URL}coins/markets?vs_currency=usd&sparkline=true&price_change_percentage=7d`);
+    const json = await request.json() as Array<ICoin>;
+  
+    if (!request.ok) {
+      throw new Error('An error occured while getting the coins');
+    }
+    return json;
 }
 
 const CATS = [
@@ -30,6 +36,11 @@ export default function NewsHome (props: any) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [active, setActive] = useState('Cryptocurrency');
+  const [coin, setCoin] = useState({} as ICoin);
+
+  // bottomsheet
+  const bottomSheetRef = React.useRef<BottomSheetModal>(null);
+  const snapPoints = React.useMemo(() => ['60%'], [])
 
   // get coins query
   const coinQuery = useQuery('getCoins', getCoins, {
@@ -46,6 +57,11 @@ export default function NewsHome (props: any) {
   const onRefresh = async() => {
     setLoading(true);
     await coinQuery.refetch();
+  }
+
+  const openBottomSheet = (item: ICoin) => {
+    setCoin(item);
+    bottomSheetRef.current?.present();
   }
 
   const Header = () => (
@@ -85,44 +101,75 @@ export default function NewsHome (props: any) {
     }
   }
   return (
-    <View style={{ flex: 1, backgroundColor: theme.primaryBgColor }}>
+    <BottomSheetModalProvider>
+         <View style={{ flex: 1, backgroundColor: theme.primaryBgColor }}>
+
       <Header />
-      <FlatList 
-      data={data} 
-      keyExtractor={(item: ICoin, index) => item.id} 
-      refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={loading} progressViewOffset={50} />}
-      renderItem={({item,index, separators}) => (
-        <>
-          {loading && 
-          <View style={{ width: '100%', alignItems: 'center', paddingTop: 20 }}>
-            <ActivityIndicator color="white" size="large" />
-          </View>}
-
-          {!loading && (
-            <TouchableOpacity 
-            onPress={() => props.navigation.navigate('coin', {coin:item})}
-            style={{ paddingHorizontal: 20, height: 70, flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
-
-              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                <Image source={{ uri: item.image }} resizeMode="contain" style={{ width: 40, height: 40 }} />
-                <View style={{ marginLeft: 10 }}>
-                  <Text style={{ fontSize: 16, color: theme.textColor, fontWeight: '700' }}>{item.name}</Text>
-                  <Text style={{ fontSize: 14, color: theme.darkText, fontWeight: '300', textTransform: 'uppercase', marginTop: 5 }}>{item.symbol}</Text>
-                </View>
-              </View>
-
-              <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                <Text style={{ fontSize: 16, color: theme.textColor, fontWeight: '700' }}>${currencyFormatterD(item.current_price)}</Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
-                  {chevron(item.price_change_percentage_24h)}
-                  <Text style={{ fontSize: 14, color: percentageColor(item.price_change_percentage_24h), fontWeight: '600', textTransform: 'uppercase'  }}>{item.price_change_percentage_24h.toFixed(2)}</Text>  
-                </View>
-              </View>
-              
-            </TouchableOpacity>
+      {!loading && !error && (
+          <FlatList 
+          data={data} 
+          keyExtractor={(item: ICoin, index) => item.id} 
+          refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={loading} progressViewOffset={50} />}
+          renderItem={({item,index, separators}) => (
+            <>
+              {loading && 
+              <View style={{ width: '100%', alignItems: 'center', paddingTop: 20 }}>
+                <ActivityIndicator color="white" size="large" />
+              </View>}
+                <TouchableOpacity 
+                onPress={() => openBottomSheet(item)}
+                style={{ paddingHorizontal: 20, height: 70, flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
+    
+                  <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                    <Image source={{ uri: item.image }} resizeMode="contain" style={{ width: 40, height: 40 }} />
+                    <View style={{ marginLeft: 10 }}>
+                      <Text style={{ fontSize: 16, color: theme.textColor, fontWeight: '700' }}>{item.name}</Text>
+                      <Text style={{ fontSize: 14, color: theme.darkText, fontWeight: '300', textTransform: 'uppercase', marginTop: 5 }}>{item.symbol}</Text>
+                    </View>
+                  </View>
+    
+                  <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                    <Text style={{ fontSize: 16, color: theme.textColor, fontWeight: '700' }}>${currencyFormatterD(item.current_price)}</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
+                      {chevron(item.price_change_percentage_24h)}
+                      <Text style={{ fontSize: 14, color: percentageColor(item.price_change_percentage_24h), fontWeight: '600', textTransform: 'uppercase'  }}>{item.price_change_percentage_24h.toFixed(2)}</Text>  
+                    </View>
+                  </View>
+                  
+                </TouchableOpacity>
+            </>
+          )} />
+      )}
+       {!loading && error && (
+            <View style={{ width: '100%', height: 150, justifyContent: 'center', alignItems: 'center' }}>
+              <Text>An Error occured</Text>
+              <Pressable style={{ width: 60, height: 40, backgroundColor: theme.primaryBgColor,}}></Pressable>
+            </View>
           )}
-        </>
-      )} />
+      {/* bottom sheet */}
+      <BottomSheetModal
+        ref={bottomSheetRef}
+        index={0}
+        snapPoints={snapPoints}
+        style={style.bottomshetParent}
+      >
+        <Charts coin={coin} />
+    
+      </BottomSheetModal>
     </View>
+    </BottomSheetModalProvider>
   )
 }
+
+const style = StyleSheet.create({
+  bottomshetParent: {
+    backgroundColor: 'white',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {height: -4, width: 0},
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+  }
+});

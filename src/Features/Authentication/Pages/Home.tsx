@@ -21,17 +21,24 @@ export default function Home(props: any) {
     React.useState(() => {
         (async function() {
             //const token = await tokenStorage.getItem();
-            const id = await idStorage.getItem();
-            if (id === null) {
-                navigation.navigate('login')
-            }else {
-                navigation.navigate('verifypin');
+            const passed = await passedHome.getItem();
+            if (passed === null || passed !== 'true') {
+                return;
+            } else {
+                const id = await idStorage.getItem();
+                if (id === null) {
+                    navigation.navigate('login')
+                }else {
+                    navigation.navigate('index');
+                }
             }
+           
         })()
     });
 
     const nav = () => {
-        passedHome.setItem('true')
+        passedHome.setItem('true');
+        props.navigation.navigate('login');
     }
 
     return (
@@ -86,7 +93,7 @@ export default function Home(props: any) {
                                     type: 'spring',
                                 }}
                                 style={{ width: '100%', paddingHorizontal: 20, position: 'absolute', top: 500, height: theme.buttonHeight, zIndex: 20 }}>
-                                <Pressable onPress={() => props.navigation.navigate('login')} style={{ width: '100%', height: '100%', backgroundColor: theme.primaryBackgroundColor, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}>
+                                <Pressable onPress={nav} style={{ width: '100%', height: '100%', backgroundColor: theme.primaryBackgroundColor, borderRadius: 10, alignItems: 'center', justifyContent: 'center' }}>
                                   
                                         <Text fontSize="16px" fontWeight="600" color="white">Get Started</Text>
                                     

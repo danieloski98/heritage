@@ -38,6 +38,15 @@ const getTransactions = async (id: string) => {
   return json;
 };
 
+const sort = (a: ITransaction, b: ITransaction) => {
+  if (a.createdAt > b.createdAt) {
+    return -1;
+  } else {
+    return 1;
+  }
+  return 0;
+}
+
 export default function Transactions() {
   const [tab, setTab] = React.useState(1);
   const [date, setDate] = React.useState(new Date());
@@ -259,7 +268,9 @@ export default function Transactions() {
                         size="large"
                         max={new Date()}
                       /> */}
-                      {crypto.map((item, index) => (
+                      {crypto.
+                      sort(sort).
+                      map((item, index) => (
                         <MotiView 
                         from={{ opacity: 0, top: 300 }}
                         animate={{ opacity: 1, top: 0 }}
@@ -307,7 +318,9 @@ export default function Transactions() {
                         size="large"
                         max={new Date()}
                       /> */}
-                      {fiat.map((item, index) => (
+                      {fiat
+                      .sort(sort)
+                      .map((item, index) => (
                         <MotiView 
                         from={{ opacity: 0, top: 300 }}
                         animate={{ opacity: 1, top: 0 }}

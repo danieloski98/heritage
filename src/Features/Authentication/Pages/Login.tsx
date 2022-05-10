@@ -28,6 +28,7 @@ export default function Login(props) {
     const [loading, setLoading] = React.useState(false);
     const tokenStorage = useAsyncStorage('token');
     const idStorage = useAsyncStorage('id');
+    const loggedIn = useAsyncStorage('loggedIn');
 
      // redux
     const user = useSelector((state: RootState) => state.userdetail);
@@ -78,6 +79,7 @@ export default function Login(props) {
         }else {
           await tokenStorage.setItem(json.data.token);
           await idStorage.setItem(json.data.user._id);
+          await loggedIn.setItem('true');
           dispatch(updateUser(json.data.user));
           dispatch(updateToken(json.data.token));
           console.log(json.data.user);

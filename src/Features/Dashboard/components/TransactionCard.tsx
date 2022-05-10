@@ -77,7 +77,7 @@ export default function TransactionCard({ transaction, setActive }: {transaction
 
     const getDate = (date: any) => {
         const dt = moment.default(date);
-        return dt.startOf('minutes').fromNow();
+        return dt.startOf('seconds').fromNow();
       }
 
     return (
@@ -115,7 +115,7 @@ export default function TransactionCard({ transaction, setActive }: {transaction
 const style = StyleSheet.create({
     parent: {
         width: '90%',
-        minHeight: 120,
+        minHeight: 150,
         flexDirection: 'row',
         backgroundColor: 'whitesmoke',
         paddingHorizontal: 20,

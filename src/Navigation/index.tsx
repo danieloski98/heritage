@@ -1,13 +1,18 @@
 import React, { useCallback, useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import Authentication from './Authentication'
+import Dashboard from './Dashboard';
 import { ActivityIndicator, Platform, View } from 'react-native';
 import { useSharedValue, useAnimatedStyle, withSpring, withTiming, } from 'react-native-reanimated'
 import * as Font from 'expo-font';
+import { useAsyncStorage } from '@react-native-async-storage/async-storage'
+import { useDispatch, useSelector } from 'react-redux'
+import { login, logout } from '../States/LoggedIn'
 
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components'
 import { theme } from '../utils/theme';
+import { RootState } from '../store';
 
 const Wrapper = (props) => {
     if (Platform.OS === 'ios') {
@@ -29,6 +34,23 @@ const Wrapper = (props) => {
 
 export default function Index() {
     const [font, setFont] = React.useState(true);
+    const [loggedin, setLoggedin] = React.useState(false);
+    const loggedIn = useAsyncStorage('loggedIn');
+    const dispatch = useDispatch();
+    const loggedinState = useSelector((state: RootState) => state.loggedin.loggedin);
+
+    React.useEffect(() => {
+        (async function() {
+            const val = await loggedIn.getItem();
+
+            if (val === 'true') {
+                dispatch(login());
+            } else {
+                dispatch(logout());
+            }
+        })()
+    }, []);
+
     const loadFonts = useCallback(async () => {
         await Font.loadAsync({
             'Inter-Bold': {
@@ -87,7 +109,7 @@ export default function Index() {
         <Wrapper>
             <ApplicationProvider {...eva} theme={eva.light}>
                 <NavigationContainer>
-                    <Authentication />
+                    { loggedinState ? <Dashboard /> : <Authentication /> }
                 </NavigationContainer>
             </ApplicationProvider>
         </Wrapper>

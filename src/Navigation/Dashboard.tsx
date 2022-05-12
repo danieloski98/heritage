@@ -1,5 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from '../Features/Dashboard/Pages/Home'
 import Transactions from '../Features/Dashboard/Pages/Transactions'
 import Savings from '../Features/Dashboard/Pages/Savings'
@@ -21,9 +22,21 @@ import { setPaypoint } from '../States/Paypoint'
 import {RootState} from '../store'
 import NewsHome from '../Features/Dashboard/Pages/markets'
 
+// components
+import Profile from '../Features/Dashboard/Pages/Profile';
+import Notifications from '../Features/Dashboard/Pages/Notifications';
+import Security from '../Features/Dashboard/Pages/Security'
+import Wallets from '../Features/Dashboard/Pages/Wallets';
+import About from '../Features/Dashboard/Pages/About'
+import Terms from '../Features/Dashboard/Pages/Terms';
+import Support from '../Features/Dashboard/Pages/Support';
+import Pin from '../Features/Authentication/Pages/Pin';
+import coin from '../Features/Dashboard/Pages/coin';
+
 const os = Platform.OS;
 
 const Tab = createBottomTabNavigator()
+const { Navigator, Screen, Group } = createNativeStackNavigator()
 
 const getUser = async(id: string) => {
     const request = await fetch(`${url}user/${id}`);
@@ -45,7 +58,7 @@ const getPaypoint = async () => {
     return json;
 }
 
-export default function Dashboard() {
+function Dashboard() {
     const [loading, setLoading] = React.useState(true);
 
     const tokenStorage = useAsyncStorage('token');
@@ -116,5 +129,27 @@ export default function Dashboard() {
 
         </Tab.Navigator>
     </>
+    )
+}
+
+
+export default function DashboardStack() {
+    return (
+        <Navigator initialRouteName='index' screenOptions={{ headerShown: false }}>
+            <Group>
+                <Screen name="index" component={Dashboard} />
+            </Group>
+            <Group>
+                <Screen name="coin" component={coin}  />
+                <Screen name="pin" component={Pin} />
+                <Screen name="profile" component={Profile} />
+                <Screen name="notifications" component={Notifications} />
+                <Screen name="wallets" component={Wallets} />
+                <Screen name="security" component={Security} />
+                <Screen name="about" component={About} />
+                <Screen name="terms" component={Terms} />
+                <Screen name="support" component={Support} />
+            </Group>
+        </Navigator>
     )
 }

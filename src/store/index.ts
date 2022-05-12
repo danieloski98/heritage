@@ -3,6 +3,7 @@ import UserDetailReducer from '../States/UserDetails';
 import CounterReducer from '../States/Counter'
 import NetworkReducer from '../States/Network'
 import PayPointReducer from '../States/Paypoint'
+import LoggedInReducer from '../States/LoggedIn'
 
 const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
         counter: CounterReducer,
         network: NetworkReducer,
         paypoint: PayPointReducer,
+        loggedin: LoggedInReducer,
     }
 })
 

@@ -25,11 +25,11 @@ export default function About() {
             <View style={{ width: '100%', height: 200 }}>
                 <Image source={require('../../../../assets/h.png')} resizeMode="contain" style={{ width: '100%', height: '100%' }} />
             </View>
-            <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Version 1.0.0</Text>
+            <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Version 1.0.1</Text>
             <TouchableOpacity onPress={check} style={{ marginTop: 20}}>
                 {!checking && <Text>Check for update</Text>}
                 {checking && <ActivityIndicator color={theme.primaryBackgroundColor} size="large" />}
             </TouchableOpacity>
         </View>
     )
-}
+}1

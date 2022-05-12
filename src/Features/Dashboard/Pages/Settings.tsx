@@ -10,20 +10,24 @@ import { useNavigation } from '@react-navigation/native'
 import {useAsyncStorage} from '@react-native-async-storage/async-storage'
 
 // redux
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../store/index'
+import { logout as logoutAction } from '../../../States/LoggedIn'
 
 export default function Settings() {
     const [showing, setShowing] = React.useState(false);
     const navigation = useNavigation<any>();
     const idStorage = useAsyncStorage('id');
+    const loggedIn = useAsyncStorage('loggedIn');
+    const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.userdetail.user);
 
     const icon = `https://avatars.dicebear.com/api/human/${user.email}.png`;
 
     const logout = () => {
         idStorage.removeItem();
-        navigation.navigate('home');
+        loggedIn.setItem('false');
+        dispatch(logoutAction());
     }
 
     return (

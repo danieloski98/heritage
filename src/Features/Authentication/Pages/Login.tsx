@@ -14,6 +14,7 @@ import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 // redux
 import { RootState } from '../../../store'
 import {updateUser, updateToken} from '../../../States/UserDetails'
+import { login } from '../../../States/LoggedIn'
 import { useDispatch, useSelector } from 'react-redux'
 import { IUser } from '../../../Types/User'
 
@@ -82,8 +83,9 @@ export default function Login(props) {
           await loggedIn.setItem('true');
           dispatch(updateUser(json.data.user));
           dispatch(updateToken(json.data.token));
+          dispatch(login());
           console.log(json.data.user);
-          props.navigation.navigate('index')
+          // props.navigation.navigate('index')
     
           // Alert.alert('Message', json.successMessage, [
           //   {

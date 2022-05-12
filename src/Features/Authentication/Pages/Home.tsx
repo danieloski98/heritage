@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Pressable, Image, Platform, Dimensions } from 'react-native'
+import { View, Pressable, Image, Platform, Dimensions, StatusBar } from 'react-native'
 import Button from '../../../globalcomponents/Button'
 import Container from '../../../globalcomponents/Container'
 import Text from '../../../globalcomponents/Text'
@@ -19,21 +19,21 @@ export default function Home(props: any) {
     const passedHome = useAsyncStorage('passedHome')
 
     React.useState(() => {
-        (async function() {
-            //const token = await tokenStorage.getItem();
-            const passed = await passedHome.getItem();
-            if (passed === null || passed !== 'true') {
-                return;
-            } else {
-                const id = await idStorage.getItem();
-                if (id === null) {
-                    navigation.navigate('login')
-                }else {
-                    navigation.navigate('index');
-                }
-            }
+        // (async function() {
+        //     //const token = await tokenStorage.getItem();
+        //     const passed = await passedHome.getItem();
+        //     if (passed === null || passed !== 'true') {
+        //         return;
+        //     } else {
+        //         const id = await idStorage.getItem();
+        //         if (id === null) {
+        //             navigation.navigate('login')
+        //         }else {
+        //             navigation.navigate('index');
+        //         }
+        //     }
            
-        })()
+        // })()
     });
 
     const nav = () => {
@@ -43,6 +43,7 @@ export default function Home(props: any) {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#020B4D' }}>
+            <StatusBar translucent barStyle="light-content" backgroundColor="transparent" />
             <View style={{ width: '100%', flex: 0.2, backgroundColor: theme.darkBlue, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center' }}>
                     <Text style={{ fontWeight: Platform.OS === 'ios' ? '600':'bold', fontSize: 25, color: 'white' }}>Heritage</Text>
                     <Text style={{ fontWeight: '300', fontSize: 25, color: 'white', marginLeft: 5 }}>Exchange</Text>

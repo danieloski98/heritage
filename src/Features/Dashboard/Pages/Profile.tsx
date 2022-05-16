@@ -80,11 +80,11 @@ export default function Profile() {
                     <ScrollView horizontal={false} style={{ flex: 1 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} progressViewOffset={50} />} >
 
 
-                    <View  style={{ width: '100%', height: 150, backgroundColor: theme.darkBlue }} >
-                        <Container width="100%" height="100%" bgColor={theme.darkBlue} paddingLeft="20px" paddingRight="20px" flexDirection="row" alignItems="flex-start">
+                    <View  style={{ width: '100%', height: 150, backgroundColor: theme.primaryBackgroundColor }} >
+                        <Container width="100%" height="100%" bgColor="transparent" paddingLeft="20px" paddingRight="20px" flexDirection="row" alignItems="flex-start">
                             {
                                 os === 'ios' && (
-                                    <Container width="10%" height="30px" alignItems="flex-end" bgColor="transparent" justifyContent="flex-start" marginTop="10px">
+                                    <Container width="10%" height="30px" alignItems="flex-end" bgColor="transparent" justifyContent="flex-start" marginTop="-10px">
                                         <Feather name="arrow-left" size={30} color="white" onPress={() => navigation.goBack()} />
                                     </Container>
                                 )
@@ -97,8 +97,8 @@ export default function Profile() {
                             </Container>
 
                             <Container width="70%" height="100%" justifyContent="center" alignItems="flex-start" bgColor="transparent">
-                                <Text color="white" fontSize="20px" fontWeight="bold">{user.first_name} {user.last_name}</Text>
-                                <Text color="white" fontSize="18px" fontWeight="300" marginTop="5px">{user.email}</Text>
+                                <Text color="white" fontSize="18px" fontWeight="bold">{user.first_name} {user.last_name}</Text>
+                                <Text color="white" fontSize="16px" fontWeight="300" marginTop="5px">{user.email}</Text>
                                 {/* <Text color="white" fontSize="18px" fontWeight="300" marginTop="15px">Referral Code</Text>
                                 <Container width="100%" height="30px" flexDirection="row" justifyContent="flex-start" bgColor="transparent">
                                     <Text color="white" fontSize="18px" fontWeight="bold">{user._id.slice(0, 10)}</Text>

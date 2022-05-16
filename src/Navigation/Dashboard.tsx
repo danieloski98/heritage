@@ -117,15 +117,15 @@ function Dashboard() {
 
         <Tab.Navigator screenOptions={{ header: ({route}) => route.name === 'settings' ? <></> : <Navbar />, tabBarStyle: { height: os === 'ios' ? 80:65, paddingBottom: os === 'ios' ? 20:10 }, tabBarLabelStyle: { fontWeight: '600', includeFontPadding: true, fontSize: 12} }}  >
 
-            <Tab.Screen name="dashboard" component={Home} options={{ title: 'Home', tabBarIcon: ({ focused }) => <FontAwesome5 name="chart-pie" size={25} color={focused ? theme.darkBlue : theme.color } />}} />
+            <Tab.Screen name="dashboard" component={Home} options={{ title: 'Home', tabBarIcon: ({ focused }) => <FontAwesome5 name="chart-pie" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } />}} />
 
-            <Tab.Screen name="transactions" component={Transactions} options={{ title: 'Transaction',  tabBarIcon: ({ focused }) => <FontAwesome5 name="th-large" size={25} color={focused ? theme.darkBlue : theme.color } />}} />
+            <Tab.Screen name="transactions" component={Transactions} options={{ title: 'Transaction',  tabBarIcon: ({ focused }) => <FontAwesome5 name="th-large" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } />}} />
 
-            <Tab.Screen name="markets" component={NewsHome} options={{ title: 'Markets',  tabBarIcon: ({ focused }) => <Ionicons name="stats-chart" size={25} color={focused ? theme.darkBlue : theme.color } />}} />
+            <Tab.Screen name="markets" component={NewsHome} options={{ title: 'Markets',  tabBarIcon: ({ focused }) => <Ionicons name="stats-chart" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } />}} />
 
-            <Tab.Screen name="savings" component={Savings} options={{ title: 'Savings', tabBarIcon: ({ focused }) => <FontAwesome5 name="piggy-bank" size={25} color={focused ? theme.darkBlue : theme.color } /> }} />
+            <Tab.Screen name="savings" component={Savings} options={{ title: 'Savings', tabBarIcon: ({ focused }) => <FontAwesome5 name="piggy-bank" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } /> }} />
 
-            <Tab.Screen name="settings" component={Settings} options={{ title: 'Settings', tabBarIcon: ({ focused }) => <FontAwesome5 name="cog" size={25} color={focused ? theme.darkBlue : theme.color } />}} />
+            <Tab.Screen name="settings" component={Settings} options={{ title: 'Settings', tabBarIcon: ({ focused }) => <FontAwesome5 name="cog" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } />}} />
 
         </Tab.Navigator>
     </>

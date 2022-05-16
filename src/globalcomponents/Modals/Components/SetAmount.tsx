@@ -80,7 +80,7 @@ export default function SetAmount({value, setValue, amount, setAmount, nextStep,
             </View>
 
             <View style={{ width: '100%', marginTop: 20,  height: 100, zIndex: 2 }}>
-                <Text color="grey" fontSize="16px" fontFamily={theme.fontFamily['Inter-SemiBold']}>Amount in Dollar</Text>
+                <Text color="grey" fontSize="16px" fontFamily={theme.fontFamily['Inter-SemiBold']}>Amount in USD</Text>
                 <View style={{ marginTop: 10, width: '100%', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <TextInput keyboardType="numbers-and-punctuation" value={amount} onChangeText={(val) => setAmount(val)} style={{ width: '100%', height: 50, borderRadius: 10, borderWidth: 2, borderColor: 'lightgrey', paddingHorizontal: 20, backgroundColor: '#E4E9F2', }} />
                     {/* <DropDownPicker

@@ -54,7 +54,8 @@ export default function Notifications() {
 
     const getDate = (date: string) => {
         const dt = moment.default(date);
-        return dt.startOf('minutes').fromNow();
+       return dt.startOf('second').fromNow();
+        //return dt.startOf('seconds').fromNow();
     }
     const navigate = useCallback(() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -76,7 +77,7 @@ export default function Notifications() {
         }
     }, []);
     return (
-        <View style={{ flex: 1, backgroundColor: theme.light }}>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
 
             {/* navbar  */}
             <Navbar />
@@ -86,7 +87,7 @@ export default function Notifications() {
 
             <View style={{ flexDirection: 'row', paddingHorizontal: 20, alignItems: 'center', paddingTop: 20 }}>
                 <Feather name="arrow-left" size={30} color={theme.color} onPress={navigate} />
-                <Text style={{ marginLeft: 20, fontSize: 16, fontFamily: 'Inter-SemiBold' }}>Notifications</Text>
+                <Text style={{ marginLeft: 20, fontSize: 16, fontFamily: 'Inter-Bold' }}>Notifications</Text>
             </View>
 
             <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} colors={[theme.primaryBackgroundColor]} tintColor={theme.primaryBackgroundColor} />} style={{ paddingHorizontal: 20, marginTop: 20, marginBottom: 20 }}>
@@ -94,7 +95,7 @@ export default function Notifications() {
                 {
                     !error && !refreshing && noti.length < 1 && (
                         <View style={{ width: '100%', height: 200, justifyContent: 'center', alignItems: 'center'}}>
-                            <Text>You have no new notification</Text>
+                            <Text style={{ fontSize: 18, fontFamily: 'Inter-Regular' }}>You have no new notification</Text>
                         </View>
                     ) 
                 }
@@ -110,7 +111,7 @@ export default function Notifications() {
                           type: 'spring',
                         }}
                         key={index.toString()} 
-                        style={{ width: '100%', height: 120, backgroundColor: 'white', justifyContent: 'center', marginBottom: 20 }}>
+                        style={{ width: '100%', height: 120, backgroundColor: theme.light, justifyContent: 'center', marginBottom: 20, elevation: 2 }}>
                             <View style={{ width: '100%', height: '90%', borderLeftColor: theme.primaryBackgroundColor, borderLeftWidth: 5, justifyContent: 'center', paddingHorizontal: 20, flexDirection: 'row' }}>
                                 <View style={{ justifyContent: 'center', paddingHorizontal: 20, }}>
                                     <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular' }}>{item.message}</Text>

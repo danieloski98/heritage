@@ -36,7 +36,7 @@ export default function Settings() {
             <StatusBar translucent />
 
             <ScrollView style={{ flex: 1, paddingBottom: 0, backgroundColor: 'white' }}>
-            <View style={{ width: '100%', height: 300, backgroundColor: theme.darkBlue, padding: 25 }}>
+            <View style={{ width: '100%', height: 300, backgroundColor: theme.primaryBackgroundColor, padding: 25 }}>
                 <Text style={{ fontSize: 20, fontFamily: 'Inter-Bold', color:'white', marginTop: 20 }}>Settings</Text>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <View style={{ width: 100, height: 100}}>

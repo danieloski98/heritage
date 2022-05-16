@@ -132,40 +132,6 @@ export default function BuySellCard(props: IProps) {
                 </View>
             </View>
 
-            {/* <Container width="50%" height="50px" flexDirection="row" justifyContent="flex-start" bgColor="white" alignItems="center">
-
-                <Container width="50px" height="50px" bgColor="white">
-                    <Image source={getimage()} resizeMode="contain" style={{ width: '100%', height: '100%'}} />
-                </Container>
-
-                <View style={{ marginLeft: 20, }}>
-                    <Text fontSize="18px" color="black" fontWeight="bold">{getcoin()}</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-                        <Feather name="dollar-sign" color="green" size={15} />
-                        <Text fontSize="14px" color="black" fontWeight="400" marginTop="0px" marginLeft="0px">{props.coinStat !== undefined ? currencyFormatterD(props.coinStat.current_price): '0'}</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center',  marginTop: 10 }}>
-                        <Text color="black">NGN</Text>
-                        <Text fontSize="14px" color="black" fontWeight="600" marginTop="0px" marginLeft="5px">{props.coinStat !== undefined ? currencyFormatterNGN(props.coinStat.current_price * 550): '0'}</Text>
-                    </View>
-                </View>
-
-            </Container>
-
-            <Container width="50%" height="50px" bgColor="white" alignItems="flex-end" justifyContent="center">
-
-                <Container width="100px" height="40px" justifyContent="center" alignItems="center" borderRadius="20px" >
-
-                    <Pressable
-                        onPress={() => props.onPress()}
-                    >
-                        <Text color="black">{gettext()}</Text>
-                    </Pressable>
-
-                </Container>
-
-            </Container> */}
-
         </View>
     )
 }

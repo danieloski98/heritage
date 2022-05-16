@@ -8,6 +8,7 @@ import Verifyemail from '../Features/Authentication/Pages/Verifyemail';
 import ResetPassword from '../Features/Authentication/Pages/ResetPassword';
 import Home from '../Features/Authentication/Pages/Home';
 import VerifyPin from '../Features/Authentication/Pages/Verifypin';
+import UpdatePassword from '../Features/Authentication/Pages/UpdatePassword';
 
 
 
@@ -22,6 +23,7 @@ export default function Authentication() {
             <Stack.Screen name="verifypin" component={VerifyPin} />
             <Stack.Screen name="verifyemail" component={Verifyemail} />
             <Stack.Screen name="resetpassword" component={ResetPassword} />
+            <Stack.Screen name="updatepassword" component={UpdatePassword} />
         </Stack.Navigator>
     )
 }

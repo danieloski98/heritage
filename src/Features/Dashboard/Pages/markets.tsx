@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Image, RefreshControl, ScrollView, StyleSheet, Pressable } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Image, RefreshControl, ScrollView, TextInput, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 import {theme} from '../../../utils/theme'
 import { ICoin } from '../../../types/CoinType';
@@ -11,7 +11,7 @@ import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from '@gorhom/bottom-sheet';
-import { Icon } from '@ui-kitten/components';
+import { Icon, Input } from '@ui-kitten/components';
 import Charts from '../components/Charts';
 
 const getCoins = async () => {
@@ -31,21 +31,49 @@ const CATS = [
   'Derivaties'
 ];
 
+const Header = ({ value, setValue }) => (
+  <View style={{ width: '100%', paddingHorizontal: 20, marginTop: 0, paddingBottom: 0, elevation: 7, height: 70, backgroundColor: 'white', shadowColor: 'lightgrey', shadowOffset: {width: 1, height: 1}, shadowOpacity: 0.5, shadowRadius: 2 }}>
+
+    <View style={{ width: '100%', height: 70, paddingHorizontal: 0, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', elevation: 5, backgroundColor: 'transparent' }}>
+      <Text style={{ color: theme.textColor, fontSize: 22, fontWeight: '700', marginTop: 0 }}>Markets</Text>
+
+      <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 0, flex: 1 }}>
+        <Input 
+        
+        placeholder='Search by Coin Name' accessoryLeft={<Feather name="search" size={20} />} size="large" style={{ width: '90%', height: 45, borderRadius: 50, borderWidth: 0, backgroundColor: 'lightgrey', zIndex: 10}} value={value}  onChangeText={(e) => setValue(e)}  />
+      </View>
+
+    </View>
+    
+  </View>
+)
+
 export default function NewsHome (props: any) {
   const [data, setData] = useState([] as Array<ICoin>);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [active, setActive] = useState('Cryptocurrency');
   const [coin, setCoin] = useState({} as ICoin);
+  const [search, setSearch] = React.useState("");
+  const [find, setFind] = React.useState('');
+  const [list, setList] = React.useState([] as Array<ICoin>);
 
   // bottomsheet
   const bottomSheetRef = React.useRef<BottomSheetModal>(null);
   const snapPoints = React.useMemo(() => ['60%'], [])
 
+  React.useEffect(() => {
+    if (search === '') {
+      setList(data);
+    }
+    const filtered = data.filter((coin: ICoin) => coin.name.toLowerCase().includes(search.toLowerCase()) || coin.id.toLowerCase().includes(search.toLowerCase()));
+    setList(filtered);
+  }, [search])
+
   // get coins query
   const coinQuery = useQuery('getCoins', getCoins, {
     onSuccess: (dd) => {
       setData(dd);
+      setList(dd);
       setLoading(false);
     },
     onError: (error) => {
@@ -64,26 +92,7 @@ export default function NewsHome (props: any) {
     bottomSheetRef.current?.present();
   }
 
-  const Header = () => (
-    <View style={{ width: '100%', marginHorizontal: 20, marginTop: 0, paddingBottom: 0 }}>
-      <View style={{ width: '90%', height: 70, paddingHorizontal: 0, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
-        <Text style={{ color: theme.textColor, fontSize: 22, fontWeight: '700', marginTop: 0 }}>Markets</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 0 }}>
-          {/* <FontAwesome5 name="search" color="grey" size={25} style={{ marginRight: 40 }} />  
-          <FontAwesome5 name="user" color="grey" size={25} />   */}
-        </View>
-      </View>
-      {/* <View style={{ width: '100%', height: 40 }}>
-        <ScrollView horizontal>
-          {CATS.map((item, index) => (
-            <TouchableOpacity onPress={() => setActive(item)} key={index.toString()} style={{ height: '100%', borderRadius: 40, padding: 8, borderWidth: active === item ? 0 : 1, borderColor: theme.inactive , justifyContent: 'center', alignItems: 'center', marginRight: 20, backgroundColor: active === item ? theme.themeColor: theme.primaryBgColor }}>
-              <Text style={{ color: active === item ? 'white': theme.darkenTextColor }}>{item}</Text>  
-            </TouchableOpacity> 
-          ))} 
-        </ScrollView>  
-      </View> */}
-    </View>
-  )
+
 
   const chevron = (value: number) => {
     if (value < 0) {
@@ -104,16 +113,18 @@ export default function NewsHome (props: any) {
     <BottomSheetModalProvider>
          <View style={{ flex: 1, backgroundColor: theme.primaryBgColor }}>
 
-      <Header />
+      <Header value={search} setValue={setSearch} />
       {!loading && !error && (
           <FlatList 
-          data={data} 
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode='on-drag'
+          data={list}
           keyExtractor={(item: ICoin, index) => item.id} 
           refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={loading} progressViewOffset={50} />}
           renderItem={({item,index, separators}) => (
             <>
               {loading && 
-              <View style={{ width: '100%', alignItems: 'center', paddingTop: 20 }}>
+              <View style={{ width: '100%', alignItems: 'center', paddingTop: 20, zIndex: 2 }}>
                 <ActivityIndicator color="white" size="large" />
               </View>}
                 <TouchableOpacity 

@@ -176,7 +176,7 @@ export default function Home() {
 
 
             <View style={{ width: '100%', height: 250, backgroundColor: theme.light, overflow: 'visible', paddingLeft: 0, justifyContent: 'center', zIndex: 10 }}>
-                <View style={{ width: '100%', height: '60%', backgroundColor: theme.darkBlue, position: 'absolute', top: 0 }}></View>
+                <View style={{ width: '100%', height: '60%', backgroundColor: theme.primaryBackgroundColor, position: 'absolute', top: 0 }}></View>
                 <View style={{ width: '100%', height: 250, backgroundColor: 'transparent', top: 0, overflow: 'hidden', justifyContent: 'flex-end', zIndex: 20 }}>
                     <ScrollView horizontal style={{ height: '95%', marginTop: 20, paddingLeft: 20 }} showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingRight: 30 }}>
 

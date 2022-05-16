@@ -10,7 +10,7 @@ import LottieView from 'lottie-react-native';
 
 export default function Savings() {
     return (
-        <View style={{ flex: 1, backgroundColor: 'white', padding: 20, justifyContent: 'center'  }}>
+        <View style={{ flex: 1, backgroundColor: 'white', padding: 20, justifyContent: 'center', alignItems: 'center'  }}>
 
             <LottieView
                 autoPlay
@@ -18,11 +18,13 @@ export default function Savings() {
                 speed={1}
                 style={{
                     width: 100,
-                    height: 150,
+                    height: 250,
                     backgroundColor: 'white',
                 }}
-                source={require('../../../../assets/lottiefiles/coming-soon.json')}
+                source={require('../../../../assets/lottiefiles/70066-cryptocurrency-wallet.json')}
             />
+
+            <Text fontSize="22px" color="grey" fontFamily="Inter-Bold" textAlign="center">Saving In Crypto, coming soon...</Text>
 
             {/* <Text fontSize="28px" fontFamily="Inter-Bold">Coming Soon</Text> */}
             {/* <ScrollView style={{ flex: 1}}> */}

@@ -72,7 +72,7 @@ export default function Security() {
     }
 
   return (
-    <View style={{ backgroundColor: 'white'}}>
+    <View style={{ backgroundColor: 'white', flex: 1 }}>
         <Navbar />
       <View style={{ paddingHorizontal: 20, paddingVertical: 20, backgroundColor: 'white' }}>
       <Text color="black" fontSize="23px" fontWeight="bold">

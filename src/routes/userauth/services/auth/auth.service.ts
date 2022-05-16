@@ -8,10 +8,27 @@ import { Referral as Ref, ReferralDocument } from 'src/Schemas/Referral';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Code, CodeDocument } from 'src/Schemas/Code.Schema';
+import {
+  ForgotPasswordOTP,
+  ForgotPasswordDocument,
+} from 'src/Schemas/ForgotpasswordCode.schema';
+import { ApiProperty } from '@nestjs/swagger';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const randomNumber = require('random-number');
+
+export class ResetPassword {
+  @ApiProperty({
+    type: String,
+  })
+  newpassword: string;
+
+  @ApiProperty({
+    type: String,
+  })
+  confirmpassword: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -20,6 +37,8 @@ export class AuthService {
     @InjectModel(MongoUser.name) private userModel: Model<UserDocument>,
     @InjectModel(Ref.name) private referralModel: Model<ReferralDocument>,
     @InjectModel(Code.name) private codeModel: Model<CodeDocument>,
+    @InjectModel(ForgotPasswordOTP.name)
+    private FPModal: Model<ForgotPasswordDocument>,
     private readonly mailerService: MailerService,
   ) {}
 
@@ -58,9 +77,8 @@ export class AuthService {
         console.log(newCode);
         const emailRes = await this.mailerService.sendMail({
           to: user.email, // list of receivers
-          from: 'noreply@heritagexchange.com', // sender address
-          subject: 'Welcome to HeritageXchange', // Subject line
-          text: 'welcome', // plaintext body
+          from: 'The Heritage Exchange noreply@heritagexchange.com', // sender address
+          subject: 'Heritage Exchange Verification Code', // Subject line
           html: `<p>welcome to heritage exchange we are glad to have you on board. Here is your Otp code for verification <b>${code}</b> </p>`,
         });
         this.logger.debug(emailRes);
@@ -189,20 +207,21 @@ export class AuthService {
           statusCode: 400,
         });
       }
-      const match = await compare(user.password, passwords.oldpassword);
 
-      if (passwords.oldpassword === passwords.newpassword) {
-        return Return({
-          error: true,
-          errorMessage: 'Cannot use an old password',
-          statusCode: 400,
-        });
-      }
+      const match = await compare(passwords.oldpassword, user.password);
       console.log(passwords);
       if (!match) {
         return Return({
           error: true,
           errorMessage: 'Incorrect password',
+          statusCode: 400,
+        });
+      }
+
+      if (passwords.oldpassword === passwords.newpassword) {
+        return Return({
+          error: true,
+          errorMessage: 'Cannot use an old password',
           statusCode: 400,
         });
       }
@@ -318,6 +337,114 @@ export class AuthService {
         data: newtoken,
       });
     } catch (error) {
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
+
+  async generatePasswordResetcode(email: string): Promise<ReturnTypeInterfcae> {
+    try {
+      const account = await this.userModel.findOne({ email });
+      console.log(account);
+      if (account == null) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'Email not found',
+        });
+      }
+
+      // generate number
+      const options = {
+        min: 1000,
+        max: 1999,
+        integer: true,
+      };
+      const code = randomNumber(options);
+      console.log(`account ${account}`);
+      // const deleted = await this.FPModal.deleteMany({ user_id: account[0].id });
+      const newCode = await this.FPModal.create({
+        code,
+        user_id: account._id,
+      });
+      const emailRes = await this.mailerService.sendMail({
+        to: account.email, // list of receivers
+        from: 'The Heritage Exchange noreply@heritagexchange.com', // sender address
+        subject: 'Heritage Exchange Password Reset Code', // Subject line
+        html: `<p>Here is your Otp code for your password reset <b>${code}</b> </p>`,
+      });
+      console.log(code);
+      return Return({
+        error: false,
+        statusCode: 200,
+        successMessage: 'Email sent!',
+      });
+    } catch (error) {
+      console.log(error);
+      return Return({
+        error: true,
+        statusCode: 500,
+        errorMessage: 'Internal Server Error',
+        trace: error,
+      });
+    }
+  }
+
+  async resetPassword(
+    otp: string,
+    passwords: ResetPassword,
+  ): Promise<ReturnTypeInterfcae> {
+    try {
+      const code = await this.FPModal.findOne({ code: parseInt(otp) });
+      if (code === null || code === undefined) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'Invalid Code',
+        });
+      }
+
+      const user = await this.userModel.findOne({ _id: code.user_id });
+      if (user === undefined || user === null) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'Account not found',
+        });
+      }
+
+      // check password
+      if (passwords.newpassword !== passwords.confirmpassword) {
+        return Return({
+          error: true,
+          statusCode: 400,
+          errorMessage: 'Passwords do not match',
+        });
+      }
+
+      // hash the password
+      const hash = await this.hashPassword(passwords.confirmpassword);
+
+      // update the users password
+      const updatedPassword = await this.userModel.updateOne(
+        { _id: code.user_id },
+        { password: hash },
+      );
+
+      // delete the code
+      const deletedCode = await this.FPModal.deleteOne({ code: parseInt(otp) });
+
+      return Return({
+        error: false,
+        statusCode: 200,
+        successMessage: 'Password changed',
+      });
+    } catch (error) {
+      console.log(error);
       return Return({
         error: true,
         statusCode: 500,

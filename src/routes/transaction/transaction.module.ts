@@ -1,5 +1,6 @@
 import { Transaction, TransactionSchema } from 'src/Schemas/Transaction';
 import {
+  HttpModule,
   MiddlewareConsumer,
   Module,
   NestModule,
@@ -21,6 +22,7 @@ import { GeneralService } from '../notifications/services/general/general.servic
 
 @Module({
   imports: [
+    HttpModule,
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Transaction.name, schema: TransactionSchema },

@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import {
   MiddlewareConsumer,
   Module,
@@ -17,6 +18,7 @@ import { UserService } from './services/user/user.service';
 
 @Module({
   imports: [
+    HttpModule,
     MongooseModule.forFeature([
       { name: Paypoint.name, schema: PaypointSchema },
       { name: User.name, schema: UserSchema },

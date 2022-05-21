@@ -10,6 +10,7 @@ import Cloudinary from 'src/utils/cloudinary';
 import { IFile } from 'src/utils/types/File';
 import { rmSync } from 'fs';
 import { NotificationsService } from 'src/globalservice/notifications/notifications.service';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class CrudService {
@@ -19,6 +20,7 @@ export class CrudService {
     private transactionModel: Model<TransactionDocument>,
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     private notiService: NotificationsService,
+    private httpService: HttpService,
   ) {}
 
   private coinCheck(coin: number): string {
@@ -341,6 +343,24 @@ export class CrudService {
       const update = await this.transactionModel.updateOne({ _id }, { status });
       console.log(update);
       console.log(typeof status);
+      const notificationTrigger = this.httpService.post(
+        process.env.NOTIFICATION_URL,
+        {
+          subID: transaction.user_id,
+          appId: process.env.NOTIFICATION_APP_ID,
+          appToken: process.env.NOTIFICATION_APP_TOKEN,
+          title:
+            status === 1
+              ? `Your transaction Declined.`
+              : 'Your transaction Approved.',
+          body:
+            status === 1
+              ? 'Your transaction with ID:${transaction._id} was Declined.'
+              : `Your transaction with ID:${transaction._id} was Approved.`,
+          dateSent: new Date().toDateString(),
+          pushData: transaction,
+        },
+      );
       return Return({
         error: false,
         statusCode: 200,

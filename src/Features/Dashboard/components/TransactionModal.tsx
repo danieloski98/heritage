@@ -90,8 +90,8 @@ export default function TransactionModal({ transaction, open, close }: {transact
     }
 
     const getDate = (date: string) => {
-        const dt = moment.default(date);
-        return dt.startOf('minutes').fromNow();
+        const dt = moment.default(new Date(date));
+        return dt.startOf('milliseconds').fromNow();
       }
 
 
@@ -124,7 +124,7 @@ export default function TransactionModal({ transaction, open, close }: {transact
 
                         <View style={{ width: '30%'}}>
                             <Text style={{ fontSize: 16, fontFamily: 'Inter-SemiBold', color: 'black'}}>Time</Text>
-                            <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{getDate(transaction.createdAt)}</Text>
+                            <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>{new Date(transaction.createdAt).toDateString()}</Text>
                         </View>
                         
                     </View>

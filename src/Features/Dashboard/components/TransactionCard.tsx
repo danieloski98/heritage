@@ -97,7 +97,7 @@ export default function TransactionCard({ transaction, setActive }: {transaction
                 
                </Text>}
                {transaction.type === 2 && <Text style={style.header}>NGN {currencyFormatterNGN(transaction.amount)} TO {user.bank_name}</Text>}
-            <Text style={style.normalText}>{getDate(transaction.createdAt)}</Text>
+            <Text style={style.normalText}>{new Date(transaction.createdAt).toDateString()}</Text>
            </View>
 
            {/* left */}

@@ -114,6 +114,11 @@ export default function NewsHome (props: any) {
          <View style={{ flex: 1, backgroundColor: theme.primaryBgColor }}>
 
       <Header value={search} setValue={setSearch} />
+      {loading && (
+        <View style={style.loadingBox}>
+            <ActivityIndicator size="large" color={theme.primaryBackgroundColor} />
+        </View>
+      )}
       {!loading && !error && (
           <FlatList 
           keyboardShouldPersistTaps="handled"
@@ -182,5 +187,10 @@ const style = StyleSheet.create({
     shadowRadius: 4,
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
+  },
+  loadingBox: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

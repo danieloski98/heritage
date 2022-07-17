@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, Pressable } from 'react-native'
+import { View, Text, Image, Pressable, Alert } from 'react-native'
 import Container from '../../Container';
 import Button from '../../Button';
 import { theme } from '../../../utils/theme';
@@ -59,7 +59,7 @@ export default function BankDetails({value, amount, nextStep, getCoin, paypoint,
     const copy = () => {
         Clipboard.setString(paypoint.bank.account_number);
         setShowSnack(true);
-        // Alert.alert('Action', `${switchID()} wallet address copied`);
+        Alert.alert('Action', `Account number copied`);
     }
 
     const close = async () => {
@@ -84,7 +84,7 @@ export default function BankDetails({value, amount, nextStep, getCoin, paypoint,
 
             <View style={{ marginTop: 30, height: 60 }}>
                 <Text style={{ fontFamily: theme.fontFamily['Inter-SemiBold'] , fontSize: 18 }}>Payment Instructions</Text>
-                <Text style={{ fontFamily: theme.fontFamily['Inter-Regular'] , fontSize: 16, marginTop: 5 }}>Send the above amount(NGN) to the account below. </Text>
+                <Text style={{ fontFamily: theme.fontFamily['Inter-Regular'] , fontSize: 16, marginTop: 5 }}>Send the above amount in (NGN) to the account below. </Text>
             </View>
 
             <View style={{ marginTop: 30, height: 100, }}>

@@ -54,7 +54,7 @@ export default function Notifications() {
 
     const getDate = (date: string) => {
         const dt = moment.default(date);
-       return dt.startOf('second').fromNow();
+       return dt.startOf('milliseconds').fromNow();
         //return dt.startOf('seconds').fromNow();
     }
     const navigate = useCallback(() => {
@@ -115,7 +115,7 @@ export default function Notifications() {
                             <View style={{ width: '100%', height: '90%', borderLeftColor: theme.primaryBackgroundColor, borderLeftWidth: 5, justifyContent: 'center', paddingHorizontal: 20, flexDirection: 'row' }}>
                                 <View style={{ justifyContent: 'center', paddingHorizontal: 20, }}>
                                     <Text style={{ fontSize: 16, fontFamily: 'Inter-Regular' }}>{item.message}</Text>
-                                    <Text style={{ fontSize: 14, fontFamily: 'Inter-Light', marginTop: 20, color: 'grey' }}>{getDate(item.createdAt)}</Text>
+                                    <Text style={{ fontSize: 14, fontFamily: 'Inter-Light', marginTop: 20, color: 'grey' }}>{new Date(item.createdAt).toDateString()}</Text>
                                 </View>
                                 <Pressable onPress={() => deleteNoti(item._id)} style={{ width: 50, height: '100%', justifyContent: 'center', alignItems: 'center' }}>
                                     <Feather name="trash-2" size={25} color={theme.primaryBackgroundColor} />

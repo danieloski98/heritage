@@ -147,7 +147,7 @@ export default function TransactionModal({ transaction, open, close }: {transact
                         
                         <View style={{ flex: 1, paddingRight: 10, height: '100%', justifyContent: 'center' }}>
                             <Text style={{ fontSize: 16, fontFamily: 'Inter-SemiBold', color: 'black'}}>Amount USD</Text>
-                            <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>${currencyFormatterD(transaction.USD)}</Text>
+                            <Text style={{ fontSize: 14, fontFamily: 'Inter-Regular', color: 'grey', marginTop: 6 }}>${currencyFormatterD(parseInt(transaction.USD))}</Text>
                         </View>
 
                         <View style={{ width: '30%' }}>

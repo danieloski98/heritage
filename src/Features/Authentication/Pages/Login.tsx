@@ -102,14 +102,14 @@ export default function Login(props) {
     return (
        <View style={{ flex: 1, backgroundColor: theme.darkBlue }}>
 
-           <View style={{ flex: 0.15, backgroundColor: theme.darkBlue, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+           <View style={{ flex: 0.2, backgroundColor: theme.darkBlue, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
                <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ fontWeight: Platform.OS === 'ios' ? '600':'bold', fontSize: 25, color: 'white' }}>Heritage</Text>
                     <Text style={{ fontWeight: '300', fontSize: 25, color: 'white', marginLeft: 5 }}>Exchange</Text>
                </View>
                <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <Image source={require('../../../../assets/crypto/BTC.png')} resizeMode="contain" style={{ width: '30%', height: '100%', left: 100, bottom: -70, position: 'absolute' }} />
-                    <Image source={require('../../../../assets/crypto/ETC.png')} resizeMode="contain" style={{ width: '40%', height: '100%', left: 50, bottom: -70, position: 'absolute' }} />
+                    <Image source={require('../../../../assets/crypto/BTC.png')} resizeMode="contain" style={{ width: '30%', height: '100%', left: 120, bottom: -75, position: 'absolute' }} />
+                    <Image source={require('../../../../assets/crypto/ETC.png')} resizeMode="contain" style={{ width: '40%', height: '100%', left: 70, bottom: -75, position: 'absolute' }} />
                </View>
            </View>
 
@@ -124,7 +124,7 @@ export default function Login(props) {
 
             <View style={{ paddingHorizontal: 20, marginTop: 10, }}>
 
-            <Container width="100%" height="18%" justifyContent="flex-start" alignItems="flex-start" marginTop="20px" bgColor="white">
+            <Container width="100%" height="20%" justifyContent="flex-start" alignItems="flex-start" marginTop="20px" bgColor="white">
                 <Text color="gray" fontSize="16px" fontWeight="500" marginTop="6px">Email</Text>
                 <Container flexDirection="row" width="100%" borderRadius="5px" justifyContent="flex-start" alignItems="center" bgColor={theme.textInputBgColor} height="55px" marginTop="10px" paddingLeft="10px" paddingRight="10px">
                     <Ionicons name="mail" size={25} color={theme.color} />
@@ -165,7 +165,7 @@ export default function Login(props) {
                     </Pressable>
                 </Container>
 
-                <Container width="100%" height="15%" justifyContent="center" alignItems="flex-end" flexDirection="row" bgColor="white">
+                <Container width="100%" height="15%" justifyContent="center" alignItems="center" flexDirection="row" bgColor="white">
                     <Pressable
                         onPress={() => props.navigation.navigate('resetpassword')}
                     >

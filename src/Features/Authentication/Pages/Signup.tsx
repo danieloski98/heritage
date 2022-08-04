@@ -111,14 +111,14 @@ export default function Signup(props: any) {
   return (
     <View style={{ flex: 1, backgroundColor: theme.darkBlue }}>
 
-        <View style={{ flex: 0.15, backgroundColor: theme.darkBlue, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
+<View style={{ flex: 0.2, backgroundColor: theme.darkBlue, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20 }}>
                <View style={{ flex: 1, flexDirection: 'row' }}>
                     <Text style={{ fontWeight: Platform.OS === 'ios' ? '600':'bold', fontSize: 25, color: 'white' }}>Heritage</Text>
                     <Text style={{ fontWeight: '300', fontSize: 25, color: 'white', marginLeft: 5 }}>Exchange</Text>
                </View>
                <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <Image source={require('../../../../assets/crypto/BTC.png')} resizeMode="contain" style={{ width: '30%', height: '100%', left: 90, bottom: -70, position: 'absolute' }} />
-                    <Image source={require('../../../../assets/crypto/ETC.png')} resizeMode="contain" style={{ width: '40%', height: '100%', left: 30, bottom: -70, position: 'absolute' }} />
+                    <Image source={require('../../../../assets/crypto/BTC.png')} resizeMode="contain" style={{ width: '30%', height: '100%', left: 120, bottom: -75, position: 'absolute' }} />
+                    <Image source={require('../../../../assets/crypto/ETC.png')} resizeMode="contain" style={{ width: '40%', height: '100%', left: 70, bottom: -75, position: 'absolute' }} />
                </View>
            </View>
 

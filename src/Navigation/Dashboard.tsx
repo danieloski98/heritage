@@ -123,7 +123,7 @@ function Dashboard() {
 
             <Tab.Screen name="markets" component={NewsHome} options={{ title: 'Markets',  tabBarIcon: ({ focused }) => <Ionicons name="stats-chart" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } />}} />
 
-            <Tab.Screen name="savings" component={Savings} options={{ title: 'Savings', tabBarIcon: ({ focused }) => <FontAwesome5 name="piggy-bank" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } /> }} />
+            {/* <Tab.Screen name="savings" component={Savings} options={{ title: 'Savings', tabBarIcon: ({ focused }) => <FontAwesome5 name="piggy-bank" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } /> }} /> */}
 
             <Tab.Screen name="settings" component={Settings} options={{ title: 'Settings', tabBarIcon: ({ focused }) => <FontAwesome5 name="cog" size={25} color={focused ? theme.primaryBackgroundColor : theme.color } />}} />
 

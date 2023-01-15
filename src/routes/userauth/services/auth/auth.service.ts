@@ -13,6 +13,7 @@ import {
   ForgotPasswordDocument,
 } from 'src/Schemas/ForgotpasswordCode.schema';
 import { ApiProperty } from '@nestjs/swagger';
+import { EmailService } from 'src/globalservice/email/email.service';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -39,7 +40,8 @@ export class AuthService {
     @InjectModel(Code.name) private codeModel: Model<CodeDocument>,
     @InjectModel(ForgotPasswordOTP.name)
     private FPModal: Model<ForgotPasswordDocument>,
-    private readonly mailerService: MailerService,
+    // private readonly mailerService: MailerService,
+    private emailService: EmailService,
   ) {}
 
   public async signup(
@@ -75,13 +77,17 @@ export class AuthService {
         });
 
         console.log(newCode);
-        const emailRes = await this.mailerService.sendMail({
-          to: user.email, // list of receivers
-          from: 'The Heritage Exchange noreply@heritagexchange.com', // sender address
-          subject: 'Heritage Exchange Verification Code', // Subject line
-          html: `<p>welcome to heritage exchange we are glad to have you on board. Here is your Otp code for verification <b>${code}</b> </p>`,
-        });
-        this.logger.debug(emailRes);
+        const email = await this.emailService.sendConfirmationEmail(
+          user.email,
+          code,
+        );
+        // const emailRes = await this.mailerService.sendMail({
+        //   to: user.email, // list of receivers
+        //   from: 'The Heritage Exchange noreply@heritagexchange.com', // sender address
+        //   subject: 'Heritage Exchange Verification Code', // Subject line
+        //   html: `<p>welcome to heritage exchange we are glad to have you on board. Here is your Otp code for verification <b>${code}</b> </p>`,
+        // });
+        this.logger.debug(email);
         // referral
 
         if (user.referral_code !== null || user.referral_code !== undefined) {
@@ -371,13 +377,17 @@ export class AuthService {
         code,
         user_id: account._id,
       });
-      const emailRes = await this.mailerService.sendMail({
-        to: account.email, // list of receivers
-        from: 'The Heritage Exchange noreply@heritagexchange.com', // sender address
-        subject: 'Heritage Exchange Password Reset Code', // Subject line
-        html: `<p>Here is your Otp code for your password reset <b>${code}</b> </p>`,
-      });
-      console.log(code);
+      const emailRes = await this.emailService.sendPasswordResetCode(
+        email,
+        code,
+      );
+      // const emailRes = await this.mailerService.sendMail({
+      //   to: account.email, // list of receivers
+      //   from: 'The Heritage Exchange noreply@heritagexchange.com', // sender address
+      //   subject: 'Heritage Exchange Password Reset Code', // Subject line
+      //   html: `<p>Here is your Otp code for your password reset <b>${code}</b> </p>`,
+      // });
+      console.log(emailRes);
       return Return({
         error: false,
         statusCode: 200,

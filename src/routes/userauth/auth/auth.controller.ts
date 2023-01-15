@@ -86,7 +86,8 @@ export class AuthController {
   }
 
   @ApiTags('USERAUTH')
-  @ApiBody({ type: ResetPassword })
+  @ApiBody({ type: ResetPasswords })
+  @ApiParam({ name: 'otp' })
   @Put('resetpassword/:otp')
   async resetpasswords(
     @Res() res: Response,

@@ -15,6 +15,7 @@ import { PaypointModule } from './routes/paypoint/paypoint.module';
 import { NotificationsModule } from './routes/notifications/notifications.module';
 import { AdminsModule } from './routes/admins/admins.module';
 import { SupportModule } from './routes/support/support.module';
+import { EmailService } from './globalservice/email/email.service';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('dotenv').config();
 
@@ -65,6 +66,6 @@ const url =
     SupportModule,
   ],
   controllers: [AppController],
-  providers: [AppService, NotificationsGateway],
+  providers: [AppService, NotificationsGateway, EmailService],
 })
 export class AppModule {}

@@ -9,6 +9,7 @@ import {
   ForgotPasswordOTP,
   ForgotPasswordOTPSchema,
 } from 'src/Schemas/ForgotpasswordCode.schema';
+import { EmailService } from 'src/globalservice/email/email.service';
 
 @Module({
   imports: [
@@ -20,6 +21,6 @@ import {
     ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, EmailService],
 })
 export class UserauthModule {}
